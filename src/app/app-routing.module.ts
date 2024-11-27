@@ -9,11 +9,12 @@ import { LoginComponent } from "./authentication/login/login.component";
 import { RegisterComponent } from "./authentication/register/register.component";
 
 const routes: Routes = [
-    { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-    { path: 'dashboard' , component: DashboardComponent},
-    { path: 'chicks', component: ChicksComponent},
-    { path: 'eggs', component: EggsComponent},
-    { path: 'dispatch', component: DispatchComponent},
+    { path: '', component: HomeComponent, children: [
+        { path: '' , component: DashboardComponent},
+        { path: 'chicks', component: ChicksComponent},
+        { path: 'eggs', component: EggsComponent},
+        { path: 'dispatch', component: DispatchComponent}],
+    },
     { path: 'login', component: LoginComponent},
     { path: 'register', component: RegisterComponent},
 ]
