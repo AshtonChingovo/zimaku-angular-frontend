@@ -110,23 +110,27 @@
                       </g>
                     </svg>
                   </span>
-                  <span class="app-brand-text demo text-heading fw-bold">sneat</span>
+                  <span class="app-brand-text demo text-heading fw-bold">Zimaku</span>
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-1">Welcome to sneat! 👋</h4>
+              <h4 class="mb-1">Welcome to Zimaku! 👋</h4>
               <p class="mb-6">Please sign-in to your account and start the adventure</p>
 
-              <form id="formAuthentication" class="mb-6" action="index.html">
+              <form id="formAuthentication"  class="mb-6" #loginForm = "ngForm" (ngSubmit)="onLogin(loginForm)">
                 <div class="mb-6">
-                  <label for="email" class="form-label">Email or Username</label>
+                  <label for="email" class="form-label">Email</label>
                   <input
-                    type="text"
+                    type="email"
                     class="form-control"
                     id="email"
-                    name="email-username"
+                    ngModel
+                    name="email"
+                    required
                     placeholder="Enter your email or username"
+                    #email="ngModel"
                     autofocus />
+                    <span class="form-validation-message" *ngIf="!email.valid && email.touched">Please provide a Valid email</span>
                 </div>
                 <div class="mb-6 form-password-toggle">
                   <label class="form-label" for="password">Password</label>
@@ -135,11 +139,15 @@
                       type="password"
                       id="password"
                       class="form-control"
+                      ngModel
                       name="password"
+                      required
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                      #password="ngModel"
                       aria-describedby="password" />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
+                  <span class="form-validation-message" *ngIf="!password.valid && password.touched">Password required</span>
                 </div>
                 <div class="mb-8">
                   <div class="d-flex justify-content-between mt-8">
@@ -153,9 +161,12 @@
                   </div>
                 </div>
                 <div class="mb-6">
-                  <button class="btn btn-primary d-grid w-100" type="submit">Login</button>
+                  <button 
+                    class="btn btn-primary d-grid w-100"
+                    type="submit"
+                    [disabled]="!loginForm.valid">Login</button>
                 </div>
-              </form>
+              </form> 
 
               <p class="text-center">
                 <span>New on our platform?</span>
@@ -171,15 +182,6 @@
     </div>
 
     <!-- / Content -->
-
-    <div class="buy-now">
-      <a
-        href="https://themeselection.com/item/sneat-dashboard-pro-bootstrap/"
-        target="_blank"
-        class="btn btn-danger btn-buy-now"
-        >Upgrade to Pro</a
-      >
-    </div>
 
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->

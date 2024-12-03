@@ -7,20 +7,23 @@ import { DashboardComponent } from "./home/dashboard/dashboard.component";
 import { DispatchComponent } from "./production/dispatch/dispatch.component";
 import { LoginComponent } from "./authentication/login/login.component";
 import { RegisterComponent } from "./authentication/register/register.component";
+import { AuthGuard } from "./authentication/auth.guard";
 
 const routes: Routes = [
-    { path: '', component: HomeComponent, children: [
-        { path: '' , component: DashboardComponent},
-        { path: 'chicks', component: ChicksComponent},
-        { path: 'eggs', component: EggsComponent},
-        { path: 'dispatch', component: DispatchComponent}],
-    },
-    { path: 'login', component: LoginComponent},
-    { path: 'register', component: RegisterComponent},
+    { 
+        path: '', component: HomeComponent, 
+        canActivate: [AuthGuard],
+        children: [
+            { path: '' , component: DashboardComponent},
+            { path: 'chicks', component: ChicksComponent},
+            { path: 'eggs', component: EggsComponent},
+            { path: 'dispatch', component: DispatchComponent}]},
+        { path: 'login', component: LoginComponent},
+        { path: 'register', component: RegisterComponent},
 ]
 
 @NgModule({
     imports: [RouterModule.forRoot(routes)],
     exports: [RouterModule],
 })
-export class AppRoutingModule{}
+export class AppRoutingModule{} 

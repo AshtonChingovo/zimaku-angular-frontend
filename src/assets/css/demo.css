@@ -121,3 +121,16 @@
   text-align: center;
   margin-top: 1rem;
 }
+
+/*
+* Layout demo
+******************************************************************************/
+
+input.ng-invalid.ng-touched{
+  border: 1px solid pink;
+}
+
+.form-validation-message{
+  font-size: 0.8125rem;
+  color: #384551;
+}
