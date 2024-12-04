@@ -114,9 +114,13 @@
                 </a>
               </div>
               <!-- /Logo -->
-              <h4 class="mb-1">Adventure starts here</h4>
 
-              <form id="formAuthentication" class="mb-6" action="index.html" #register="ngForm">
+              <div class="alert alert-danger" role="alert" *ngIf="!authResponse.isSuccessfull">
+                <span>{{ authResponse.errorMessage }}</span>
+                <span *ngFor="let errorMessage of authResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+              </div>
+
+              <form id="formAuthentication" class="mb-6" action="index.html" #register="ngForm" (ngSubmit)="onSubmit(register)">
                 <div class="mb-6">
                   <label for="firstname" class="form-label">First Name</label>
                   <input
@@ -176,7 +180,7 @@
                       aria-describedby="password" />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
-                  <span class="form-validation-message" *ngIf="!password.valid && password.touched">Please provide a Valid email</span>
+                  <span class="form-validation-message" *ngIf="!password.invalid && password.touched">Please provide a Valid email</span>
                 </div>
                 <div class="mb-6 form-password-toggle">
                   <label class="form-label" for="confirm-password">Confirm Password</label>
@@ -195,22 +199,13 @@
                   </div>
                   <span class="form-validation-message" *ngIf="!confirmPassword.valid && confirmPassword.touched">Please provide a Valid email</span>
                 </div>
-                <div class="my-8">
-                  <div class="form-check mb-0 ms-2">
-                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
-                    <label class="form-check-label" for="terms-conditions">
-                      I agree to
-                      <a href="javascript:void(0);">privacy policy & terms</a>
-                    </label>
-                  </div>
-                </div>
-                <button class="btn btn-primary d-grid w-100" type="submit">Sign up</button>
+                <button class="btn btn-primary d-grid w-100" type="submit">Register</button>
               </form>
 
               <p class="text-center">
-                <span>Already have an account?</span>
-                <a href="auth-login-basic.html">
-                  <span>Sign in instead</span>
+                <span>Already have an account? </span>
+                <a routerLink="/chicks">
+                  <span>Login instead</span>
                 </a>
               </p>
             </div>
