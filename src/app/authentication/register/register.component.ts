@@ -5,6 +5,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { AuthResponse } from '../model/auth-response.model';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -18,24 +19,30 @@ export class RegisterComponent implements OnInit {
   private authResponseSubject: Subscription;
   authResponse: AuthResponse;
 
-  constructor(private registerService: RegisterService){}
+  constructor(private registerService: RegisterService, private router: Router){}
 
   ngOnInit(): void {
     this.authResponseSubject = this.registerService.authResponseSubject.subscribe( response => {
-      this.authResponse = response
-
-      if(this.authResponse.isSuccessfull){
-
+      if(response.isSuccessful){
+        this.router.navigate(['/login'])
+        return 
       }
+
+      this.authResponse = response
+      
     })
   }
 
   onSubmit(registerForm: NgForm){
+    if(registerForm.invalid){
+      return 
+    }
+
     this.registerService.register({
-        firstname: "user2",
-        surname: "string",
-        email: "",
-        password: "string"
+        firstname: registerForm.value.firstname,
+        surname: registerForm.value.surname,
+        email: registerForm.value.email,
+        password: registerForm.value.password
       }
     );
   }

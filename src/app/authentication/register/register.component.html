@@ -115,7 +115,7 @@
               </div>
               <!-- /Logo -->
 
-              <div class="alert alert-danger" role="alert" *ngIf="!authResponse.isSuccessfull">
+              <div class="alert alert-danger" role="alert" *ngIf="authResponse && !authResponse.isSuccessful">
                 <span>{{ authResponse.errorMessage }}</span>
                 <span *ngFor="let errorMessage of authResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
               </div>
@@ -128,12 +128,12 @@
                     class="form-control"
                     ngModel
                     name="firstname"
-                    #firstName="ngModel"
+                    #firstname="ngModel"
                     required
                     minlength="3"
                     placeholder="Enter your First Name"
                     autofocus />
-                    <span class="form-validation-message" *ngIf="!firstName.valid && firstName.touched">Please provide a Valid email</span>
+                    <span class="form-validation-message" *ngIf="!firstname.valid && firstname.touched">Please provide a Valid email</span>
                 </div>
                 <div class="mb-6">
                   <label for="surname" class="form-label">Surname</label>
@@ -204,7 +204,7 @@
 
               <p class="text-center">
                 <span>Already have an account? </span>
-                <a routerLink="/chicks">
+                <a href="/login">
                   <span>Login instead</span>
                 </a>
               </p>
