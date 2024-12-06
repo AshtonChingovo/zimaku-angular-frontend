@@ -10,11 +10,8 @@ import { HomeComponent } from './home/home.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent{
 
-  ngOnInit(): void {
-    console.log("We start HERE")
-  }
 
   title = 'angular';
 
