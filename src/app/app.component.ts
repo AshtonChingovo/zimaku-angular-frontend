@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { ChicksComponent } from './production/chicks/chicks.component';
 import { HomeComponent } from './home/home.component';
@@ -10,7 +10,12 @@ import { HomeComponent } from './home/home.component';
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+
+  ngOnInit(): void {
+    console.log("We start HERE")
+  }
+
   title = 'angular';
 
 }

@@ -23,7 +23,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.authResponseSubject.subscribe( response => {
       if(response.isSuccessful){
-        this.router.navigate(["/dashboard"])
+        this.router.navigate([""])
       }
 
       this.authResponse = response
