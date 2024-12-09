@@ -3,7 +3,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { RegisterService } from './register.service';
 import { HttpClientModule } from '@angular/common/http';
 import { Subscription } from 'rxjs';
-import { AuthResponse } from '../model/auth-response.model';
+import { APIResponse } from '../model/api-response.model';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 
@@ -17,7 +17,7 @@ import { Router } from '@angular/router';
 export class RegisterComponent implements OnInit {
 
   private authResponseSubject: Subscription;
-  authResponse: AuthResponse;
+  authResponse: APIResponse;
 
   constructor(private registerService: RegisterService, private router: Router){}
 

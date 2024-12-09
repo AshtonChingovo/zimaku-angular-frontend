@@ -6,18 +6,18 @@
         <small class="text-muted float-end">new parent stock</small>
       </div>
       <div class="card-body">
-        <form>
+        <form #chicks = "ngForm" (ngSubmit)="onSubmit(chicks)" >
           <div class="mb-6">
             <label class="form-label" for="basic-icon-default-fullname">Total Males</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-fullname2" class="input-group-text"
-                ><i class="bx bx-user"></i
-              ></span>
+              <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
               <input
-                type="text"
                 class="form-control"
-                id="basic-icon-default-fullname"
-                placeholder="John Doe"
+                ngModel
+                name="males"
+                required
+                type="number"
+                placeholder="Total Males"
                 aria-label="John Doe"
                 aria-describedby="basic-icon-default-fullname2" />
             </div>
@@ -29,11 +29,12 @@
                 <i class="bx bx-buildings"></i>
               </span>
               <input
-                type="text"
-                id="basic-icon-default-company"
+                ngModel
+                name="females"
+                required
+                type="number"
                 class="form-control"
-                placeholder="ACME Inc."
-                aria-label="ACME Inc."
+                placeholder="Total Females"
                 aria-describedby="basic-icon-default-company2" />
             </div>
           </div>
@@ -42,11 +43,11 @@
             <div class="input-group input-group-merge">
               <span class="input-group-text"><i class="bx bx-envelope"></i></span>
               <input
-                type="text"
-                id="basic-icon-default-email"
+                type="number"
+                ngModel
+                name="fatalities"
                 class="form-control"
-                placeholder="john.doe"
-                aria-label="john.doe"
+                placeholder="Total Fatalities"
                 aria-describedby="basic-icon-default-email2" />
               <span id="basic-icon-default-email2" class="input-group-text"></span>
             </div>
@@ -54,15 +55,15 @@
           <div class="mb-6">
             <label class="form-label" for="basic-icon-default-phone">Batch Number</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-phone2" class="input-group-text"
-                ><i class="bx bx-phone"></i
-              ></span>
+              <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
               <input
                 type="text"
                 id="basic-icon-default-phone"
                 class="form-control phone-mask"
-                placeholder="658 799 8941"
-                aria-label="658 799 8941"
+                ngModel
+                name="batch"
+                required
+                placeholder="Batch Number"
                 aria-describedby="basic-icon-default-phone2" />
             </div>
           </div>

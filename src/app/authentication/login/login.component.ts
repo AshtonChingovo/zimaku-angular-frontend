@@ -4,7 +4,7 @@ import { FormsModule, NgForm } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { LoginService } from './login.service'
 import { Router } from '@angular/router';
-import { AuthResponse } from '../model/auth-response.model';
+import { APIResponse } from '../model/api-response.model';
 
 @Component({
   selector: 'app-login',
@@ -16,12 +16,12 @@ import { AuthResponse } from '../model/auth-response.model';
 export class LoginComponent implements OnInit {
 
   authResponseSubject = Subscription
-  authResponse: AuthResponse;
+  authResponse: APIResponse;
 
   constructor(private loginService: LoginService, private router: Router){}
 
   ngOnInit(): void {
-    this.loginService.authResponseSubject.subscribe( response => {
+    this.loginService.authResponseSubject.subscribe(response => {
       if(response.isSuccessful){
         this.router.navigate([""])
       }
