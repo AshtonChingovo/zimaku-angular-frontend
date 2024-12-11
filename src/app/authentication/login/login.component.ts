@@ -24,6 +24,7 @@ export class LoginComponent implements OnInit {
     this.loginService.authResponseSubject.subscribe(response => {
       if(response.isSuccessful){
         this.router.navigate([""])
+        return
       }
 
       this.authResponse = response

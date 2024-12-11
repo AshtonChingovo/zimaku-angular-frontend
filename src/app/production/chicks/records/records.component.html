@@ -1,7 +1,7 @@
 
     <!-- Hoverable Table rows -->
     <div class="card">
-        <h5 class="card-header">Hoverable rows</h5>
+        <h5 class="card-header">Parent Stock</h5>
         <div class="table-responsive text-nowrap">
           <table class="table table-hover">
             <thead>
@@ -16,54 +16,52 @@
               </tr>
             </thead>
             <tbody class="table-border-bottom-0">
-              <tr>
-                <td>100</td>
-                <td>500</td>
-                <td>500</td>
-                <td>500</td>
-                <td>1 WEEK</td>
-                <td>20/20/2024</td>
+              <tr *ngFor="let chick of chicksResponseModel.chicks">
+                <td>{{ chick.males }}</td>
+                <td>{{ chick.females }}</td>
+                <td>{{ chick.fatalities }}</td>
+                <td>{{ chick.batch }}</td>
+                <td>{{ chick.age }}</td>
+                <td>{{ chick.date }}</td>
                 <td>
                   <div class="dropdown">
                     <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                       <i class="bx bx-dots-vertical-rounded"></i>
                     </button>
                     <div class="dropdown-menu">
-                      <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                      >
-                      <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-trash me-1"></i> Delete</a
-                      >
-                    </div>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>100</td>
-                <td>500</td>
-                <td>500</td>
-                <td>500</td>
-                <td>1 WEEK</td>
-                <td>20/20/2024</td>
-                <td>
-                  <div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                      <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                      >
-                      <a class="dropdown-item" href="javascript:void(0);"
-                        ><i class="bx bx-trash me-1"></i> Delete</a
-                      >
+                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
                     </div>
                   </div>
                 </td>
               </tr>
             </tbody>
           </table>
+          <nav aria-label="Page navigation" class="mt-5 me-5 p-4">
+            <ul class="pagination justify-content-end">
+              <li class="page-item first">
+                <a class="page-link" href="javascript:void(0);"><i class="bx bx-chevrons-left bx-sm"></i></a>
+              </li>
+              <li class="page-item prev">
+                <a class="page-link" href="javascript:void(0);"><i class="bx bx-chevron-left bx-sm"></i></a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0);">1</a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="javascript:void(0);">2</a>
+              </li>
+              <li class="page-item active">
+                <a class="page-link" href="javascript:void(0);">3</a>
+              </li>
+              <li class="page-item next">
+                <a class="page-link" href="javascript:void(0);"><i class="bx bx-chevron-right bx-sm"></i></a>
+              </li>
+              <li class="page-item last">
+                <a class="page-link" href="javascript:void(0);"><i class="bx bx-chevrons-right bx-sm"></i></a>
+              </li>
+            </ul>
+          </nav>
         </div>
       </div>
       <!--/ Hoverable Table rows -->
