@@ -3,7 +3,7 @@
     <div class="card">
         <h5 class="card-header">Parent Stock</h5>
         <div class="table-responsive text-nowrap">
-          <table class="table table-hover">
+          <table class="table table-hover" *ngIf="!isLoading">
             <thead>
               <tr>
                 <th>Male</th>
@@ -45,16 +45,13 @@
               <li class="page-item prev">
                 <a class="page-link" href="javascript:void(0);"><i class="bx bx-chevron-left bx-sm"></i></a>
               </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0);">1</a>
+              <li class="page-item" *ngFor="let page of pages">
+                <a class="page-link" href="javascript:void(0);"> {{ page }} </a>
               </li>
-              <li class="page-item">
-                <a class="page-link" href="javascript:void(0);">2</a>
-              </li>
-              <li class="page-item active">
+              <!-- <li class="page-item active">
                 <a class="page-link" href="javascript:void(0);">3</a>
-              </li>
-              <li class="page-item next">
+              </li> -->
+              <li class="page-item next ">
                 <a class="page-link" href="javascript:void(0);"><i class="bx bx-chevron-right bx-sm"></i></a>
               </li>
               <li class="page-item last">
