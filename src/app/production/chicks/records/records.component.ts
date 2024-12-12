@@ -35,7 +35,7 @@ export class RecordsComponent implements OnInit{
   ngOnInit(): void {
 
     this.chicksService.getChicks({
-      page: 5,
+      page: 2,
       pageSize: 5,
       sortBy: "id"
     })
@@ -60,7 +60,7 @@ export class RecordsComponent implements OnInit{
     this.isLoading = true
 
     this.chicksService.getChicks({
-      page: 8,
+      page: 3,
       pageSize: 5,
       sortBy: "id"
     })
@@ -99,17 +99,23 @@ export class RecordsComponent implements OnInit{
       this.isNextEnabled = true
       this.isLastEnabled = true
 
-      if(this.currentPage - 2 >= 1){
-        this.minPage = this.currentPage - 2
-        this.maxPage = this.currentPage
-      }
-      else{
-        this.minPage = this.currentPage - 1
-        this.maxPage = this.currentPage + 1
-      }
+      this.minPage = this.currentPage
+      this.maxPage = this.currentPage
+
+      this.minPage -= (this.currentPage - 1 > 0) ? 1 : 0 
+      this.maxPage += (this.currentPage + 1 <= this.chicksResponseModel.totalPages) ? 1 : 0 
+
+      // if(this.currentPage - 2 >= 1){
+      //   this.minPage = this.currentPage - 2
+      //   this.maxPage = this.currentPage
+      // }
+      // else{
+      //   this.minPage = this.currentPage - 1
+      //   this.maxPage = this.currentPage + 1
+      // }
     }
 
-    console.log(this.minPage + " -  " + this.currentPage + " - " + this.maxPage + " - " + this.chicksResponseModel.totalPages)
+    // console.log(this.minPage + " -  " + this.currentPage + " - " + this.maxPage + " - " + this.chicksResponseModel.totalPages)
 
     this.setUpPages()
 
