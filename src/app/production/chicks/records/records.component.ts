@@ -14,11 +14,11 @@ import { CommonModule } from '@angular/common';
 })
 export class RecordsComponent implements OnInit{
 
-  apiResponseSubject = Subscription
   apiResponse: APIResponse
   chicksResponseModel: ChicksAPIResponseModel
 
   isLoading = true
+  isEmpty = true
 
   // pagination
   pages = []
@@ -28,25 +28,36 @@ export class RecordsComponent implements OnInit{
   isStartEnabled: boolean
   isPrevEnabled: boolean
   isNextEnabled: boolean
-  isLastEnabled: boolean
+  isEndEnabled: boolean
 
   constructor(private chicksService: ChicksService){}
 
   ngOnInit(): void {
 
-    this.chicksService.getChicks({
-      page: 2,
-      pageSize: 5,
-      sortBy: "id"
-    })
+    this.onGetPage(0)
 
-    this.chicksService.responseSubject.subscribe(response => {
+    this.chicksService.getResponseSubject.subscribe(response => {
 
       this.apiResponse = response
 
       if(this.apiResponse.isSuccessful){
+
         this.chicksResponseModel = this.apiResponse.body
 
+        console.log(this.chicksResponseModel.source)
+
+        // new records returned from AddChicksComponent POST request should only cause reload when on the first page
+        if(this.chicksResponseModel.source == "POST" && this.currentPage < 2){
+          this.chicksService.getChicks({
+            page: 0,
+            pageSize: 10,
+            sortBy: "id"
+          })
+        }   
+        else{
+          this.isEmpty = this.chicksResponseModel.numberOfElements == 0
+        }   
+        
         this.setUpPagination()
       }
 
@@ -55,25 +66,11 @@ export class RecordsComponent implements OnInit{
     })
   }
 
-  getChicks(page: string){
-
-    this.isLoading = true
-
-    this.chicksService.getChicks({
-      page: 3,
-      pageSize: 5,
-      sortBy: "id"
-    })
-  }
-
   setUpPagination(){
-    this.currentPage = this.chicksResponseModel.currentPage
+    // page indexing starts at zero 
+    this.currentPage = this.chicksResponseModel.currentPage + 1
 
-    if(this.chicksResponseModel.first && this.chicksResponseModel.last){
-      this.minPage = this.currentPage
-      this.maxPage = this.currentPage
-    }
-    else if(this.chicksResponseModel.first){
+    if(this.chicksResponseModel.first){
       this.minPage = this.currentPage
       this.maxPage = this.currentPage
 
@@ -82,22 +79,31 @@ export class RecordsComponent implements OnInit{
 
       this.maxPage += (this.currentPage + 2 <= this.chicksResponseModel.totalPages) ? 2 : (this.currentPage + 1 <= this.chicksResponseModel.totalPages) ? 1 : 0 
 
+      // if != means a next page is available
+      this.isNextEnabled = this.minPage != this.maxPage
+      this.isEndEnabled = this.minPage != this.maxPage
+
     }
     else if(this.chicksResponseModel.last){
       this.maxPage = this.currentPage
       this.minPage = this.currentPage
 
+      this.isStartEnabled = true
+      this.isPrevEnabled = true
       this.isNextEnabled = false
-      this.isLastEnabled = false
+      this.isEndEnabled = false
 
       this.minPage -= (this.currentPage - 2 > 0) ? 2 : (this.currentPage - 1 > 0) ? 1 : 0 
 
+      // if != means a next page is available
+      this.isPrevEnabled = this.maxPage != this.minPage
+      this.isStartEnabled = this.maxPage != this.minPage
     }
     else{
       this.isStartEnabled = true
       this.isPrevEnabled = true
       this.isNextEnabled = true
-      this.isLastEnabled = true
+      this.isEndEnabled = true
 
       this.minPage = this.currentPage
       this.maxPage = this.currentPage
@@ -105,14 +111,6 @@ export class RecordsComponent implements OnInit{
       this.minPage -= (this.currentPage - 1 > 0) ? 1 : 0 
       this.maxPage += (this.currentPage + 1 <= this.chicksResponseModel.totalPages) ? 1 : 0 
 
-      // if(this.currentPage - 2 >= 1){
-      //   this.minPage = this.currentPage - 2
-      //   this.maxPage = this.currentPage
-      // }
-      // else{
-      //   this.minPage = this.currentPage - 1
-      //   this.maxPage = this.currentPage + 1
-      // }
     }
 
     // console.log(this.minPage + " -  " + this.currentPage + " - " + this.maxPage + " - " + this.chicksResponseModel.totalPages)
@@ -127,6 +125,41 @@ export class RecordsComponent implements OnInit{
     for(i = this.minPage; i <= this.maxPage; ++i){
       this.pages.push(i)
     }
+  }
+
+  onGetPage(page: number){
+
+    this.isLoading = true
+
+    this.chicksService.getChicks({
+      page: page,
+      pageSize: 10,
+      sortBy: "id"
+    })
+  }
+
+  onGetPreviousPage(){
+    // using chicksResponseModel instead of this.currentPage to not complicate API zero indexing
+    if(this.isPrevEnabled)
+      this.onGetPage(this.chicksResponseModel.currentPage - 1)
+  }
+
+  onGetStartPage(){
+    // page indexing starts at zero 
+    if(this.isStartEnabled)
+      this.onGetPage(0)
+  }
+
+  onGetNextPage(){
+    // using chicksResponseModel instead of this.currentPage to not complicate API zero indexing
+    if(this.isNextEnabled)
+      this.onGetPage(this.chicksResponseModel.currentPage + 1)
+  }
+
+  onGetEndPage(){
+    // page indexing starts at zero 
+    if(this.isEndEnabled)
+      this.onGetPage(this.chicksResponseModel.totalPages - 1)
   }
 
 }

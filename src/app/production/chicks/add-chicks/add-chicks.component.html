@@ -2,15 +2,18 @@
   <div class="col-xl">
     <div class="card mb-6">
       <div class="card-header d-flex justify-content-between align-items-center">
-        <h5 class="mb-0">New Batch Details</h5>
+        <h5 class="mb-0">New Parent Stock</h5>
         <small class="text-muted float-end">new parent stock</small>
       </div>
       <div class="card-body">
-        <form #chicks = "ngForm" (ngSubmit)="onSubmit(chicks)" >
+        <div class="alert alert-danger" role="alert" *ngIf="apiResponse && !apiResponse.isSuccessful">
+          <span>{{ apiResponse.errorMessage }}</span>
+          <span *ngFor="let errorMessage of apiResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+        </div>
+        <form #addParentStockForm = "ngForm" (ngSubmit)="onSubmit()" >
           <div class="mb-6">
-            <label class="form-label" for="basic-icon-default-fullname">Total Males</label>
+            <label class="form-label" for="basic-icon-default-report">Total Males</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
               <input
                 class="form-control"
                 ngModel
@@ -19,55 +22,66 @@
                 type="number"
                 placeholder="Total Males"
                 aria-label="John Doe"
+                #males="ngModel"
                 aria-describedby="basic-icon-default-fullname2" />
             </div>
+            <span class="form-validation-message" *ngIf="males.invalid && males.touched">Please provide a number for males</span>
           </div>
           <div class="mb-6">
-            <label class="form-label" for="basic-icon-default-company">Total Females</label>
+            <label class="form-label" for="basic-icon-default-report">Total Females</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-company2" class="input-group-text">
-                <i class="bx bx-buildings"></i>
-              </span>
               <input
                 ngModel
                 name="females"
+                #females="ngModel"
                 required
                 type="number"
                 class="form-control"
                 placeholder="Total Females"
                 aria-describedby="basic-icon-default-company2" />
             </div>
+            <span class="form-validation-message" *ngIf="females.invalid && females.touched">Please provide a number of females</span>
           </div>
           <div class="mb-6">
-            <label class="form-label" for="basic-icon-default-email">Total Fatalities</label>
+            <label class="form-label" for="basic-icon-default-report">Total Fatalities</label>
             <div class="input-group input-group-merge">
-              <span class="input-group-text"><i class="bx bx-envelope"></i></span>
               <input
                 type="number"
                 ngModel
                 name="fatalities"
+                #fatalities="ngModel"
                 class="form-control"
                 placeholder="Total Fatalities"
+                required
                 aria-describedby="basic-icon-default-email2" />
               <span id="basic-icon-default-email2" class="input-group-text"></span>
             </div>
+            <span class="form-validation-message" *ngIf="fatalities.invalid && fatalities.touched">Please provide a number of fatalities</span>
           </div>
           <div class="mb-6">
-            <label class="form-label" for="basic-icon-default-phone">Batch Number</label>
+            <label class="form-label" for="basic-icon-default-report">Batch Number</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
               <input
                 type="text"
                 id="basic-icon-default-phone"
                 class="form-control phone-mask"
                 ngModel
                 name="batch"
+                #batch="ngModel"
                 required
                 placeholder="Batch Number"
                 aria-describedby="basic-icon-default-phone2" />
             </div>
+            <span class="form-validation-message" *ngIf="females.invalid && females.touched">Please provide a batch number</span>
           </div>
-          <button type="submit" class="btn btn-primary">Save</button>
+          <div class="col text-center" *ngIf="!isLoading">
+            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addParentStockForm.valid">Save</button>
+          </div>
+          <div class="d-flex justify-content-center" *ngIf="isLoading">
+            <div class="spinner-border text-primary " role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </form>
       </div>
     </div>
