@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { ChicksService } from '../chicks.service';
-import { Subscription } from 'rxjs';
 import { ChicksAPIResponseModel } from '../model/chicks-response.model';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 import { CommonModule } from '@angular/common';
+import { ChicksModel } from '../model/post-chicks.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-records',
   standalone: true,
-  imports: [ CommonModule ],
+  imports: [ FormsModule, CommonModule ],
   templateUrl: './records.component.html',
   styleUrl: './records.component.css'
 })
@@ -19,6 +20,15 @@ export class RecordsComponent implements OnInit{
 
   isLoading = true
   isEmpty = true
+  isShowEditDialog = false
+  isShowDeleteDialog = false
+
+  activeChickModel = {
+    males: 0,
+    females: 0,
+    fatalities: 0,
+    batch: ""
+  }
 
   // pagination
   pages = []
@@ -43,8 +53,6 @@ export class RecordsComponent implements OnInit{
       if(this.apiResponse.isSuccessful){
 
         this.chicksResponseModel = this.apiResponse.body
-
-        console.log(this.chicksResponseModel.source)
 
         // new records returned from AddChicksComponent POST request should only cause reload when on the first page
         if(this.chicksResponseModel.source == "POST" && this.currentPage < 2){
@@ -125,6 +133,19 @@ export class RecordsComponent implements OnInit{
     for(i = this.minPage; i <= this.maxPage; ++i){
       this.pages.push(i)
     }
+  }
+
+  // used to set the chicksModel select for editing or deleting
+  onSetActiveChickModel(chicksModel: ChicksModel){
+    this.activeChickModel = chicksModel
+  }
+
+  onEdit(){
+
+  }
+
+  onDelete(){
+    
   }
 
   onGetPage(page: number){

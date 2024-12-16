@@ -72,10 +72,10 @@
                 placeholder="Batch Number"
                 aria-describedby="basic-icon-default-phone2" />
             </div>
-            <span class="form-validation-message" *ngIf="females.invalid && females.touched">Please provide a batch number</span>
+            <span class="form-validation-message" *ngIf="batch.invalid && batch.touched">Please provide a batch number</span>
           </div>
           <div class="col text-center" *ngIf="!isLoading">
-            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addParentStockForm.valid">Save</button>
+            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addParentStockForm.valid">Update</button>
           </div>
           <div class="d-flex justify-content-center" *ngIf="isLoading">
             <div class="spinner-border text-primary " role="status">

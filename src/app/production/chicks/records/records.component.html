@@ -1,76 +1,189 @@
+<!-- Hoverable Table rows -->
+<div class="card">
+    <h5 class="card-header">Parent Stock</h5>
+    <div class="alert alert-danger" style="max-width: 400px; margin-left: 24px;" role="alert" *ngIf="apiResponse && !apiResponse.isSuccessful">
+      <span>{{ apiResponse.errorMessage }}</span>
+      <span *ngFor="let errorMessage of apiResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+    </div>
+    <div class="d-flex justify-content-center align-items-center" *ngIf="apiResponse && apiResponse.isSuccessful && isEmpty ">
+      <div class="text-center">
+        <img
+          src="../assets/img/illustrations/empty.png"
+          height="300"
+          alt="View Badge User"/>
+        <h5>No Content Found</h5>
+        <p><span class="mb-4">We could not find any information to show on this page</span></p>
+        <p></p>
+      </div>
+    </div>
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover" *ngIf="!isLoading && !isEmpty">
+        <thead>
+          <tr>
+            <th>Added</th>
+            <th>Males</th>
+            <th>Females</th>
+            <th>Fatalities</th>
+            <th>Age</th>
+            <th>Batch #</th>
+            <th>More</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          <tr *ngFor="let chick of chicksResponseModel.chicks">
+            <td>{{ chick.date }}</td>
+            <td class="text-center">{{ chick.males }}</td>
+            <td class="text-center">{{ chick.females }}</td>
+            <td class="text-center">{{ chick.fatalities }}</td>
+            <td>{{ chick.age }}</td>
+            <td>{{ chick.batch }}</td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRecordModal" (click)="onSetActiveChickModel(chick)"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" (click)="onSetActiveChickModel(chick)"><i class="bx bx-trash me-1"></i> Delete</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isLoading && !isEmpty">
+        <ul class="pagination justify-content-end">
+          <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
+            <a class="page-link"><i class="bx bx-chevrons-left bx-sm"></i></a>
+          </li>
+          <li class="page-item prev" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
+            <a class="page-link"><i class="bx bx-chevron-left bx-sm"></i></a>
+          </li>
+          <!-- API indexing starts at zero -->
+          <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+            <a class="page-link"> {{ page }} </a>
+          </li>
+          <!-- <li class="page-item active">
+            <a class="page-link" href="javascript:void(0);">3</a>
+          </li> -->
+          <li class="page-item next" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
+            <a class="page-link"><i class="bx bx-chevron-right bx-sm"></i></a>
+          </li>
+          <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
+            <a class="page-link"><i class="bx bx-chevrons-right bx-sm"></i></a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+  <!--/ Hoverable Table rows -->
 
-    <!-- Hoverable Table rows -->
-    <div class="card">
-        <h5 class="card-header">Parent Stock</h5>
-        <div class="table-responsive text-nowrap">
-          <div class="d-flex justify-content-center align-items-center" *ngIf="isEmpty">
-            <div class="text-center">
-              <img
-                src="../assets/img/illustrations/empty.png"
-                height="300"
-                alt="View Badge User"/>
-              <h5>No Content Found</h5>
-              <p><span class="mb-4">We could not find any information to show on this page</span></p>
-              <p></p>
+<!-- Edit Modal -->
+<div class="modal fade" id="updateRecordModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Edit Record</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editParentStockForm="ngForm">
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-report">Total Males</label>
+            <div class="input-group input-group-merge">
+              <input
+                class="form-control"
+                ngModel
+                name="males"
+                required
+                type="number"
+                [(ngModel)]="activeChickModel.males"
+                aria-label="John Doe"
+                #modalMales="ngModel"
+                aria-describedby="basic-icon-default-fullname2" />
+            </div>
+            <span class="form-validation-message" *ngIf="modalMales.invalid && modalMales.touched">Please provide a number for males</span>
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-report">Total Females</label>
+            <div class="input-group input-group-merge">
+              <input
+                ngModel
+                name="females"
+                #modalFemales="ngModel"
+                required
+                type="number"
+                [(ngModel)]="activeChickModel.females"
+                class="form-control"
+                placeholder="Total Females"
+                aria-describedby="basic-icon-default-company2" />
+            </div>
+            <span class="form-validation-message" *ngIf="modalFemales.invalid && modalFemales.touched">Please provide a number of females</span>
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-report">Total Fatalities</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="number"
+                ngModel
+                name="fatalities"
+                [(ngModel)]="activeChickModel.fatalities"
+                #modalFatalities="ngModel"
+                class="form-control"
+                placeholder="Total Fatalities"
+                required
+                aria-describedby="basic-icon-default-email2" />
+              <span id="basic-icon-default-email2" class="input-group-text"></span>
+            </div>
+            <span class="form-validation-message" *ngIf="modalFatalities.invalid && modalFatalities.touched">Please provide a number of fatalities</span>
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-report">Batch Number</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="basic-icon-default-phone"
+                class="form-control phone-mask"
+                ngModel
+                name="batch"
+                [(ngModel)]="activeChickModel.batch"
+                #modalBatch="ngModel"
+                required
+                placeholder="Batch Number"
+                aria-describedby="basic-icon-default-phone2" />
+            </div>
+            <span class="form-validation-message" *ngIf="modalBatch.invalid && modalBatch.touched">Please provide a batch number</span>
+          </div>
+          <div class="col text-center" *ngIf="!isLoading">
+            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!editParentStockForm.valid">Save</button>
+          </div>
+          <div class="d-flex justify-content-center" *ngIf="isLoading">
+            <div class="spinner-border text-primary " role="status">
+              <span class="visually-hidden">Loading...</span>
             </div>
           </div>
-          <table class="table table-hover" *ngIf="!isLoading && !isEmpty">
-            <thead>
-              <tr>
-                <th>Added</th>
-                <th>Males</th>
-                <th>Females</th>
-                <th>Fatalities</th>
-                <th>Age</th>
-                <th>Batch #</th>
-                <th>More</th>
-              </tr>
-            </thead>
-            <tbody class="table-border-bottom-0">
-              <tr *ngFor="let chick of chicksResponseModel.chicks">
-                <td>{{ chick.date }}</td>
-                <td class="text-center">{{ chick.males }}</td>
-                <td class="text-center">{{ chick.females }}</td>
-                <td class="text-center">{{ chick.fatalities }}</td>
-                <td>{{ chick.age }}</td>
-                <td>{{ chick.batch }}</td>
-                <td>
-                  <div class="dropdown">
-                    <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
-                      <i class="bx bx-dots-vertical-rounded"></i>
-                    </button>
-                    <div class="dropdown-menu">
-                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
-                      <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
-                    </div>
-                  </div>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isLoading && !isEmpty">
-            <ul class="pagination justify-content-end">
-              <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
-                <a class="page-link"><i class="bx bx-chevrons-left bx-sm"></i></a>
-              </li>
-              <li class="page-item prev" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
-                <a class="page-link"><i class="bx bx-chevron-left bx-sm"></i></a>
-              </li>
-              <!-- API indexing starts at zero -->
-              <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
-                <a class="page-link"> {{ page }} </a>
-              </li>
-              <!-- <li class="page-item active">
-                <a class="page-link" href="javascript:void(0);">3</a>
-              </li> -->
-              <li class="page-item next" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
-                <a class="page-link"><i class="bx bx-chevron-right bx-sm"></i></a>
-              </li>
-              <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
-                <a class="page-link"><i class="bx bx-chevrons-right bx-sm"></i></a>
-              </li>
-            </ul>
-          </nav>
-        </div>
+        </form>
       </div>
-      <!--/ Hoverable Table rows -->
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="deleteRecordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteRecordModalLabel">Delete Record</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+      </div>
+      <div class="modal-body">
+        <p> Are you sure you would like to delete this Record ? </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary me-5" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
