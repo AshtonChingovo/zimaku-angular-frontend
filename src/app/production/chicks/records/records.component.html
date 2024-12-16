@@ -3,6 +3,17 @@
     <div class="card">
         <h5 class="card-header">Parent Stock</h5>
         <div class="table-responsive text-nowrap">
+          <div class="d-flex justify-content-center align-items-center" *ngIf="isEmpty">
+            <div class="text-center">
+              <img
+                src="../assets/img/illustrations/empty.png"
+                height="300"
+                alt="View Badge User"/>
+              <h5>No Content Found</h5>
+              <p><span class="mb-4">We could not find any information to show on this page</span></p>
+              <p></p>
+            </div>
+          </div>
           <table class="table table-hover" *ngIf="!isLoading && !isEmpty">
             <thead>
               <tr>
