@@ -120,7 +120,7 @@
                   <span>{{ authResponse.errorMessage }}</span>
                   <span *ngFor="let errorMessage of authResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
                 </div>
-              <form id="formAuthentication"  class="mb-6" #loginForm = "ngForm" (ngSubmit)="onLogin(loginForm)">
+              <form id="formAuthentication" class="mb-6" #loginForm = "ngForm" (ngSubmit)="onLogin(loginForm)">
                 <div class="mb-6">
                   <label for="email" class="form-label">Email</label>
                   <input

@@ -42,6 +42,8 @@ export class AddChicksComponent implements OnInit{
     this.isLoading = true
 
     this.chicksService.postChicks({
+        // id added in by the backend 
+        id: 0,
         males: this.addParentStockForm.value.males,
         females: this.addParentStockForm.value.females,
         fatalities: this.addParentStockForm.value.fatalities,

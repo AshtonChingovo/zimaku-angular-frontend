@@ -75,7 +75,7 @@
             <span class="form-validation-message" *ngIf="batch.invalid && batch.touched">Please provide a batch number</span>
           </div>
           <div class="col text-center" *ngIf="!isLoading">
-            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addParentStockForm.valid">Update</button>
+            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addParentStockForm.valid">Save</button>
           </div>
           <div class="d-flex justify-content-center" *ngIf="isLoading">
             <div class="spinner-border text-primary " role="status">

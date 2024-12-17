@@ -3,8 +3,9 @@ import { ChicksService } from '../chicks.service';
 import { ChicksAPIResponseModel } from '../model/chicks-response.model';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 import { CommonModule } from '@angular/common';
-import { ChicksModel } from '../model/post-chicks.model';
-import { FormsModule } from '@angular/forms';
+import { ChicksModel } from '../model/chicks.model';
+import { FormsModule, NgForm } from '@angular/forms';
+import { HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-records',
@@ -24,6 +25,7 @@ export class RecordsComponent implements OnInit{
   isShowDeleteDialog = false
 
   activeChickModel = {
+    id: 0,
     males: 0,
     females: 0,
     fatalities: 0,
@@ -44,6 +46,7 @@ export class RecordsComponent implements OnInit{
 
   ngOnInit(): void {
 
+    // get the first page of results
     this.onGetPage(0)
 
     this.chicksService.getResponseSubject.subscribe(response => {
@@ -62,6 +65,13 @@ export class RecordsComponent implements OnInit{
             sortBy: "id"
           })
         }   
+        else if(this.chicksResponseModel.source == "PUT" || this.chicksResponseModel.source == "DELETE"){
+          this.chicksService.getChicks({
+            page: this.chicksResponseModel.currentPage,
+            pageSize: 10,
+            sortBy: "id"
+          })
+        }
         else{
           this.isEmpty = this.chicksResponseModel.numberOfElements == 0
         }   
@@ -140,12 +150,23 @@ export class RecordsComponent implements OnInit{
     this.activeChickModel = chicksModel
   }
 
-  onEdit(){
+  onEdit(form: NgForm){
+    if(form.invalid)
+      return
 
+    this.chicksService.updateChicks({
+      // use ID of currently active (select) record
+      id: this.activeChickModel.id,
+      males: form.value.males,
+      females: form.value.females,
+      fatalities: form.value.fatalities,
+      batch: form.value.batch 
+    },
+    this.chicksResponseModel.currentPage)
   }
 
   onDelete(){
-    
+    this.chicksService.deleteChicks(this.activeChickModel.id, this.chicksResponseModel.currentPage)
   }
 
   onGetPage(page: number){
