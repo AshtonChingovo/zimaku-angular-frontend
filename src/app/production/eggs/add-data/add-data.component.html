@@ -5,63 +5,86 @@
         <small class="text-muted float-end">egg collection details</small>
       </div>
       <div class="card-body">
-        <form>
+        <form #addEggsForm="ngForm" (ngSubmit)="onSubmit(addEggsForm)">
           <div class="mb-6">
             <label class="form-label" for="basic-icon-default-fullname">Total Eggs Collected</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-fullname2" class="input-group-text"><i class="bx bx-user"></i></span>
               <input
                 type="text"
                 class="form-control"
+                ngModel
+                #quantity="ngModel"
+                name="quantity"
+                required
+                type="number"
                 id="basic-icon-default-fullname"
-                placeholder="John Doe"
-                aria-label="John Doe"
+                placeholder="Total Eggs Collected"
+                aria-label="Total Eggs Collected"
                 aria-describedby="basic-icon-default-fullname2" />
             </div>
+            <span class="form-validation-message" *ngIf="quantity.invalid && quantity.touched">Please provide number of eggs collected</span>
           </div>
           <div class="mb-6">
             <label class="form-label" for="basic-icon-default-company">Total Hatchable</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-company2" class="input-group-text">
-                <i class="bx bx-buildings"></i>
-              </span>
               <input
                 type="text"
                 id="basic-icon-default-company"
+                ngModel
+                #hatchable="ngModel"
+                required
+                name="hatchable"
+                type="number"
                 class="form-control"
-                placeholder="ACME Inc."
-                aria-label="ACME Inc."
+                placeholder="Total Hatchable"
+                aria-label="Total Hatchable"
                 aria-describedby="basic-icon-default-company2" />
             </div>
+            <span class="form-validation-message" *ngIf="hatchable.invalid && hatchable.touched">Please provide number of total hatchable eggs</span>
           </div>
           <div class="mb-6">
             <label class="form-label" for="basic-icon-default-email">Total None-Hatchable</label>
             <div class="input-group input-group-merge">
-              <span class="input-group-text"><i class="bx bx-envelope"></i></span>
               <input
                 type="text"
                 id="basic-icon-default-email"
                 class="form-control"
-                placeholder="john.doe"
-                aria-label="john.doe"
+                ngModel
+                #rejects="ngModel"
+                name="rejects"
+                required
+                placeholder="Total None-Hatchable"
+                aria-label="Total None-Hatchable"
                 aria-describedby="basic-icon-default-email2" />
               <span id="basic-icon-default-email2" class="input-group-text"></span>
             </div>
+            <span class="form-validation-message" *ngIf="rejects.invalid && rejects.touched">Please provide number of rejects</span>
           </div>
           <div class="mb-6">
             <label class="form-label" for="basic-icon-default-phone">Source Batch</label>
             <div class="input-group input-group-merge">
-              <span id="basic-icon-default-phone2" class="input-group-text"><i class="bx bx-phone"></i></span>
               <input
                 type="text"
                 id="basic-icon-default-phone"
                 class="form-control phone-mask"
-                placeholder="658 799 8941"
-                aria-label="658 799 8941"
+                ngModel
+                #batchNumber="ngModel"
+                name="batchNumber"
+                required
+                placeholder="Source Batch"
+                aria-label="Source Batch"
                 aria-describedby="basic-icon-default-phone2" />
             </div>
+            <span class="form-validation-message" *ngIf="batchNumber.invalid && batchNumber.touched">Please provide number of rejects</span>
           </div>
-          <button type="submit" class="btn btn-primary">Send</button>
+          <div class="col text-center" *ngIf="!isLoading">
+            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addEggsForm.valid">Save</button>
+          </div>
+          <div class="d-flex justify-content-center" *ngIf="isLoading">
+            <div class="spinner-border text-primary " role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
         </form>
       </div>
     </div>

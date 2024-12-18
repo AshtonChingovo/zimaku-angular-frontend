@@ -24,14 +24,6 @@ export class RecordsComponent implements OnInit{
   isShowEditDialog = false
   isShowDeleteDialog = false
 
-  activeChickModel = {
-    id: 0,
-    males: 0,
-    females: 0,
-    fatalities: 0,
-    batch: ""
-  }
-
   // pagination
   pages = []
   minPage = 0
@@ -41,6 +33,14 @@ export class RecordsComponent implements OnInit{
   isPrevEnabled: boolean
   isNextEnabled: boolean
   isEndEnabled: boolean
+
+  activeChickModel = {
+    id: 0,
+    males: 0,
+    females: 0,
+    fatalities: 0,
+    batch: ""
+  }
 
   constructor(private chicksService: ChicksService){}
 

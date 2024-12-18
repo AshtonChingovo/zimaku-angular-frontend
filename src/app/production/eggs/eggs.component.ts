@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { RecordsComponent } from './records/records.component';
-import { AddDataComponent } from './add-data/add-data.component';
+import { EggsRecordsComponent } from './records/records.component';
+import { AddEggsComponent } from './add-data/add-data.component';
 
 @Component({
   selector: 'app-eggs',
   standalone: true,
-  imports: [RecordsComponent, AddDataComponent],
+  imports: [ EggsRecordsComponent, AddEggsComponent],
   templateUrl: './eggs.component.html',
   styleUrl: './eggs.component.css'
 })

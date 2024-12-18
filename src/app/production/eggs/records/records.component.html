@@ -2,7 +2,7 @@
 <div class="card">
     <h5 class="card-header">Eggs</h5>
     <div class="table-responsive text-nowrap">
-      <table class="table table-hover">
+      <table class="table table-hover" *ngIf="!isLoading && !isEmpty">
         <thead>
           <tr>
             <th>Collected</th>
@@ -14,24 +14,20 @@
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
-          <tr>
-            <td>100</td>
-            <td>500</td>
-            <td>500</td>
-            <td>500</td>
-            <td>20/20/2024</td>
+          <tr *ngFor="let eggs of eggsResponseModel.eggs">
+            <td class="text-center">{{ eggs.quantity }}</td>
+            <td class="text-center">{{ eggs.hatchable }}</td>
+            <td class="text-center">{{ eggs.rejects }}</td>
+            <td class="text-center">{{ eggs.batchNumber }}</td>
+            <td>{{ eggs.date }}</td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
                   <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu">
-                  <a class="dropdown-item" href="javascript:void(0);"
-                    ><i class="bx bx-edit-alt me-1"></i> Edit</a
-                  >
-                  <a class="dropdown-item" href="javascript:void(0);"
-                    ><i class="bx bx-trash me-1"></i> Delete</a
-                  >
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                  <a class="dropdown-item" href="javascript:void(0);"><i class="bx bx-trash me-1"></i> Delete</a>
                 </div>
               </div>
             </td>
