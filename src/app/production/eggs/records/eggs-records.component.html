@@ -1,0 +1,159 @@
+<!-- Hoverable Table rows -->
+<div class="card">
+    <h5 class="card-header">Eggs</h5>
+    <div class="table-responsive text-nowrap">
+      <table class="table table-hover" *ngIf="!isLoading && !isEmpty">
+        <thead>
+          <tr>
+            <th>Collected</th>
+            <th>Hatchable</th>
+            <th>None-Hatchable</th>
+            <th>Batch #</th>
+            <th>Date</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody class="table-border-bottom-0">
+          <tr *ngFor="let eggs of eggsResponseModel.eggs">
+            <td class="text-center">{{ eggs.quantity }}</td>
+            <td class="text-center">{{ eggs.hatchable }}</td>
+            <td class="text-center">{{ eggs.rejects }}</td>
+            <td class="text-center">{{ eggs.batchNumber }}</td>
+            <td>{{ eggs.date }}</td>
+            <td>
+              <div class="dropdown">
+                <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
+                  <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRecordModal" (click)="onSetActiveEggsModel(eggs)"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" (click)="onSetActiveEggsModel(eggs)"><i class="bx bx-trash me-1"></i> Delete</a>
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!--/ Hoverable Table rows -->
+
+
+<!-- Edit Modal -->
+<div class="modal fade" id="updateRecordModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel1">Edit Record</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #addEggsForm="ngForm" (ngSubmit)="onEdit(addEggsForm)">
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-fullname">Total Eggs Collected</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                class="form-control"
+                [(ngModel)]="activeEggsModel.quantity"
+                ngModel
+                #quantity="ngModel"
+                name="quantity"
+                required
+                type="number"
+                id="basic-icon-default-fullname"
+                placeholder="Total Eggs Collected"
+                aria-label="Total Eggs Collected"
+                aria-describedby="basic-icon-default-fullname2" />
+            </div>
+            <span class="form-validation-message" *ngIf="quantity.invalid && quantity.touched">Please provide number of eggs collected</span>
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-company">Total Hatchable</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="basic-icon-default-company"
+                [(ngModel)]="activeEggsModel.hatchable"
+                ngModel
+                #hatchable="ngModel"
+                required
+                name="hatchable"
+                type="number"
+                class="form-control"
+                placeholder="Total Hatchable"
+                aria-label="Total Hatchable"
+                aria-describedby="basic-icon-default-company2" />
+            </div>
+            <span class="form-validation-message" *ngIf="hatchable.invalid && hatchable.touched">Please provide number of total hatchable eggs</span>
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-email">Total None-Hatchable</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="basic-icon-default-email"
+                class="form-control"
+                [(ngModel)]="activeEggsModel.rejects"
+                ngModel
+                #rejects="ngModel"
+                name="rejects"
+                required
+                placeholder="Total None-Hatchable"
+                aria-label="Total None-Hatchable"
+                aria-describedby="basic-icon-default-email2" />
+              <span id="basic-icon-default-email2" class="input-group-text"></span>
+            </div>
+            <span class="form-validation-message" *ngIf="rejects.invalid && rejects.touched">Please provide number of rejects</span>
+          </div>
+          <div class="mb-6">
+            <label class="form-label" for="basic-icon-default-phone">Source Batch</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="basic-icon-default-phone"
+                class="form-control phone-mask"
+                ngModel
+                #batchNumber="ngModel"
+                [(ngModel)]="activeEggsModel.batchNumber"
+                name="batchNumber"
+                required
+                placeholder="Source Batch"
+                aria-label="Source Batch"
+                aria-describedby="basic-icon-default-phone2" />
+            </div>
+            <span class="form-validation-message" *ngIf="batchNumber.invalid && batchNumber.touched">Please provide batch number</span>
+          </div>
+          <div class="col text-center" *ngIf="!isLoading">
+            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addEggsForm.valid" data-bs-dismiss="modal">Save</button>
+          </div>
+          <div class="d-flex justify-content-center" *ngIf="isLoading">
+            <div class="spinner-border text-primary " role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="deleteRecordModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteRecordModalLabel">Delete Record</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+          </button>
+      </div>
+      <div class="modal-body">
+        <p> Are you sure you would like to delete this Record ? </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary me-5" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" (click)="onDelete()" data-bs-dismiss="modal" data-bs-dismiss="modal">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>

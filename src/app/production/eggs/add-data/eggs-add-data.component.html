@@ -66,6 +66,7 @@
               <input
                 type="text"
                 id="basic-icon-default-phone"
+                
                 class="form-control phone-mask"
                 ngModel
                 #batchNumber="ngModel"
@@ -75,7 +76,7 @@
                 aria-label="Source Batch"
                 aria-describedby="basic-icon-default-phone2" />
             </div>
-            <span class="form-validation-message" *ngIf="batchNumber.invalid && batchNumber.touched">Please provide number of rejects</span>
+            <span class="form-validation-message" *ngIf="batchNumber.invalid && batchNumber.touched">Please provide batch number</span>
           </div>
           <div class="col text-center" *ngIf="!isLoading">
             <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!addEggsForm.valid">Save</button>

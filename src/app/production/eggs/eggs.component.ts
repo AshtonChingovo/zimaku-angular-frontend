@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import { EggsRecordsComponent } from './records/records.component';
-import { AddEggsComponent } from './add-data/add-data.component';
+import { EggsRecordsComponent } from './records/eggs-records.component';
+import { AddEggsComponent } from './add-data/eggs-add-data.component';
 
 @Component({
   selector: 'app-eggs',

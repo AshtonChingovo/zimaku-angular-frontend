@@ -10,7 +10,7 @@ import { CommonModule } from '@angular/common';
   selector: 'app-records',
   standalone: true,
   imports: [ FormsModule, CommonModule],
-  templateUrl: './records.component.html',
+  templateUrl: './eggs-records.component.html',
   styleUrl: './records.component.css'
 })
 export class EggsRecordsComponent implements OnInit {
@@ -145,9 +145,9 @@ export class EggsRecordsComponent implements OnInit {
   }
 
   // used to set the chicksModel select for editing or deleting
-  onSetActiveChickModel(eggsModel: EggsModel){
+  onSetActiveEggsModel(eggsModel: EggsModel){
     this.activeEggsModel = eggsModel
-  }
+  }  
 
   onEdit(form: NgForm){
     if(form.invalid)
@@ -156,12 +156,11 @@ export class EggsRecordsComponent implements OnInit {
     this.eggsService.updateEggs({
       // use ID of currently active (select) record
       id: this.activeEggsModel.id,
-      quantity: form.value.males,
-      hatchable: form.value.females,
-      rejects: form.value.fatalities,
-      batchNumber: form.value.batch 
-    },
-    this.eggsResponseModel.currentPage)
+      quantity: form.value.quantity,
+      hatchable: form.value.hatchable,
+      rejects: form.value.rejects,
+      batchNumber: form.value.batchNumber 
+    }, this.eggsResponseModel.currentPage)
   }
 
   onDelete(){

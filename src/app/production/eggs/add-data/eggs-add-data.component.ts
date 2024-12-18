@@ -8,10 +8,13 @@ import { APIResponse } from '../../../authentication/model/api-response.model';
   selector: 'app-add-data',
   standalone: true,
   imports: [ FormsModule, CommonModule ],
-  templateUrl: './add-data.component.html',
+  templateUrl: './eggs-add-data.component.html',
   styleUrl: './add-data.component.css'
 })
 export class AddEggsComponent implements OnInit {
+onDelete() {
+throw new Error('Method not implemented.');
+}
 
   @ViewChild('addEggsForm') addEggsForm: NgForm
 
@@ -22,7 +25,7 @@ export class AddEggsComponent implements OnInit {
 
   ngOnInit(): void {
     this.eggsService.postResponseSubject.subscribe(response => {
-      
+
       this.apiResponse = response
 
       if(this.apiResponse.isSuccessful)
