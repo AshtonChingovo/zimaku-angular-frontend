@@ -1,25 +1,40 @@
 <!-- Hoverable Table rows -->
 <div class="card">
     <h5 class="card-header">Eggs</h5>
+    <div class="alert alert-danger" style="max-width: 400px; margin-left: 24px;" role="alert" *ngIf="apiResponse && !apiResponse.isSuccessful">
+      <span>{{ apiResponse.errorMessage }}</span>
+      <span *ngFor="let errorMessage of apiResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+    </div>
+    <div class="d-flex justify-content-center align-items-center" *ngIf="apiResponse && apiResponse.isSuccessful && isEmpty ">
+      <div class="text-center">
+        <img
+          src="../assets/img/illustrations/empty.png"
+          height="300"
+          alt="View Badge User"/>
+        <h5>No Content Found</h5>
+        <p><span class="mb-4">We could not find any information to show on this page</span></p>
+        <p></p>
+      </div>
+    </div>
     <div class="table-responsive text-nowrap">
       <table class="table table-hover" *ngIf="!isLoading && !isEmpty">
         <thead>
           <tr>
+            <th>Added</th>
             <th>Collected</th>
             <th>Hatchable</th>
             <th>None-Hatchable</th>
             <th>Batch #</th>
-            <th>Date</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
           <tr *ngFor="let eggs of eggsResponseModel.eggs">
+            <td>{{ eggs.date }}</td>
             <td class="text-center">{{ eggs.quantity }}</td>
             <td class="text-center">{{ eggs.hatchable }}</td>
             <td class="text-center">{{ eggs.rejects }}</td>
             <td class="text-center">{{ eggs.batchNumber }}</td>
-            <td>{{ eggs.date }}</td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">
