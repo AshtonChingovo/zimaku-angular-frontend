@@ -11,13 +11,13 @@
           <th>Dispatch</th>
         </tr>
       </thead>
-      <tbody class="table-border-bottom-0">
+      <tbody class="table-border-bottom-0" *ngIf="eggsResponseModel != undefined">
         <tr *ngFor="let eggs of eggsResponseModel.eggs">
           <td><span class="ms-5">{{ eggs.batchNumber }}</span></td>
           <td><span class="ms-5">{{ eggs.quantity }}</span></td>
           <td><span>{{ eggs.date }}</span></td>
           <td><span class="badge rounded-pill bg-label-primary">{{ eggs.age }}</span></td>
-          <td><button type="button" class="btn btn-sm btn-secondary">Dispatch</button></td>
+          <td><button type="button" class="btn btn-sm btn-secondary" (click)="onEggsModelSelected(eggs)" data-bs-toggle="modal" data-bs-target="#dispatchStockModal" >Dispatch</button></td>
         </tr>
       </tbody>
     </table>
@@ -44,5 +44,26 @@
         </li>
       </ul>
     </nav>
+  </div>
+</div>
+
+<!-- Confirm Stock Dispatch -->
+<div class="modal fade" id="dispatchStockModal" aria-labelledby="dispatchStockModalLabel" tabindex="-1" style="display: none;" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dispatchStockModalLabel">Stock Dispatch Confirmation</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div *ngIf="activeEggsModel != undefined" class="modal-body ms-5">
+        <p> Batch Number: {{ activeEggsModel.batchNumber }}</p>
+        <p> Quantity: {{ activeEggsModel.quantity }}</p>
+        <span> Age: {{ activeEggsModel.age }}</span>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary me-5" data-bs-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" (click)="onDispatch()"  data-bs-dismiss="modal" data-bs-dismiss="modal">Dispatch</button>
+      </div>
+    </div>
   </div>
 </div>

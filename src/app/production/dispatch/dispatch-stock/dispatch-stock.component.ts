@@ -3,6 +3,8 @@ import { EggsService } from '../../eggs/eggs.service';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 import { EggsAPIResponseModel } from '../../eggs/model/eggs-response.model';
 import { CommonModule } from '@angular/common';
+import { EggsModel } from '../../eggs/model/eggs.model';
+import { DispatchService } from '../dispatch.service';
 
 @Component({
   selector: 'app-dispatch-stock',
@@ -15,6 +17,8 @@ export class DispatchStockComponent implements OnInit {
 
   apiResponse: APIResponse
   eggsResponseModel: EggsAPIResponseModel
+
+  activeEggsModel: EggsModel
 
   isLoading = true
   isEmpty = true
@@ -29,7 +33,7 @@ export class DispatchStockComponent implements OnInit {
     isNextEnabled: boolean
     isEndEnabled: boolean
 
-  constructor(private eggsService: EggsService){}
+  constructor(private eggsService: EggsService, private dispatchService: DispatchService){}
 
   ngOnInit(): void {
 
@@ -73,6 +77,22 @@ export class DispatchStockComponent implements OnInit {
       pageSize: 10,
       sortBy: "id"
     })
+  }
+
+  onEggsModelSelected(eggsModel: EggsModel){
+    this.activeEggsModel = eggsModel
+  }
+
+  onDispatch(){
+    if(this.activeEggsModel){
+      this.dispatchService.postDispatch({
+        dateStockReceived: this.activeEggsModel.date,
+        batchNumber: this.activeEggsModel.batchNumber, 
+        quantity: this.activeEggsModel.quantity, 
+        totalStockReceived: this.activeEggsModel.quantity,
+      })
+    }
+
   }
 
 }

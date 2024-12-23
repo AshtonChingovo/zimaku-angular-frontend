@@ -22,6 +22,9 @@ export class RecordsComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // get first page of content
+    this.onGetPage(0)
+
     this.isFetching = true
     
     this.dispatchService.responseSubject.subscribe((response) => {

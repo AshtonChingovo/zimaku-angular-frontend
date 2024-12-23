@@ -70,7 +70,7 @@ export class DispatchService{
         this.httpClient.post(
             environment.baseUrl + "/dispatch",
             dispatch,
-            { observe: "response"}
+            { observe: "response" }
         )
         .subscribe({
             next: (httpResponse) => {
