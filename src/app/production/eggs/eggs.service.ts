@@ -42,7 +42,7 @@ export class EggsService{
                         this.getEggs(eggsPageModel)
                     }
                 
-                    this.response.body = {
+                    this.response.data = {
                         eggs: eggs,
                         numberOfElements: httpResponse.body["numberOfElements"],
                         currentPage: httpResponse.body["number"],
@@ -83,7 +83,7 @@ export class EggsService{
                 if(httpResponse.status == HttpStatusCode.Created){
                     this.response.isSuccessful = true
                 
-                    this.response.body = {
+                    this.response.data = {
                         eggs: httpResponse.body["content"],
                         source: "POST"
                     }
@@ -116,7 +116,7 @@ export class EggsService{
                 if(httpResponse.status == HttpStatusCode.NoContent){
                     this.response.isSuccessful = true
 
-                    this.response.body = {
+                    this.response.data = {
                         currentPage: currentPageNumber,
                         source: "DELETE"
                     }
@@ -148,7 +148,7 @@ export class EggsService{
                 if(httpResponse.status == HttpStatusCode.Ok){
                     this.response.isSuccessful = true
 
-                    this.response.body = {
+                    this.response.data = {
                         currentPage: currentPageNumber,
                         source: "PUT"
                     }

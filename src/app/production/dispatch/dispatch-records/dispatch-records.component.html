@@ -5,40 +5,19 @@
       <thead>
         <tr>
           <th>Dispatched</th>
-          <th>Batch</th>
           <th>Quantity</th>
+          <th>Batch</th>
           <th>Stock Received</th>
           <th>Age on Dispatch</th>
         </tr>
       </thead>
       <tbody class="table-border-bottom-0">
-        <tr>
-          <td><span>--/--/----</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
-        </tr>
-        <tr>
-          <td><span>--/--/----</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
-        </tr>
-        <tr>
-          <td><span>--/--/----</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
-        </tr>
-        <tr>
-          <td><span>--/--/----</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
+        <tr *ngFor="let dispatch of dispatch">
+          <td><span>{{ dispatch.date }}</span></td>
+          <td><span class="ms-5">{{ dispatch.quantity }}</span></td>
+          <td><span>{{ dispatch.batchNumber }}</span></td>
+          <td><span>{{ dispatch.totalStockReceived }}</span></td>
+          <td><span class="badge rounded-pill bg-label-primary ms-5">{{ dispatch.ageOnDispatch }}</span></td>
         </tr>
       </tbody>
     </table>

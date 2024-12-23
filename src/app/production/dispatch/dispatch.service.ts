@@ -32,7 +32,7 @@ export class DispatchService{
                     var dispatch = httpResponse.body["content"]
                     var totalElements = httpResponse.body["totalElements"]
 
-                    this.response.body = {
+                    this.response.data = {
                         data: dispatch,
                         numberOfElements: httpResponse.body["numberOfElements"],
                         currentPage: httpResponse.body["number"],

@@ -55,7 +55,7 @@ export class RecordsComponent implements OnInit{
 
       if(this.apiResponse.isSuccessful){
 
-        this.chicksResponseModel = this.apiResponse.body
+        this.chicksResponseModel = this.apiResponse.data
 
         // new records returned from AddChicksComponent POST request should only cause reload when on the first page
         if(this.chicksResponseModel.source == "POST" && this.currentPage < 2){

@@ -42,7 +42,7 @@ export class ChicksService{
                         this.getChicks(chicksPageModel)
                     }
                 
-                    this.response.body = {
+                    this.response.data = {
                         chicks: chicks,
                         numberOfElements: httpResponse.body["numberOfElements"],
                         currentPage: httpResponse.body["number"],
@@ -87,7 +87,7 @@ export class ChicksService{
                 if(httpResponse.status == HttpStatusCode.Created){
                     this.response.isSuccessful = true
                 
-                    this.response.body = {
+                    this.response.data = {
                         chicks: httpResponse.body["content"],
                         source: "POST"
                     }
@@ -120,7 +120,7 @@ export class ChicksService{
                 if(httpResponse.status == HttpStatusCode.NoContent){
                     this.response.isSuccessful = true
 
-                    this.response.body = {
+                    this.response.data = {
                         currentPage: currentPageNumber,
                         source: "DELETE"
                     }
@@ -152,7 +152,7 @@ export class ChicksService{
                 if(httpResponse.status == HttpStatusCode.Ok){
                     this.response.isSuccessful = true
 
-                    this.response.body = {
+                    this.response.data = {
                         currentPage: currentPageNumber,
                         source: "PUT"
                     }

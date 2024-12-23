@@ -12,32 +12,11 @@
         </tr>
       </thead>
       <tbody class="table-border-bottom-0">
-        <tr>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
-          <td><button type="button" class="btn btn-sm btn-secondary">Dispatch</button></td>
-        </tr>
-        <tr>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
-          <td><button type="button" class="btn btn-sm btn-secondary">Dispatch</button></td>
-        </tr>
-        <tr>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
-          <td><button type="button" class="btn btn-sm btn-secondary">Dispatch</button></td>
-        </tr>
-        <tr>
-          <td><span class="ms-5">2</span></td>
-          <td><span class="ms-5">2</span></td>
-          <td><span>--/--/----</span></td>
-          <td><span class="badge rounded-pill bg-label-primary">7 wks 3d</span></td>
+        <tr *ngFor="let eggs of eggsResponseModel.eggs">
+          <td><span class="ms-5">{{ eggs.batchNumber }}</span></td>
+          <td><span class="ms-5">{{ eggs.quantity }}</span></td>
+          <td><span>{{ eggs.date }}</span></td>
+          <td><span class="badge rounded-pill bg-label-primary">{{ eggs.age }}</span></td>
           <td><button type="button" class="btn btn-sm btn-secondary">Dispatch</button></td>
         </tr>
       </tbody>

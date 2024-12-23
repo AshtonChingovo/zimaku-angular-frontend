@@ -53,7 +53,7 @@ export class EggsRecordsComponent implements OnInit {
 
       if(this.apiResponse.isSuccessful){
 
-        this.eggsResponseModel = this.apiResponse.body
+        this.eggsResponseModel = this.apiResponse.data
 
         // new records returned from AddEggsComponent POST request should only cause reload when on the first page
         if(this.eggsResponseModel.source == "POST" && this.currentPage < 2){
@@ -74,7 +74,6 @@ export class EggsRecordsComponent implements OnInit {
           this.isEmpty = this.eggsResponseModel.numberOfElements == 0
         }   
         
-        console.log(this.eggsResponseModel)
         this.setUpPagination()
       }
 
