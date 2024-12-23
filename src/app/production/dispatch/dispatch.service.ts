@@ -18,7 +18,7 @@ export class DispatchService{
  
     getDispatch(pageRequestModel: PageRequestModel){
         this.httpClient.get(
-            environment.baseUrl + "/dispatch?pageNumber=" + pageRequestModel.page + "&pageSize=" + pageRequestModel.pageSize, 
+            environment.baseUrl + "/dispatches?pageNumber=" + pageRequestModel.page + "&pageSize=" + pageRequestModel.pageSize, 
             { observe: 'response'}
         )
         .pipe(catchError(this.handleError))
@@ -68,7 +68,7 @@ export class DispatchService{
 
     postDispatch(dispatch: DispatchModel){
         this.httpClient.post(
-            environment.baseUrl + "/dispatch",
+            environment.baseUrl + "/dispatches",
             dispatch,
             { observe: "response" }
         )
@@ -76,6 +76,7 @@ export class DispatchService{
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Created){
                     this.response.isSuccessful = true
+                    this.response.data.source = "POST"
                 }
                 else{
                     this.response.isSuccessful = false

@@ -1,6 +1,6 @@
 import { AnyObject } from "chart.js/dist/types/basic"
 
-export interface ChicksAPIResponseModel {
+export interface PaginationAPIResponseModel {
         data: any[]
         numberOfElements?: number
         currentPage?: number

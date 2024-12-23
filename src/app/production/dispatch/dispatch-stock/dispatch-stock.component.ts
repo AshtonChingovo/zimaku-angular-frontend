@@ -5,6 +5,7 @@ import { EggsAPIResponseModel } from '../../eggs/model/eggs-response.model';
 import { CommonModule } from '@angular/common';
 import { EggsModel } from '../../eggs/model/eggs.model';
 import { DispatchService } from '../dispatch.service';
+import { Pagination as PaginationService } from '../../../util/pagination.service';
 
 @Component({
   selector: 'app-dispatch-stock',
@@ -20,20 +21,20 @@ export class DispatchStockComponent implements OnInit {
 
   activeEggsModel: EggsModel
 
-  isLoading = true
+  isFetchingData = true
   isEmpty = true
 
-    // pagination
-    pages = []
-    minPage = 0
-    currentPage = 0
-    maxPage = 0
-    isStartEnabled: boolean
-    isPrevEnabled: boolean
-    isNextEnabled: boolean
-    isEndEnabled: boolean
+  // pagination parameters
+  pages = []
+  minPage = 0
+  currentPage = 0
+  maxPage = 0
+  isStartEnabled: boolean
+  isPrevEnabled: boolean
+  isNextEnabled: boolean
+  isEndEnabled: boolean
 
-  constructor(private eggsService: EggsService, private dispatchService: DispatchService){}
+  constructor(private eggsService: EggsService, private dispatchService: DispatchService, private paginationService: PaginationService){}
 
   ngOnInit(): void {
 
@@ -41,6 +42,8 @@ export class DispatchStockComponent implements OnInit {
     this.onGetPage(0)
 
     this.eggsService.getResponseSubject.subscribe(response => {
+
+      this.isFetchingData = false
       this.apiResponse = response
 
       if(this.apiResponse.isSuccessful){
@@ -59,10 +62,26 @@ export class DispatchStockComponent implements OnInit {
           this.isEmpty = this.eggsResponseModel.numberOfElements == 0
         }   
         
-        // this.setUpPagination()
+        // setup pagination 
+        var paginationParams = this.paginationService.paginationConfig(
+          this.apiResponse.data.currentPage, 
+          this.apiResponse.data.first, 
+          this.apiResponse.data.last, 
+          this.apiResponse.data.totalPages
+        )
+
+        this.pages = paginationParams.pages
+        this.minPage = paginationParams.minPage
+        this.currentPage = paginationParams.currentPage
+        this.maxPage = paginationParams.maxPage
+        this.isStartEnabled = paginationParams.isStartEnabled
+        this.isPrevEnabled = paginationParams.isPrevEnabled
+        this.isNextEnabled = paginationParams.isNextEnabled
+        this.isEndEnabled = paginationParams.isEndEnabled
+
       }
 
-      this.isLoading = false
+      this.isFetchingData = false
       
     })
     
@@ -70,11 +89,11 @@ export class DispatchStockComponent implements OnInit {
 
   onGetPage(page: number){
 
-    this.isLoading = true
+    this.isFetchingData = true
 
     this.eggsService.getEggs({
       page: page,
-      pageSize: 10,
+      pageSize: 5,
       sortBy: "id"
     })
   }
@@ -93,6 +112,30 @@ export class DispatchStockComponent implements OnInit {
       })
     }
 
+  }
+
+  onGetPreviousPage(){
+    // using eggsResponseModel instead of this.currentPage to not complicate API zero indexing
+    if(this.isPrevEnabled)
+      this.onGetPage(this.eggsResponseModel.currentPage - 1)
+  }
+
+  onGetStartPage(){
+    // page indexing starts at zero 
+    if(this.isStartEnabled)
+      this.onGetPage(0)
+  }
+
+  onGetNextPage(){
+    // using eggsResponseModel instead of this.currentPage to not complicate API zero indexing
+    if(this.isNextEnabled)
+      this.onGetPage(this.eggsResponseModel.currentPage + 1)
+  }
+
+  onGetEndPage(){
+    // page indexing starts at zero 
+    if(this.isEndEnabled)
+      this.onGetPage(this.eggsResponseModel.totalPages - 1)
   }
 
 }

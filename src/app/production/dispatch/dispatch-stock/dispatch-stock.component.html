@@ -21,25 +21,25 @@
         </tr>
       </tbody>
     </table>
-    <nav aria-label="Page navigation" class="mt-5 me-5 p-4">
+    <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isFetchingData && !isEmpty">
       <ul class="pagination justify-content-end">
-        <li class="page-item first">
+        <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
           <a class="page-link"><i class="bx bx-chevrons-left bx-sm"></i></a>
         </li>
-        <li class="page-item prev">
+        <li class="page-item prev" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
           <a class="page-link"><i class="bx bx-chevron-left bx-sm"></i></a>
         </li>
         <!-- API indexing starts at zero -->
-        <li class="page-item">
-          <a class="page-link"> 1 </a>
+        <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+          <a class="page-link"> {{ page }} </a>
         </li>
         <!-- <li class="page-item active">
           <a class="page-link" href="javascript:void(0);">3</a>
         </li> -->
-        <li class="page-item next">
+        <li class="page-item next" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
           <a class="page-link"><i class="bx bx-chevron-right bx-sm"></i></a>
         </li>
-        <li class="page-item last">
+        <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
           <a class="page-link"><i class="bx bx-chevrons-right bx-sm"></i></a>
         </li>
       </ul>
