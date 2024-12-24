@@ -38,8 +38,6 @@ export class RecordsComponent implements OnInit {
 
     // get first page of content
     this.onGetPage(0)
-
-    this.isFetchingData = true
     
     this.dispatchService.dispatchRecordsResponseSubject.subscribe((response) => {
 

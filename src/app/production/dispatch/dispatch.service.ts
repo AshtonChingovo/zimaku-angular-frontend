@@ -140,11 +140,11 @@ export class DispatchService{
                     this.response.errorMessage = "Unknown error occured"
                 }
 
-                this.dispatchRecordsResponseSubject.next(this.response)
+                this.dispatchEggsSubject.next(this.response)
 
             },
             error: (e) => {
-                this.dispatchRecordsResponseSubject.next(this.response)
+                this.dispatchEggsSubject.next(this.response)
             }
         })
     }
