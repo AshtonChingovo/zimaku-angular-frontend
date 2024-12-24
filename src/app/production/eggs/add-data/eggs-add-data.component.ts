@@ -49,6 +49,7 @@ throw new Error('Method not implemented.');
       hatchable: this.addEggsForm.value.hatchable,
       rejects: this.addEggsForm.value.rejects,
       batchNumber: this.addEggsForm.value.batchNumber,
+      isDispatched: false
     })
   }
 

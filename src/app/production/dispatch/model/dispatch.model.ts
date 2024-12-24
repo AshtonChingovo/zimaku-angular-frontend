@@ -4,5 +4,6 @@ export interface DispatchModel{
     batchNumber: string, 
     quantity: number, 
     totalStockReceived: number,
-    ageOnDispatch?: string
+    ageOnDispatch?: string,
+    eggsId?: number
 }

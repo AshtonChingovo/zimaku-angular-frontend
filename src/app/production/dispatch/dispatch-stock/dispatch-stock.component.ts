@@ -109,6 +109,7 @@ export class DispatchStockComponent implements OnInit {
         batchNumber: this.activeEggsModel.batchNumber, 
         quantity: this.activeEggsModel.quantity, 
         totalStockReceived: this.activeEggsModel.quantity,
+        eggsId: this.activeEggsModel.id
       })
     }
   }

@@ -42,6 +42,8 @@ export class EggsService{
                         this.getEggs(eggsPageModel)
                     }
                 
+                    console.log(eggs)
+
                     this.response.data = {
                         eggs: eggs,
                         numberOfElements: httpResponse.body["numberOfElements"],

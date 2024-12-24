@@ -20,7 +20,7 @@ export class DispatchService{
 
     getEggs(eggsPageModel: EggsPageRequestModel){
         this.httpClient.get(
-            environment.baseUrl + "/eggs?pageNumber=" + eggsPageModel.page + "&pageSize=" + eggsPageModel.pageSize,
+            environment.baseUrl + "/eggs/not_dispatched?pageNumber=" + eggsPageModel.page + "&pageSize=" + eggsPageModel.pageSize,
             { observe: 'response' }
         )
         .pipe(catchError(this.handleError))

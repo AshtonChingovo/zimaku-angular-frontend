@@ -6,5 +6,6 @@ export interface EggsModel{
         hatchable: number,
         rejects: number,
         batchNumber: string,
+        isDispatched: boolean
 }
 

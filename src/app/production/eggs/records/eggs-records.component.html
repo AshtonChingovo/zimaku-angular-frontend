@@ -36,7 +36,12 @@
             <td class="text-center">{{ eggs.hatchable }}</td>
             <td class="text-center">{{ eggs.rejects }}</td>
             <td class="text-center">{{ eggs.batchNumber }}</td>
-            <td class="text-center"><span class="badge rounded-pill bg-label-primary">{{ eggs.age }}</span></td>
+            <td class="text-center">
+              <span *ngIf="!eggs.dispatched; else dispatchedBadge" class="badge rounded-pill bg-label-primary">{{ eggs.age }}</span>
+              <ng-template #dispatchedBadge>
+                <span class="badge rounded-pill bg-label-danger">Dispatched</span>
+              </ng-template>
+            </td>
             <td>
               <div class="dropdown">
                 <button type="button" class="btn p-0 dropdown-toggle hide-arrow" data-bs-toggle="dropdown">

@@ -38,7 +38,8 @@ export class EggsRecordsComponent implements OnInit {
     quantity: 0,
     hatchable: 0,
     rejects: 0,
-    batchNumber: ""
+    batchNumber: "",
+    isDispatched: false
   }
 
   constructor(private eggsService: EggsService){}    
@@ -158,7 +159,8 @@ export class EggsRecordsComponent implements OnInit {
       quantity: form.value.quantity,
       hatchable: form.value.hatchable,
       rejects: form.value.rejects,
-      batchNumber: form.value.batchNumber 
+      batchNumber: form.value.batchNumber,
+      isDispatched: this.activeEggsModel.isDispatched
     }, this.eggsResponseModel.currentPage)
   }
 
