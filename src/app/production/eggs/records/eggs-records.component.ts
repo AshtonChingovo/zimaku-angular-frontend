@@ -5,6 +5,7 @@ import { APIResponse } from '../../../authentication/model/api-response.model';
 import { EggsModel } from '../model/eggs.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Pagination as PaginationService } from '../../../util/pagination.service';
 
 @Component({
   selector: 'app-records',
@@ -42,7 +43,7 @@ export class EggsRecordsComponent implements OnInit {
     isDispatched: false
   }
 
-  constructor(private eggsService: EggsService){}    
+  constructor(private eggsService: EggsService, private paginationService: PaginationService){}    
 
   ngOnInit(): void {
 
@@ -75,73 +76,27 @@ export class EggsRecordsComponent implements OnInit {
           this.isEmpty = this.eggsResponseModel.numberOfElements == 0
         }   
         
-        this.setUpPagination()
+        // setup pagination 
+        var paginationParams = this.paginationService.paginationConfig(
+          this.apiResponse.data.currentPage, 
+          this.apiResponse.data.first, 
+          this.apiResponse.data.last, 
+          this.apiResponse.data.totalPages
+        )
+
+        this.pages = paginationParams.pages
+        this.minPage = paginationParams.minPage
+        this.currentPage = paginationParams.currentPage
+        this.maxPage = paginationParams.maxPage
+        this.isStartEnabled = paginationParams.isStartEnabled
+        this.isPrevEnabled = paginationParams.isPrevEnabled
+        this.isNextEnabled = paginationParams.isNextEnabled
+        this.isEndEnabled = paginationParams.isEndEnabled
       }
 
       this.isFetchingData = false
       
     })
-  }
-
-  setUpPagination(){
-    // page indexing starts at zero 
-    this.currentPage = this.eggsResponseModel.currentPage + 1
-
-    if(this.eggsResponseModel.first){
-      this.minPage = this.currentPage
-      this.maxPage = this.currentPage
-
-      this.isStartEnabled = false
-      this.isPrevEnabled = false
-
-      this.maxPage += (this.currentPage + 2 <= this.eggsResponseModel.totalPages) ? 2 : (this.currentPage + 1 <= this.eggsResponseModel.totalPages) ? 1 : 0 
-
-      // if != means a next page is available
-      this.isNextEnabled = this.minPage != this.maxPage
-      this.isEndEnabled = this.minPage != this.maxPage
-
-    }
-    else if(this.eggsResponseModel.last){
-      this.maxPage = this.currentPage
-      this.minPage = this.currentPage
-
-      this.isStartEnabled = true
-      this.isPrevEnabled = true
-      this.isNextEnabled = false
-      this.isEndEnabled = false
-
-      this.minPage -= (this.currentPage - 2 > 0) ? 2 : (this.currentPage - 1 > 0) ? 1 : 0 
-
-      // if != means a next page is available
-      this.isPrevEnabled = this.maxPage != this.minPage
-      this.isStartEnabled = this.maxPage != this.minPage
-    }
-    else{
-      this.isStartEnabled = true
-      this.isPrevEnabled = true
-      this.isNextEnabled = true
-      this.isEndEnabled = true
-
-      this.minPage = this.currentPage
-      this.maxPage = this.currentPage
-
-      this.minPage -= (this.currentPage - 1 > 0) ? 1 : 0 
-      this.maxPage += (this.currentPage + 1 <= this.eggsResponseModel.totalPages) ? 1 : 0 
-
-    }
-
-    // console.log(this.minPage + " -  " + this.currentPage + " - " + this.maxPage + " - " + this.chicksResponseModel.totalPages)
-
-    this.setUpPages()
-
-  }
-
-  setUpPages(){
-    this.pages = []
-    var i: number
-    for(i = this.minPage; i <= this.maxPage; ++i){
-      this.pages.push(i)
-    }
   }
 
   // used to set the chicksModel select for editing or deleting
