@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ChicksService } from '../chicks.service';
 import { CommonModule } from '@angular/common';
-import { Subscription } from 'rxjs';
 import { FormsModule, NgForm } from '@angular/forms';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 

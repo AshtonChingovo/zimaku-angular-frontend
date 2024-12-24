@@ -11,7 +11,7 @@ import { ChicksPageRequestModel } from "./model/chicks-page-request.model";
 @Injectable({ providedIn: 'root'})
 export class ChicksService{
     
-    response = new APIResponse()
+    private response = new APIResponse()
     getResponseSubject = new Subject<APIResponse>()
     postResponseSubject = new Subject<APIResponse>()
 
@@ -82,6 +82,7 @@ export class ChicksService{
             chicksModel, 
             { observe: 'response'}
         )
+        .pipe(catchError((error) => this.handleError(error)))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Created){
@@ -103,6 +104,9 @@ export class ChicksService{
                 this.postResponseSubject.next(this.response)
             },
             error: (e) => {
+
+                console.log("ERROR sbj - ", e)
+
                 this.postResponseSubject.next(
                     this.response
                 )
@@ -174,6 +178,7 @@ export class ChicksService{
     }
 
     handleError(errorResponse: HttpErrorResponse){
+
         this.response.isSuccessful = false
         this.response.errorMessage = "Unknown error occured"
 

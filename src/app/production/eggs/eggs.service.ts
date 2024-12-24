@@ -41,8 +41,6 @@ export class EggsService{
                         eggsPageModel.page -= 1
                         this.getEggs(eggsPageModel)
                     }
-                
-                    console.log(eggs)
 
                     this.response.data = {
                         eggs: eggs,
