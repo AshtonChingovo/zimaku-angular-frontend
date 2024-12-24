@@ -41,7 +41,7 @@ export class RecordsComponent implements OnInit {
 
     this.isFetchingData = true
     
-    this.dispatchService.responseSubject.subscribe((response) => {
+    this.dispatchService.dispatchRecordsResponseSubject.subscribe((response) => {
 
       this.isFetchingData = false
       this.apiResponse = response

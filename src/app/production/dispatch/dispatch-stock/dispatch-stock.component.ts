@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { EggsService } from '../../eggs/eggs.service';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 import { EggsAPIResponseModel } from '../../eggs/model/eggs-response.model';
 import { CommonModule } from '@angular/common';
@@ -34,14 +33,14 @@ export class DispatchStockComponent implements OnInit {
   isNextEnabled: boolean
   isEndEnabled: boolean
 
-  constructor(private eggsService: EggsService, private dispatchService: DispatchService, private paginationService: PaginationService){}
+  constructor(private dispatchService: DispatchService, private paginationService: PaginationService){}
 
   ngOnInit(): void {
 
     // get the first page of results
     this.onGetPage(0)
 
-    this.eggsService.getResponseSubject.subscribe(response => {
+    this.dispatchService.dispatchEggsSubject.subscribe(response => {
 
       this.isFetchingData = false
       this.apiResponse = response
@@ -50,11 +49,11 @@ export class DispatchStockComponent implements OnInit {
 
         this.eggsResponseModel = this.apiResponse.data
 
-        if(this.currentPage == 1){
+        if(this.currentPage == 1 && this.eggsResponseModel.source == "POST"){
           // fetch latest data for 1st page
-          this.eggsService.getEggs({
+          this.dispatchService.getEggs({
             page: 0,
-            pageSize: 10,
+            pageSize: 5,
             sortBy: "id"
           })
         }
@@ -80,8 +79,6 @@ export class DispatchStockComponent implements OnInit {
         this.isEndEnabled = paginationParams.isEndEnabled
 
       }
-
-      this.isFetchingData = false
       
     })
     
@@ -91,7 +88,7 @@ export class DispatchStockComponent implements OnInit {
 
     this.isFetchingData = true
 
-    this.eggsService.getEggs({
+    this.dispatchService.getEggs({
       page: page,
       pageSize: 5,
       sortBy: "id"
@@ -104,6 +101,9 @@ export class DispatchStockComponent implements OnInit {
 
   onDispatch(){
     if(this.activeEggsModel){
+
+      this.isFetchingData = true
+
       this.dispatchService.postDispatch({
         dateStockReceived: this.activeEggsModel.date,
         batchNumber: this.activeEggsModel.batchNumber, 
@@ -111,7 +111,6 @@ export class DispatchStockComponent implements OnInit {
         totalStockReceived: this.activeEggsModel.quantity,
       })
     }
-
   }
 
   onGetPreviousPage(){

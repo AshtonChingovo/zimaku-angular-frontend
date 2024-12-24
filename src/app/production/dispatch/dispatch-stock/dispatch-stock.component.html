@@ -17,7 +17,7 @@
           <td><span class="ms-5">{{ eggs.quantity }}</span></td>
           <td><span>{{ eggs.date }}</span></td>
           <td><span class="badge rounded-pill bg-label-primary">{{ eggs.age }}</span></td>
-          <td><button type="button" class="btn btn-sm btn-secondary" (click)="onEggsModelSelected(eggs)" data-bs-toggle="modal" data-bs-target="#dispatchStockModal" >Dispatch</button></td>
+          <td><button type="button" class="btn btn-sm btn-secondary" (click)="onEggsModelSelected(eggs)" [disabled]="isFetchingData" data-bs-toggle="modal" data-bs-target="#dispatchStockModal" >Dispatch</button></td>
         </tr>
       </tbody>
     </table>
