@@ -18,7 +18,7 @@ export class EggsRecordsComponent implements OnInit {
   apiResponse: APIResponse
   eggsResponseModel: EggsAPIResponseModel
 
-  isLoading = true
+  isFetchingData = true
   isEmpty = true
   isShowEditDialog = false
   isShowDeleteDialog = false
@@ -78,7 +78,7 @@ export class EggsRecordsComponent implements OnInit {
         this.setUpPagination()
       }
 
-      this.isLoading = false
+      this.isFetchingData = false
       
     })
   }
@@ -170,7 +170,7 @@ export class EggsRecordsComponent implements OnInit {
 
   onGetPage(page: number){
 
-    this.isLoading = true
+    this.isFetchingData = true
 
     this.eggsService.getEggs({
       page: page,
