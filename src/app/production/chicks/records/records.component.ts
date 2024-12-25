@@ -39,7 +39,7 @@ export class RecordsComponent implements OnInit{
     males: 0,
     females: 0,
     fatalities: 0,
-    batch: ""
+    batchNumber: ""
   }
 
   constructor(private chicksService: ChicksService){}
@@ -160,7 +160,7 @@ export class RecordsComponent implements OnInit{
       males: form.value.males,
       females: form.value.females,
       fatalities: form.value.fatalities,
-      batch: form.value.batch 
+      batchNumber: form.value.batch 
     },
     this.chicksResponseModel.currentPage)
   }

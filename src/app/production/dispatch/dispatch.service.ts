@@ -134,6 +134,9 @@ export class DispatchService{
                 if(httpResponse.status == HttpStatusCode.Created){
                     this.response.isSuccessful = true
                     this.response.data.source = "POST"
+
+                    // send notification to dispatch records component to reload page to fetch latest list
+                    this.dispatchRecordsResponseSubject.next(this.response)
                 }
                 else{
                     this.response.isSuccessful = false

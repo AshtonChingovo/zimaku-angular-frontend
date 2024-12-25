@@ -5,6 +5,6 @@ export interface ChicksModel{
         males: number
         females: number
         fatalities: number
-        batch: string
+        batchNumber: string
 }
 

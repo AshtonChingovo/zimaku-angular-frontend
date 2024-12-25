@@ -15,7 +15,7 @@ import { PaginationAPIResponseModel as PaginationResponseModel } from '../../../
 })
 export class RecordsComponent implements OnInit {
 
-  private apiResponse: APIResponse
+  apiResponse: APIResponse
   paginationResponseModel: PaginationResponseModel
   dispatchRecords: DispatchModel[]
 
@@ -46,17 +46,17 @@ export class RecordsComponent implements OnInit {
 
       if(this.apiResponse.isSuccessful){
 
-        this.paginationResponseModel = this.apiResponse.data
-        this.dispatchRecords = this.paginationResponseModel.data
-
         if(this.apiResponse.data.source == "POST" && this.currentPage == 1){
           // reload page if currently on page zero to fetch lastest list
           this.onGetPage(0)
+          return
         }
-        else{
-          this.isEmpty = this.paginationResponseModel.numberOfElements == 0
-        }   
 
+        this.paginationResponseModel = this.apiResponse.data
+        this.dispatchRecords = this.paginationResponseModel.data
+
+        this.isEmpty = this.paginationResponseModel.numberOfElements == 0
+ 
         // setup pagination 
         var paginationParams = this.paginationService.paginationConfig(
           this.apiResponse.data.currentPage, 

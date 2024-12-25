@@ -46,7 +46,7 @@ export class AddChicksComponent implements OnInit{
         males: this.addParentStockForm.value.males,
         females: this.addParentStockForm.value.females,
         fatalities: this.addParentStockForm.value.fatalities,
-        batch: this.addParentStockForm.value.batch 
+        batchNumber: this.addParentStockForm.value.batch 
       }
     )
   }
