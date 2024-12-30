@@ -47,41 +47,45 @@ export class DispatchStockComponent implements OnInit {
 
       if(this.apiResponse.isSuccessful){
 
-        this.eggsResponseModel = this.apiResponse.data
-
-        if(this.currentPage == 1 && this.eggsResponseModel.source == "POST"){
-          // fetch latest data for 1st page
+        if(this.eggsResponseModel.source != undefined && this.eggsResponseModel.source == "POST"){
+          // reload page to show latest list
           this.dispatchService.getEggs({
-            page: 0,
+            page: this.currentPage - 1,
             pageSize: 5,
             sortBy: "id"
           })
         }
-        else{
-          this.isEmpty = this.eggsResponseModel.numberOfElements == 0
-        }   
-        
-        // setup pagination 
-        var paginationParams = this.paginationService.paginationConfig(
-          this.apiResponse.data.currentPage, 
-          this.apiResponse.data.first, 
-          this.apiResponse.data.last, 
-          this.apiResponse.data.totalPages
-        )
 
-        this.pages = paginationParams.pages
-        this.minPage = paginationParams.minPage
-        this.currentPage = paginationParams.currentPage
-        this.maxPage = paginationParams.maxPage
-        this.isStartEnabled = paginationParams.isStartEnabled
-        this.isPrevEnabled = paginationParams.isPrevEnabled
-        this.isNextEnabled = paginationParams.isNextEnabled
-        this.isEndEnabled = paginationParams.isEndEnabled
+        this.eggsResponseModel = this.apiResponse.data
+
+        this.isEmpty = this.eggsResponseModel.numberOfElements == 0
+        
+        this.setUpPagination()
 
       }
       
     })
     
+  }
+
+  setUpPagination(){
+
+    // setup pagination 
+    var paginationParams = this.paginationService.paginationConfig(
+      this.apiResponse.data.currentPage, 
+      this.apiResponse.data.first, 
+      this.apiResponse.data.last, 
+      this.apiResponse.data.totalPages
+    )
+
+    this.pages = paginationParams.pages
+    this.minPage = paginationParams.minPage
+    this.currentPage = paginationParams.currentPage
+    this.maxPage = paginationParams.maxPage
+    this.isStartEnabled = paginationParams.isStartEnabled
+    this.isPrevEnabled = paginationParams.isPrevEnabled
+    this.isNextEnabled = paginationParams.isNextEnabled
+    this.isEndEnabled = paginationParams.isEndEnabled
   }
 
   onGetPage(page: number){

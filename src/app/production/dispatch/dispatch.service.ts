@@ -45,7 +45,7 @@ export class DispatchService{
                 
                     this.response.data = {
                         eggs: eggs,
-                        numberOfElements: httpResponse.body["numberOfElements"],
+                        numberOfElements: totalElements,
                         currentPage: httpResponse.body["number"],
                         pageSize: httpResponse.body["content"],
                         totalPages: httpResponse.body["totalPages"],
@@ -91,7 +91,7 @@ export class DispatchService{
 
                     this.response.data = {
                         data: dispatch,
-                        numberOfElements: httpResponse.body["numberOfElements"],
+                        numberOfElements: totalElements,
                         currentPage: httpResponse.body["number"],
                         pageSize: httpResponse.body["content"],
                         totalPages: httpResponse.body["totalPages"],

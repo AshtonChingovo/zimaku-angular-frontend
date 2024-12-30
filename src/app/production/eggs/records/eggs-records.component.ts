@@ -51,7 +51,9 @@ export class EggsRecordsComponent implements OnInit {
     this.onGetPage(0)
 
     this.eggsService.getResponseSubject.subscribe(response => {
+
       this.apiResponse = response
+      this.isFetchingData = false
 
       if(this.apiResponse.isSuccessful){
 
@@ -76,27 +78,31 @@ export class EggsRecordsComponent implements OnInit {
           this.isEmpty = this.eggsResponseModel.numberOfElements == 0
         }   
         
-        // setup pagination 
-        var paginationParams = this.paginationService.paginationConfig(
-          this.apiResponse.data.currentPage, 
-          this.apiResponse.data.first, 
-          this.apiResponse.data.last, 
-          this.apiResponse.data.totalPages
-        )
+        this.setUpPagination()
 
-        this.pages = paginationParams.pages
-        this.minPage = paginationParams.minPage
-        this.currentPage = paginationParams.currentPage
-        this.maxPage = paginationParams.maxPage
-        this.isStartEnabled = paginationParams.isStartEnabled
-        this.isPrevEnabled = paginationParams.isPrevEnabled
-        this.isNextEnabled = paginationParams.isNextEnabled
-        this.isEndEnabled = paginationParams.isEndEnabled
       }
 
-      this.isFetchingData = false
-      
     })
+  }
+
+  setUpPagination(){
+
+    // setup pagination 
+    var paginationParams = this.paginationService.paginationConfig(
+      this.apiResponse.data.currentPage, 
+      this.apiResponse.data.first, 
+      this.apiResponse.data.last, 
+      this.apiResponse.data.totalPages
+    )
+
+    this.pages = paginationParams.pages
+    this.minPage = paginationParams.minPage
+    this.currentPage = paginationParams.currentPage
+    this.maxPage = paginationParams.maxPage
+    this.isStartEnabled = paginationParams.isStartEnabled
+    this.isPrevEnabled = paginationParams.isPrevEnabled
+    this.isNextEnabled = paginationParams.isNextEnabled
+    this.isEndEnabled = paginationParams.isEndEnabled
   }
 
   // used to set the chicksModel select for editing or deleting
