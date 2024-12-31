@@ -47,6 +47,8 @@ export class DispatchStockComponent implements OnInit {
 
       if(this.apiResponse.isSuccessful){
 
+        this.eggsResponseModel = this.apiResponse.data
+
         if(this.eggsResponseModel.source != undefined && this.eggsResponseModel.source == "POST"){
           // reload page to show latest list
           this.dispatchService.getEggs({
@@ -55,8 +57,6 @@ export class DispatchStockComponent implements OnInit {
             sortBy: "id"
           })
         }
-
-        this.eggsResponseModel = this.apiResponse.data
 
         this.isEmpty = this.eggsResponseModel.numberOfElements == 0
         

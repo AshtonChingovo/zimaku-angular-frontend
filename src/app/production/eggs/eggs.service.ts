@@ -7,6 +7,7 @@ import { throwError } from 'rxjs';
 import { APIResponse } from "../../authentication/model/api-response.model";
 import { EggsPageRequestModel } from "./model/eggs-page-request.model";
 import { EggsModel } from "./model/eggs.model";
+import { ErrorHandlingService } from "../../util/errror-handling.service";
 
 @Injectable({ providedIn: 'root'})
 export class EggsService{
@@ -15,14 +16,17 @@ export class EggsService{
     getResponseSubject = new Subject<APIResponse>()
     postResponseSubject = new Subject<APIResponse>()
 
-    constructor(private httpClient: HttpClient){}
+    constructor(private httpClient: HttpClient,  private errorHandlingService: ErrorHandlingService){}
 
     getEggs(eggsPageModel: EggsPageRequestModel){
         this.httpClient.get(
             environment.baseUrl + "/eggs?pageNumber=" + eggsPageModel.page + "&pageSize=" + eggsPageModel.pageSize,
             { observe: 'response' }
         )
-        .pipe(catchError(this.handleError))
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
 
@@ -62,6 +66,7 @@ export class EggsService{
                
             },
             error: (e) => {
+
                 // undefined errorMessage can occur when API is unavailable
                 if(!this.response.errorMessage){
                     this.response.errorMessage = "Unknown error occured"
@@ -78,6 +83,10 @@ export class EggsService{
             eggsModel, 
             { observe: 'response'}
         )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Created){
@@ -87,18 +96,27 @@ export class EggsService{
                         eggs: httpResponse.body["content"],
                         source: "POST"
                     }
+
+                    // for notifying RecordComponent a new record has been added
+                    this.getResponseSubject.next(this.response)
+
                 }
                 else{
                     this.response.isSuccessful = false
                     this.response.errorMessage = "Unknown error occured"
                 }
-                
-                // for notifying RecordComponent a new record has been added
-                this.getResponseSubject.next(this.response)
+
                 // for notifying AddEggsComponent a new record has been added so it can listen for any API errors & display on the form 
                 this.postResponseSubject.next(this.response)
+
             },
             error: (e) => {
+
+                // undefined errorMessage can occur when API is unavailable
+                if(!this.response.errorMessage){
+                    this.response.errorMessage = "Unknown error occured"
+                }
+
                 this.postResponseSubject.next(
                     this.response
                 )
@@ -111,6 +129,10 @@ export class EggsService{
             environment.baseUrl + "/eggs/" + id,
             { observe: 'response'}
         )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.NoContent){
@@ -143,6 +165,10 @@ export class EggsService{
             eggs,
             { observe: 'response'}
         )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Ok){
@@ -167,26 +193,6 @@ export class EggsService{
                 )
             }
         })
-    }
-
-    handleError(errorResponse: HttpErrorResponse){
-        this.response.isSuccessful = false
-        this.response.errorMessage = "Unknown error occured"
-
-        if(errorResponse.error.error){
-            this.response.errorMessage = errorResponse.error.error
-        }
-        
-        if(errorResponse.error.errorsList){
-            this.response.errorsList = []
-
-            errorResponse.error.errorsList.forEach((errorMessage: string) => {
-                this.response.errorsList.push(errorMessage)
-            });
-        }
-
-        return throwError(() => this.response );
-
     }
 
 }

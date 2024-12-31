@@ -6,14 +6,15 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { Subject } from 'rxjs';
 import { APIResponse} from '../model/api-response.model';
+import { ErrorHandlingService } from "../../util/errror-handling.service";
 
 @Injectable({ providedIn: 'root'})
 export class RegisterService {
 
-    authResponse = new APIResponse()
+    response = new APIResponse()
     authResponseSubject = new Subject<APIResponse>()
 
-    constructor(private httpClient: HttpClient){}
+    constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService){}
 
     register(registerModel: RegisterModel){
         this.httpClient.post(
@@ -21,50 +22,31 @@ export class RegisterService {
             registerModel,
             { observe: 'response' }
         )
-        .pipe(
-            catchError(this.handleError)
-        )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (response) => {
 
                 if(response.status == HttpStatusCode.Created){
-                    this.authResponse.isSuccessful = true
+                    this.response.isSuccessful = true
                 }
                 else{
-                    this.authResponse.isSuccessful = false
-                    this.authResponse.errorMessage = "Unknown error occured"
+                    this.response.isSuccessful = false
+                    this.response.errorMessage = "Unknown error occured"
                 }
 
                 this.authResponseSubject.next(
-                    this.authResponse
+                    this.response
                 )
             },
             error: (error) => {
                 this.authResponseSubject.next(
-                    this.authResponse
+                    this.response
                 )
             },
         });
-    }
-
-    handleError(errorResponse: HttpErrorResponse){
-        this.authResponse.isSuccessful = false
-        this.authResponse.errorMessage = "Unknown error occured"
-
-        if(errorResponse.error.error){
-            this.authResponse.errorMessage = errorResponse.error.error
-        }
-        
-        if(errorResponse.error.errorsList){
-            this.authResponse.errorsList = []
-
-            errorResponse.error.errorsList.forEach((errorMessage: string) => {
-                this.authResponse.errorsList.push(errorMessage)
-            });
-        }
-
-        return throwError(() => this.authResponse );
-
     }
 
 }

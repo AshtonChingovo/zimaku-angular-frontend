@@ -15,14 +15,17 @@ export class ChicksService{
     getResponseSubject = new Subject<APIResponse>()
     postResponseSubject = new Subject<APIResponse>()
 
-    constructor(private httpClient: HttpClient){}
+    constructor(private httpClient: HttpClient, private errorHandlingService){}
 
     getChicks(chicksPageModel: ChicksPageRequestModel){
         this.httpClient.get(
             environment.baseUrl + "/chicks?pageNumber=" + chicksPageModel.page + "&pageSize=" + chicksPageModel.pageSize,
             { observe: 'response' }
         )
-        .pipe(catchError(this.handleError))
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
 
@@ -82,7 +85,10 @@ export class ChicksService{
             chicksModel, 
             { observe: 'response'}
         )
-        .pipe(catchError((error) => this.handleError(error)))
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Created){
@@ -119,6 +125,10 @@ export class ChicksService{
             environment.baseUrl + "/chicks/" + id,
             { observe: 'response'}
         )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.NoContent){
@@ -151,6 +161,10 @@ export class ChicksService{
             chicks,
             { observe: 'response'}
         )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Ok){
@@ -175,27 +189,6 @@ export class ChicksService{
                 )
             }
         })
-    }
-
-    handleError(errorResponse: HttpErrorResponse){
-
-        this.response.isSuccessful = false
-        this.response.errorMessage = "Unknown error occured"
-
-        if(errorResponse.error.error){
-            this.response.errorMessage = errorResponse.error.error
-        }
-        
-        if(errorResponse.error.errorsList){
-            this.response.errorsList = []
-
-            errorResponse.error.errorsList.forEach((errorMessage: string) => {
-                this.response.errorsList.push(errorMessage)
-            });
-        }
-
-        return throwError(() => this.response );
-
     }
 
 }

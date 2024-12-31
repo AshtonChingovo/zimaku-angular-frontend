@@ -8,6 +8,7 @@ import { HttpClient, HttpErrorResponse, HttpStatusCode } from "@angular/common/h
 import { PageRequestModel } from "../../model/page-request.model";
 import { DispatchModel } from "./model/dispatch.model";
 import { EggsPageRequestModel } from "../eggs/model/eggs-page-request.model";
+import { ErrorHandlingService } from "../../util/errror-handling.service";
 
 @Injectable({providedIn: 'root'})
 export class DispatchService{
@@ -16,14 +17,17 @@ export class DispatchService{
     dispatchRecordsResponseSubject = new Subject<APIResponse>()
     dispatchEggsSubject = new Subject<APIResponse>()
 
-    constructor(private httpClient: HttpClient){}
+    constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService){}
 
     getEggs(eggsPageModel: EggsPageRequestModel){
         this.httpClient.get(
             environment.baseUrl + "/eggs/not_dispatched?pageNumber=" + eggsPageModel.page + "&pageSize=" + eggsPageModel.pageSize,
             { observe: 'response' }
         )
-        .pipe(catchError(this.handleError))
+        .pipe(catchError((error: HttpErrorResponse) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
 
@@ -78,7 +82,10 @@ export class DispatchService{
             environment.baseUrl + "/dispatches?pageNumber=" + pageRequestModel.page + "&pageSize=" + pageRequestModel.pageSize, 
             { observe: 'response'}
         )
-        .pipe(catchError(this.handleError))
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
 
@@ -129,6 +136,10 @@ export class DispatchService{
             dispatch,
             { observe: "response" }
         )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Created){
@@ -150,26 +161,6 @@ export class DispatchService{
                 this.dispatchEggsSubject.next(this.response)
             }
         })
-    }
-
-    handleError(errorResponse: HttpErrorResponse){
-        this.response.isSuccessful = false
-        this.response.errorMessage = "Unknown error occured"
-
-        if(errorResponse.error.error){
-            this.response.errorMessage = errorResponse.error.error
-        }
-        
-        if(errorResponse.error.errorsList){
-            this.response.errorsList = []
-
-            errorResponse.error.errorsList.forEach((errorMessage: string) => {
-                this.response.errorsList.push(errorMessage)
-            });
-        }
-
-        return throwError(() => this.response );
-
     }
 
 }

@@ -7,18 +7,20 @@ import { HttpClient, HttpErrorResponse, HttpStatusCode } from "@angular/common/h
 import { LoginModel } from "../model/login.model";
 import { environment } from "../../../environments/environment.development";
 import { UserToken } from "../model/user-token.model";
+import { ErrorHandlingService } from "../../util/errror-handling.service";
 
 @Injectable({ providedIn: 'root'})
 export class LoginService implements OnInit{
 
-    authResponse = new APIResponse()
+    response = new APIResponse()
     authResponseSubject = new Subject<APIResponse>()
     userToken: UserToken = JSON.parse(localStorage.getItem("userToken"));
-    constructor(private httpClient: HttpClient){}
+
+    constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService){}
 
     ngOnInit(): void {
         // default error message
-        this.authResponse.errorMessage = "Unknown error occured"
+        this.response.errorMessage = "Unknown error occured"
     }
 
     login(loginModel: LoginModel){
@@ -27,33 +29,36 @@ export class LoginService implements OnInit{
             loginModel,
             { observe: 'response'}
         )
-        .pipe(catchError(this.handleError))
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response);
+        }))
         .subscribe({
             next: (response) => {
                 if(response.status == HttpStatusCode.Ok){
-                    this.authResponse.isSuccessful = true
+                    this.response.isSuccessful = true
 
                     localStorage.setItem('userToken', JSON.stringify(response.body))
                 }
                 else{
-                    this.authResponse.isSuccessful = false
-                    this.authResponse.errorMessage = "Unknown error occured"
+                    this.response.isSuccessful = false
+                    this.response.errorMessage = "Unknown error occured"
                 }
 
-                this.authResponseSubject.next(this.authResponse)
+                this.authResponseSubject.next(this.response)
             },
             error: (e) => {
 
                 // undefined errorMessage can occur when API is unavailable
-                if(!this.authResponse.errorMessage){
-                    this.authResponse.errorMessage = "Unknown error occured"
+                if(!this.response.errorMessage){
+                    this.response.errorMessage = "Unknown error occured"
                 }
                 
-                if(this.authResponse.errorMessage == "Forbidden"){
-                    this.authResponse.errorMessage = "Login details failed"
+                if(this.response.errorMessage == "Forbidden"){
+                    this.response.errorMessage = "Login details failed"
                 }
                 this.authResponseSubject.next(
-                    this.authResponse
+                    this.response
                 )
             }
         })
@@ -69,27 +74,6 @@ export class LoginService implements OnInit{
     getUserToken(){
         if(this.userToken)
             return this.userToken
-    }
-
-    handleError(errorResponse: HttpErrorResponse){
-
-        this.authResponse.isSuccessful = false
-        this.authResponse.errorMessage = "Unknown error occured"
-
-        if(errorResponse.error.error){
-            this.authResponse.errorMessage = errorResponse.error.error
-        }
-        
-        if(errorResponse.error.errorsList){
-            this.authResponse.errorsList = []
-
-            errorResponse.error.errorsList.forEach((errorMessage: string) => {
-                this.authResponse.errorsList.push(errorMessage)
-            });
-        }
-
-        return throwError(() => this.authResponse );
-
     }
 
 }

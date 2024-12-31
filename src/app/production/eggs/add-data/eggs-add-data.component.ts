@@ -12,9 +12,6 @@ import { APIResponse } from '../../../authentication/model/api-response.model';
   styleUrl: './add-data.component.css'
 })
 export class AddEggsComponent implements OnInit {
-onDelete() {
-throw new Error('Method not implemented.');
-}
 
   @ViewChild('addEggsForm') addEggsForm: NgForm
 
@@ -24,14 +21,15 @@ throw new Error('Method not implemented.');
   constructor(private eggsService: EggsService){}
 
   ngOnInit(): void {
+
     this.eggsService.postResponseSubject.subscribe(response => {
 
       this.apiResponse = response
+      this.isLoading = false
 
       if(this.apiResponse.isSuccessful)
         this.addEggsForm.reset()
 
-      this.isLoading = false
     })
   }
 
@@ -48,7 +46,7 @@ throw new Error('Method not implemented.');
       quantity: this.addEggsForm.value.quantity,
       hatchable: this.addEggsForm.value.hatchable,
       rejects: this.addEggsForm.value.rejects,
-      batchNumber: this.addEggsForm.value.batchNumber,
+      batchNumber: "",
       isDispatched: false
     })
   }

@@ -4,6 +4,10 @@
         <h5 class="mb-0">Eggs Collected</h5>
         <small class="text-muted float-end">egg collection details</small>
       </div>
+      <div class="alert alert-danger ms-5 me-5" style="max-width: 400px; margin-left: 24px;" role="alert" *ngIf="apiResponse && !apiResponse.isSuccessful">
+        <span>{{ apiResponse.errorMessage }}</span>
+        <span *ngFor="let errorMessage of apiResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+      </div>
       <div class="card-body">
         <form #addEggsForm="ngForm" (ngSubmit)="onSubmit(addEggsForm)">
           <div class="mb-6">
