@@ -33,7 +33,7 @@ export class AddEggsComponent implements OnInit {
     })
   }
 
-  onSubmit(form: NgForm) {
+  onSubmit() {
     if(this.addEggsForm.invalid){
       return
     }
@@ -46,7 +46,7 @@ export class AddEggsComponent implements OnInit {
       quantity: this.addEggsForm.value.quantity,
       hatchable: this.addEggsForm.value.hatchable,
       rejects: this.addEggsForm.value.rejects,
-      batchNumber: "",
+      batchNumber: this.addEggsForm.value.batchNumber,
       isDispatched: false
     })
   }

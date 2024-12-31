@@ -90,6 +90,7 @@ export class EggsService{
         .subscribe({
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Created){
+
                     this.response.isSuccessful = true
                 
                     this.response.data = {
@@ -117,9 +118,7 @@ export class EggsService{
                     this.response.errorMessage = "Unknown error occured"
                 }
 
-                this.postResponseSubject.next(
-                    this.response
-                )
+                this.postResponseSubject.next(this.response)
             }
         })
     }

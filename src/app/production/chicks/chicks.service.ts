@@ -7,6 +7,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { APIResponse } from "../../authentication/model/api-response.model";
 import { ChicksPageRequestModel } from "./model/chicks-page-request.model";
+import { ErrorHandlingService } from "../../util/errror-handling.service";
 
 @Injectable({ providedIn: 'root'})
 export class ChicksService{
@@ -15,7 +16,7 @@ export class ChicksService{
     getResponseSubject = new Subject<APIResponse>()
     postResponseSubject = new Subject<APIResponse>()
 
-    constructor(private httpClient: HttpClient, private errorHandlingService){}
+    constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService){}
 
     getChicks(chicksPageModel: ChicksPageRequestModel){
         this.httpClient.get(

@@ -8,6 +8,7 @@ import { LoginComponent } from "./authentication/login/login.component";
 import { RegisterComponent } from "./authentication/register/register.component";
 import { AuthGuard } from "./authentication/auth.guard";
 import { DashboardComponent } from "./home/dashboard/dashboard.component";
+import { HatcheryComponent } from "./production/hatchery/hatchery.component";
 
 const routes: Routes = [
     { 
@@ -17,7 +18,9 @@ const routes: Routes = [
             { path: '', component: DashboardComponent},
             { path: 'chicks', component: ChicksComponent},
             { path: 'eggs', component: EggsComponent},
-            { path: 'dispatch', component: DispatchComponent}]},
+            { path: 'dispatch', component: DispatchComponent},
+            { path: 'hatchery', component: HatcheryComponent}]
+        },
         { path: 'login', component: LoginComponent},
         { path: 'register', component: RegisterComponent},
 ]

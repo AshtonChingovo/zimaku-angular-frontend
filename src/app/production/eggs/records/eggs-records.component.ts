@@ -52,6 +52,8 @@ export class EggsRecordsComponent implements OnInit {
 
     this.eggsService.getResponseSubject.subscribe(response => {
 
+      console.log("ACTIVE")
+
       this.apiResponse = response
       this.isFetchingData = false
 
@@ -59,7 +61,7 @@ export class EggsRecordsComponent implements OnInit {
 
         this.eggsResponseModel = this.apiResponse.data
 
-        // new records returned from AddEggsComponent POST request should only cause reload when on the first page
+        // new records returned from AddEggsComponent POST request should only reload page when on the first page
         if(this.eggsResponseModel.source == "POST" && this.currentPage < 2){
           this.eggsService.getEggs({
             page: 0,
@@ -105,7 +107,7 @@ export class EggsRecordsComponent implements OnInit {
     this.isEndEnabled = paginationParams.isEndEnabled
   }
 
-  // used to set the chicksModel select for editing or deleting
+  // used to set the activeEggsModel select for editing or deleting
   onSetActiveEggsModel(eggsModel: EggsModel){
     this.activeEggsModel = eggsModel
   }  
