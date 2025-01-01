@@ -72,8 +72,7 @@ export class LoginService implements OnInit{
     }
 
     getUserToken(){
-        if(this.userToken)
-            return this.userToken
+        return JSON.parse(localStorage.getItem("userToken"))
     }
 
 }

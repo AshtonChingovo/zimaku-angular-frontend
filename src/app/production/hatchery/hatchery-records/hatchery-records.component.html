@@ -1,0 +1,88 @@
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <div class="row">
+        <h6 class="text-muted">Production / Hatchery</h6>
+        <div class="nav-align-top mt-5">
+          <ul class="nav nav-pills mb-4" role="tablist">
+            <li class="nav-item">
+              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-receive-stock" aria-controls="navs-pills-top-receive-stock" aria-selected="true">Receive Stock</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-records" aria-controls="navs-pills-top-records" aria-selected="false">Records</button>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <!-- Receive Stock Tab -->
+            <div class="tab-pane fade show active" id="navs-pills-top-receive-stock" role="tabpanel">
+              <div>
+                <h5>Stock Dispatched</h5>
+                <div class="alert alert-danger" style="max-width: 400px; margin-left: 24px;" role="alert" *ngIf="apiResponse && !apiResponse.isSuccessful">
+                  <span>{{ apiResponse.errorMessage }}</span>
+                  <span *ngFor="let errorMessage of apiResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="apiResponse && apiResponse.isSuccessful && isEmpty ">
+                  <div class="text-center">
+                    <img
+                      src="../assets/img/illustrations/empty.png"
+                      height="300"
+                      alt="View Badge User"/>
+                    <h5>No Content Found</h5>
+                    <p><span class="mb-4">We could not find any information to show on this page</span></p>
+                    <p></p>
+                  </div>
+                </div>
+                <div class="table-responsive text-nowrap" *ngIf="!isFetchingData && !isEmpty">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Received</th>
+                        <th>Batch</th>
+                        <th>Quantity</th>
+                        <th>Breakages</th>
+                        <th>Difference</th>
+                        <th>Age on Dispatch</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0">
+                      <tr *ngFor="let record of hatcheryRecords">
+                        <td><span>{{ record.date }}</span></td>
+                        <td><span class="ms-5">{{ record.batchNumber }}</span></td>
+                        <td><span>{{ record.quantity }}</span></td>
+                        <td><span>{{ record.difference }}</span></td>
+                        <td><span class="badge rounded-pill bg-label-primary ms-5">{{ record.ageOnDispatch }}</span></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isFetchingData && !isEmpty">
+                    <ul class="pagination justify-content-end">
+                      <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
+                        <a class="page-link"><i class="bx bx-chevrons-left bx-sm"></i></a>
+                      </li>
+                      <li class="page-item prev" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
+                        <a class="page-link"><i class="bx bx-chevron-left bx-sm"></i></a>
+                      </li>
+                      <!-- API indexing starts at zero -->
+                      <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+                        <a class="page-link"> {{ page }} </a>
+                      </li>
+                      <li class="page-item next" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
+                        <a class="page-link"><i class="bx bx-chevron-right bx-sm"></i></a>
+                      </li>
+                      <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
+                        <a class="page-link"><i class="bx bx-chevrons-right bx-sm"></i></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+            </div>
+            </div>
+            <div class="tab-pane fade" id="navs-pills-top-records" role="tabpanel">
+              <app-hatchery-records></app-hatchery-records>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content-backdrop fade"></div>
+</div>

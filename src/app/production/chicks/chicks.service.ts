@@ -69,7 +69,7 @@ export class ChicksService{
             },
             error: (e) => {
                 // undefined errorMessage can occur when API is unavailable
-                if(!this.response.errorMessage){
+                if(this.response && !this.response.errorMessage){
                     this.response.errorMessage = "Unknown error occured"
                 }
                 
