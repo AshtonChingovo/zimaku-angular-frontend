@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, OnInit } from "@angular/core";
 import { ChicksModel } from "./model/chicks.model";
 import { environment } from "../../../environments/environment.development";
 import { Subject } from 'rxjs';
@@ -16,7 +16,9 @@ export class ChicksService{
     getResponseSubject = new Subject<APIResponse>()
     postResponseSubject = new Subject<APIResponse>()
 
-    constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService){}
+    constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService){
+        this.response = new APIResponse()
+    }
 
     getChicks(chicksPageModel: ChicksPageRequestModel){
         this.httpClient.get(

@@ -35,6 +35,9 @@ export class RecordsComponent implements OnInit{
   isNextEnabled: boolean
   isEndEnabled: boolean
 
+  // modal chick weights list
+  chickWeightsWeeks = Array.from({ length: 24 }, (_, i) => "Week " + (i + 1));
+
   activeChickModel = {
     id: 0,
     males: 0,

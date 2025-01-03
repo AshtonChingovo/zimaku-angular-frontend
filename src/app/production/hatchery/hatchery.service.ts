@@ -7,7 +7,6 @@ import { throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
 import { PageRequestModel } from "../../model/page-request.model";
 import { ErrorHandlingService } from "../../util/errror-handling.service";
-import { DispatchModel } from "../dispatch/model/dispatch.model";
 import { HatcheryModel } from "./model/hatchery.model";
 
 @Injectable({providedIn: 'root'})
@@ -21,7 +20,7 @@ export class HatcheryService{
  
     getDispatch(pageRequestModel: PageRequestModel){
         this.httpClient.get(
-            environment.baseUrl + "/dispatches?pageNumber=" + pageRequestModel.page + "&pageSize=" + pageRequestModel.pageSize, 
+            environment.baseUrl + "/dispatches?pageNumber=" + pageRequestModel.pageNumber + "&pageSize=" + pageRequestModel.pageSize, 
             { observe: 'response'}
         )
         .pipe(catchError((error) => {
@@ -71,9 +70,9 @@ export class HatcheryService{
         })
     }
 
-    getHatchery(pageRequestModel: PageRequestModel){
+    getHatcheryStock(pageRequestModel: PageRequestModel){
         this.httpClient.get(
-            environment.baseUrl + "/hatchery?pageNumber=" + pageRequestModel.page + "&pageSize=" + pageRequestModel.pageSize, 
+            environment.baseUrl + "/hatchery_stock?pageNumber=" + pageRequestModel.pageNumber + "&pageSize=" + pageRequestModel.pageSize, 
             { observe: 'response'}
         )
         .pipe(catchError((error) => {
@@ -106,7 +105,7 @@ export class HatcheryService{
                     this.response.errorMessage = "Unknown error occured"
                 }
 
-                this.dispatchRecordsResponseSubject.next(
+                this.hatcheryRecordsResponseSubject.next(
                     this.response
                 )
             },
@@ -116,7 +115,7 @@ export class HatcheryService{
                     this.response.errorMessage = "Unknown error occured"
                 }
                 
-                this.dispatchRecordsResponseSubject.next(
+                this.hatcheryRecordsResponseSubject.next(
                     this.response
                 )
             }
@@ -125,7 +124,7 @@ export class HatcheryService{
 
     post(hatchery: HatcheryModel){
         this.httpClient.post(
-            environment.baseUrl + "/hatchery",
+            environment.baseUrl + "/hatchery_stock",
             hatchery,
             { observe: "response" }
         )

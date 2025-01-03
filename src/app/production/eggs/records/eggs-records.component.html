@@ -18,6 +18,11 @@
     </div>
     <div class="table-responsive text-nowrap">
       <table class="table table-hover" *ngIf="!isFetchingData && !isEmpty">
+        <thead class="table-dark">
+          <tr>
+            <th>Eggs In Stock: {{ totalEggsNotDispatched }}</th>
+          </tr>
+        </thead>
         <thead>
           <tr>
             <th>Added</th>

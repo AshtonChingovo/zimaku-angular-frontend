@@ -34,6 +34,8 @@ export class EggsRecordsComponent implements OnInit {
   isNextEnabled: boolean
   isEndEnabled: boolean
 
+  totalEggsNotDispatched = 0
+
   activeEggsModel = {
     id: 0,
     quantity: 0,
@@ -51,8 +53,6 @@ export class EggsRecordsComponent implements OnInit {
     this.onGetPage(0)
 
     this.eggsService.getResponseSubject.subscribe(response => {
-
-      console.log("ACTIVE")
 
       this.apiResponse = response
       this.isFetchingData = false
@@ -80,6 +80,8 @@ export class EggsRecordsComponent implements OnInit {
           this.isEmpty = this.eggsResponseModel.numberOfElements == 0
         }   
         
+        this.totalEggsNotDispatched = this.eggsResponseModel.eggs.filter(eggs => !eggs.isDispatched).length
+
         this.setUpPagination()
 
       }

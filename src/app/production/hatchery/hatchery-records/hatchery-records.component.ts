@@ -4,11 +4,12 @@ import { Pagination as PaginationService } from '../../../util/pagination.servic
 import { PaginationAPIResponseModel as PaginationResponseModel } from '../../../model/pagination-response.model';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 import { HatcheryModel } from '../model/hatchery.model';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-hatchery-records',
   standalone: true,
-  imports: [],
+  imports: [ CommonModule],
   templateUrl: './hatchery-records.component.html',
   styleUrl: './hatchery-records.component.css'
 })
@@ -81,8 +82,8 @@ export class HatcheryRecordsComponent implements OnInit {
     this.isFetchingData = true
 
     // get the first page of results
-    this.hatcheryService.getDispatch({
-      page: page,
+    this.hatcheryService.getHatcheryStock({
+      pageNumber: page,
       pageSize: 10,
       sortBy: "id"
     })

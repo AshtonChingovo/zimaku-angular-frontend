@@ -101,7 +101,7 @@ export class HatcheryComponent {
     this.hatcheryService.post({
       batchNumber: this.activeDispatchModel.batchNumber, 
       quantity: this.activeDispatchModel.quantity, 
-      totalStockReceived: form.value.quantity
+      breakages: form.value.quantity
     })
   }
 
@@ -111,7 +111,7 @@ export class HatcheryComponent {
 
     // get the first page of results
     this.dispatchService.getDispatch({
-      page: page,
+      pageNumber: page,
       pageSize: 5,
       sortBy: "id"
     })

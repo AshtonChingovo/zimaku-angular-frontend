@@ -44,6 +44,8 @@
                 </button>
                 <div class="dropdown-menu">
                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateRecordModal" (click)="onSetActiveChickModel(chick)"><i class="bx bx-edit-alt me-1"></i> Edit</a>
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#chickWeightModal" (click)="onSetActiveChickModel(chick)"><i class="bx bx-pencil me-1"></i> Record Weight</a>
+                  <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#chickWeightListModal" (click)="onSetActiveChickModel(chick)"><i class="bx bx-folder-open me-1"></i> View Weights</a>
                   <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteRecordModal" (click)="onSetActiveChickModel(chick)"><i class="bx bx-trash me-1"></i> Delete</a>
                 </div>
               </div>
@@ -168,7 +170,82 @@
   </div>
 </div>
 
-<!-- Modal -->
+<!-- Record Weight Modal -->
+<div class="modal fade" id="chickWeightModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chickWeightModalLabel">Chick Average Weight</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form #editParentStockForm="ngForm" (ngSubmit)="onEdit(editParentStockForm)">
+          <div class="btn-group me-4">
+            <!-- <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown button
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton" *ngFor="week item of chickWeightsWeeks">
+              <li><a class="dropdown-item">week</a></li>
+            </ul> -->
+            <div class="border rounded-pill p-3 text-center">
+              Week 1
+            </div>
+          </div>
+          <div class="mb-6 mt-6">
+            <label class="form-label" for="basic-icon-default-report">Average Chick Weight</label>
+            <div class="input-group input-group-merge">
+              <input
+                type="text"
+                id="basic-icon-default-phone"
+                class="form-control phone-mask"
+                ngModel
+                name="batch"
+                #chickWeight="ngModel"
+                required
+                placeholder="Average Chick Weight"
+                aria-describedby="basic-icon-default-phone2" />
+            </div>
+            <span class="form-validation-message" *ngIf="modalBatch.invalid && modalBatch.touched">Please provide chick weight</span>
+          </div>
+          <div class="col text-center" *ngIf="!isLoading">
+            <button type="submit" class="btn btn-primary justify-content-center" [disabled]="!editParentStockForm.valid" data-bs-dismiss="modal">Save</button>
+          </div>
+          <div class="d-flex justify-content-center" *ngIf="isLoading">
+            <div class="spinner-border text-primary " role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Weights Modal -->
+<div class="modal fade" id="chickWeightListModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="chickWeightListModalLabel">Chick Average Weights</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+            <ul class="list-group list-group-flush">
+              <li class="list-group-item">Week 1: 0.24kg</li>
+              <li class="list-group-item">Week 2: 0.24kg</li>
+              <li class="list-group-item">Week 3: 0.24kg</li>
+              <li class="list-group-item">Week 4: 0.24kg</li>
+              <li class="list-group-item">Week 5: 0.24kg</li>
+              <li class="list-group-item">Week 6: 0.24kg</li>
+              <li class="list-group-item">Week 7: 0.24kg</li>
+              <li class="list-group-item">Week 8: 0.24kg</li>
+            </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Records Modal -->
 <div class="modal fade" id="deleteRecordModal" tabindex="-1" aria-labelledby="deleteRecordModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">

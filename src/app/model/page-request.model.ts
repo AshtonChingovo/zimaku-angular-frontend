@@ -1,5 +1,5 @@
 export interface PageRequestModel{
-        page: number,
+        pageNumber: number,
         pageSize: number,
         sortBy: string
 }

@@ -89,7 +89,7 @@ export class RecordsComponent implements OnInit {
 
     // get the first page of results
     this.dispatchService.getDispatch({
-      page: page,
+      pageNumber: page,
       pageSize: 5,
       sortBy: "id"
     })

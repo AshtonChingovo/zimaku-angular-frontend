@@ -79,7 +79,7 @@ export class DispatchService{
  
     getDispatch(pageRequestModel: PageRequestModel){
         this.httpClient.get(
-            environment.baseUrl + "/dispatches?pageNumber=" + pageRequestModel.page + "&pageSize=" + pageRequestModel.pageSize, 
+            environment.baseUrl + "/dispatches?pageNumber=" + pageRequestModel.pageNumber + "&pageSize=" + pageRequestModel.pageSize, 
             { observe: 'response'}
         )
         .pipe(catchError((error) => {
