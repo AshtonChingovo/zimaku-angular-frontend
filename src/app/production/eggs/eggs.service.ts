@@ -6,7 +6,7 @@ import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { APIResponse } from "../../authentication/model/api-response.model";
 import { EggsPageRequestModel } from "./model/eggs-page-request.model";
-import { EggsModel } from "./model/eggs.model";
+import { EggsStockModel } from "./model/eggs-stock.model";
 import { ErrorHandlingService } from "../../util/errror-handling.service";
 
 @Injectable({ providedIn: 'root'})
@@ -77,7 +77,7 @@ export class EggsService{
         })
     }
 
-    postEggs(eggsModel: EggsModel){
+    postEggs(eggsModel: EggsStockModel){
         this.httpClient.post(
             environment.baseUrl + "/eggs",
             eggsModel, 
@@ -158,7 +158,7 @@ export class EggsService{
         })
     }
 
-    updateEggs(eggs: EggsModel, currentPageNumber: Number){
+    updateEggs(eggs: EggsStockModel, currentPageNumber: Number){
         this.httpClient.put(
             environment.baseUrl + "/eggs",
             eggs,

@@ -1,12 +1,12 @@
 import { Injectable } from "@angular/core";
-import { APIResponse } from "../../authentication/model/api-response.model";
-import { environment } from "../../../environments/environment.development";
+import { APIResponse } from "../authentication/model/api-response.model";
+import { environment } from "../../environments/environment.development";
 import { Subject } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import { HttpClient, HttpErrorResponse, HttpStatusCode } from "@angular/common/http";
-import { PageRequestModel } from "../../model/page-request.model";
-import { ErrorHandlingService } from "../../util/errror-handling.service";
+import { PageRequestModel } from "../model/page-request.model";
+import { ErrorHandlingService } from "../util/errror-handling.service";
 import { HatcheryModel } from "./model/hatchery.model";
 
 @Injectable({providedIn: 'root'})

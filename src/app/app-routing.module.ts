@@ -8,7 +8,10 @@ import { LoginComponent } from "./authentication/login/login.component";
 import { RegisterComponent } from "./authentication/register/register.component";
 import { AuthGuard } from "./authentication/auth.guard";
 import { DashboardComponent } from "./home/dashboard/dashboard.component";
-import { HatcheryComponent } from "./production/hatchery/hatchery.component";
+import { HatcheryComponent } from "./hatchery/hatchery.component";
+import { PendingOrdersComponent } from "./sales/pending-orders/pending-orders.component";
+import { SalesOrdersComponent } from "./sales/sales-orders/sales-orders.component";
+import { ClientsComponent } from "./sales/clients/clients.component";
 
 const routes: Routes = [
     { 
@@ -19,7 +22,12 @@ const routes: Routes = [
             { path: 'chicks', component: ChicksComponent},
             { path: 'eggs', component: EggsComponent},
             { path: 'dispatch', component: DispatchComponent},
-            { path: 'hatchery', component: HatcheryComponent}]
+            { path: 'hatchery', component: HatcheryComponent},
+            { path: 'pending-orders', component: PendingOrdersComponent},
+            { path: 'sales-orders', component: SalesOrdersComponent},
+            { path: 'clients', component: ClientsComponent},
+
+        ]
         },
         { path: 'login', component: LoginComponent},
         { path: 'register', component: RegisterComponent},

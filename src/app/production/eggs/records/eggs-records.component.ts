@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { EggsService } from '../eggs.service';
 import { EggsAPIResponseModel } from '../model/eggs-response.model';
 import { APIResponse } from '../../../authentication/model/api-response.model';
-import { EggsModel } from '../model/eggs.model';
+import { EggsStockModel } from '../model/eggs-stock.model';
 import { FormsModule, NgForm } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { Pagination as PaginationService } from '../../../util/pagination.service';
@@ -110,7 +110,7 @@ export class EggsRecordsComponent implements OnInit {
   }
 
   // used to set the activeEggsModel select for editing or deleting
-  onSetActiveEggsModel(eggsModel: EggsModel){
+  onSetActiveEggsModel(eggsModel: EggsStockModel){
     this.activeEggsModel = eggsModel
   }  
 

@@ -1,7 +1,7 @@
-import { ChicksModel } from "./chicks.model"
+import { ChicksStockModel } from "./chicks-stock.model"
 
 export interface ChicksAPIResponseModel {
-        chicks: ChicksModel[]
+        chicksStock: ChicksStockModel[]
         numberOfElements?: number
         currentPage?: number
         pageSize?: number

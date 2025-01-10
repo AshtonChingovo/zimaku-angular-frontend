@@ -3,4 +3,6 @@ export interface HatcheryModel{
     batchNumber: string, 
     quantity: number, 
     breakages: number,
+    dispatchId?: number,
+    eggsStockId?: number
 }

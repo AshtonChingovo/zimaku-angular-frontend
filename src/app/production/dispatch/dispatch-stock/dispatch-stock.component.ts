@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 import { EggsAPIResponseModel } from '../../eggs/model/eggs-response.model';
 import { CommonModule } from '@angular/common';
-import { EggsModel } from '../../eggs/model/eggs.model';
+import { EggsStockModel } from '../../eggs/model/eggs-stock.model';
 import { DispatchService } from '../dispatch.service';
 import { Pagination as PaginationService } from '../../../util/pagination.service';
 
@@ -18,7 +18,7 @@ export class DispatchStockComponent implements OnInit {
   apiResponse: APIResponse
   eggsResponseModel: EggsAPIResponseModel
 
-  activeEggsModel: EggsModel
+  activeEggsModel: EggsStockModel
 
   isFetchingData = true
   isEmpty = true
@@ -99,7 +99,7 @@ export class DispatchStockComponent implements OnInit {
     })
   }
 
-  onEggsModelSelected(eggsModel: EggsModel){
+  onEggsModelSelected(eggsModel: EggsStockModel){
     this.activeEggsModel = eggsModel
   }
 

@@ -1,7 +1,7 @@
-import { EggsModel } from "./eggs.model"
+import { EggsStockModel } from "./eggs-stock.model"
 
 export interface EggsAPIResponseModel {
-        eggs: EggsModel[]
+        eggs: EggsStockModel[]
         numberOfElements?: number
         currentPage?: number
         pageSize?: number

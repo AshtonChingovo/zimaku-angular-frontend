@@ -1,4 +1,4 @@
-export interface EggsModel{
+export interface EggsStockModel{
         id: number
         date?: string
         age?: string

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { HatcheryService } from '../hatchery.service';
-import { Pagination as PaginationService } from '../../../util/pagination.service';
-import { PaginationAPIResponseModel as PaginationResponseModel } from '../../../model/pagination-response.model';
-import { APIResponse } from '../../../authentication/model/api-response.model';
+import { Pagination as PaginationService } from '../../util/pagination.service';
+import { PaginationAPIResponseModel as PaginationResponseModel } from '../../model/pagination-response.model';
+import { APIResponse } from '../../authentication/model/api-response.model';
 import { HatcheryModel } from '../model/hatchery.model';
 import { CommonModule } from '@angular/common';
 

@@ -1,23 +1,21 @@
-import { Component } from '@angular/core';
-import { HatcheryRecordsComponent } from './hatchery-records/hatchery-records.component';
-import { ReceiveStockComponent } from './receive-stock/receive-stock.component';
-import { CommonModule, NgFor } from '@angular/common';
-import { FormsModule, NgForm } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { HatcheryService } from '../hatchery.service';
 import { APIResponse } from '../../authentication/model/api-response.model';
-import { DispatchModel } from '../dispatch/model/dispatch.model';
-import { DispatchService } from '../dispatch/dispatch.service';
-import { HatcheryService } from './hatchery.service';
+import { DispatchModel } from '../../production/dispatch/model/dispatch.model';
 import { Pagination as PaginationService } from '../../util/pagination.service';
 import { PaginationAPIResponseModel as PaginationResponseModel } from '../../model/pagination-response.model';
+import { DispatchService } from '../../production/dispatch/dispatch.service';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-hatchery',
+  selector: 'app-receive-stock',
   standalone: true,
-  imports: [ HatcheryRecordsComponent, CommonModule, FormsModule],
-  templateUrl: './hatchery.component.html',
-  styleUrl: './hatchery.component.css'
+  imports: [ CommonModule, FormsModule],
+  templateUrl: './receive-stock.component.html',
+  styleUrl: './receive-stock.component.css'
 })
-export class HatcheryComponent {
+export class ReceiveStockComponent implements OnInit {
 
   apiResponse: APIResponse
   paginationResponseModel: PaginationResponseModel
@@ -35,16 +33,6 @@ export class HatcheryComponent {
   isPrevEnabled: boolean
   isNextEnabled: boolean
   isEndEnabled: boolean
-
-  activeDispatchModel: DispatchModel = {
-    date: "",
-    dateStockReceived: "",
-    batchNumber: "", 
-    quantity: 0, 
-    totalStockReceived: 0,
-    ageOnDispatch: "",
-    eggsId: 0
-  }
 
   constructor(
     private dispatchService: DispatchService, 
@@ -90,19 +78,8 @@ export class HatcheryComponent {
            this.isNextEnabled = paginationParams.isNextEnabled
            this.isEndEnabled = paginationParams.isEndEnabled
          }
+   
        })
-  }
-
-  onAciiveDispatch(dispatchModel: DispatchModel){
-    this.activeDispatchModel = dispatchModel
-  }
-
-  onSubmit(form: NgForm){ 
-    this.hatcheryService.post({
-      batchNumber: this.activeDispatchModel.batchNumber, 
-      quantity: this.activeDispatchModel.quantity, 
-      breakages: form.value.quantity
-    })
   }
 
   onGetPage(page: number){

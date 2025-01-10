@@ -107,16 +107,47 @@
 
                 <!-- Hatchery -->
                 <li class="menu-header small text-uppercase">
-                    <span class="menu-header-text">Hatchery</span>
+                <span class="menu-header-text">Hatchery</span>
+                </li>
+                <li class="menu-item" routerLinkActive="active">
+                    <a
+                        routerLink="/hatchery"
+                        class="menu-link">
+                        <i class="menu-icon tf-icons bx bx-radio-circle-marked"></i>
+                        <div class="text-truncate" data-i18n="Email">Receive Stock</div>
+                    </a>
+                </li>
+                <!-- Hatchery -->
+
+                <!-- Sales -->
+                    <li class="menu-header small text-uppercase">
+                    <span class="menu-header-text">Sales</span>
                     </li>
                     <li class="menu-item" routerLinkActive="active">
                         <a
-                            routerLink="/hatchery"
+                            routerLink="/pending-orders"
                             class="menu-link">
                             <i class="menu-icon tf-icons bx bx-radio-circle-marked"></i>
-                            <div class="text-truncate" data-i18n="Email">Receive Stock</div>
+                            <div class="text-truncate" data-i18n="Email">Pending Orders</div>
                         </a>
-                </li>
+                    </li>
+                    <li class="menu-item" routerLinkActive="active">
+                        <a
+                            routerLink="/sales-orders"
+                            class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-radio-circle-marked"></i>
+                            <div class="text-truncate" data-i18n="Email">Sales Orders</div>
+                        </a>
+                    </li>
+                    <li class="menu-item" routerLinkActive="active">
+                        <a
+                            routerLink="/clients"
+                            class="menu-link">
+                            <i class="menu-icon tf-icons bx bx-radio-circle-marked"></i>
+                            <div class="text-truncate" data-i18n="Email">Clients</div>
+                        </a>
+                    </li>
+                <!-- Sales -->
 
             </ul>
         </aside>

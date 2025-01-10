@@ -3,8 +3,8 @@ import { ChicksService } from '../chicks.service';
 import { ChicksAPIResponseModel } from '../model/chicks-response.model';
 import { APIResponse } from '../../../authentication/model/api-response.model';
 import { CommonModule } from '@angular/common';
-import { ChicksModel } from '../model/chicks.model';
-import { FormsModule, NgForm } from '@angular/forms';
+import { ChicksStockModel } from '../model/chicks-stock.model';
+import { Form, FormsModule, NgForm } from '@angular/forms';
 import { Pagination as PaginationService } from '../../../util/pagination.service';
 import { PaginationAPIResponseModel } from '../../../model/pagination-response.model';
 
@@ -35,9 +35,9 @@ export class RecordsComponent implements OnInit{
   isNextEnabled: boolean
   isEndEnabled: boolean
 
-  // modal chick weights list
-  chickWeightsWeeks = Array.from({ length: 24 }, (_, i) => "Week " + (i + 1));
-
+  // average weight week to record 
+  averageChickWeightWeek = 0
+  
   activeChickModel = {
     id: 0,
     males: 0,
@@ -108,8 +108,38 @@ export class RecordsComponent implements OnInit{
   }
 
   // used to set the chicksModel select for editing or deleting
-  onSetActiveChickModel(chicksModel: ChicksModel){
+  onSetActiveChickModel(chicksModel: ChicksStockModel){
     this.activeChickModel = chicksModel
+  }
+
+  onSetUpAverageChickWeightWeek(chicksModel: ChicksStockModel){
+    this.activeChickModel = chicksModel
+
+    if(chicksModel.averageWeight && chicksModel.averageWeight.length < 23)
+      this.averageChickWeightWeek = chicksModel.averageWeight.length + 1
+    else if(chicksModel.averageWeight && chicksModel.averageWeight.length == 23)
+      return
+    else
+      this.averageChickWeightWeek = 1
+  }
+
+  onSaveAverageChickWeightWeek(form: NgForm){
+    if(form.invalid)
+      return
+
+    this.chicksService.postChicksAverageWeight({
+      id: this.activeChickModel.id,
+      males: this.activeChickModel.males,
+      females: this.activeChickModel.females,
+      fatalities: this.activeChickModel.fatalities,
+      batchNumber: this.activeChickModel.batchNumber,
+      averageWeight: [
+        {
+          week: this.averageChickWeightWeek,
+          averageWeight: form.value.averageWeight
+        }
+      ]
+    })
   }
 
   onEdit(form: NgForm){
