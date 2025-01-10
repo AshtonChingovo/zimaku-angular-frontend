@@ -48,13 +48,13 @@
                     <tbody class="table-border-bottom-0">
                       <tr>
                         <td><span>--/--/----</span></td>
-                        <td><span class="ms-5">John Doe</span></td>
+                        <td><span>John Doe</span></td>
                         <td><span>23</span></td>
                         <td><span>$0.50 USD</span></td>
                         <td>
-                          <span class="badge rounded-pill bg-label-primary ms-5">YES</span>
-                          <button type="button" class="btn btn-icon me-2 btn-primary">
-                            <span class="icon-base bx bx-pie-chart-alt"></span>
+                          <span class="badge rounded-pill bg-label-primary me-2">NO</span>
+                          <button type="button" class="btn btn-icon ms-3 btn-secondary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                            <span class="icon-base bx bx-edit-alt"></span>
                           </button>
                         </td>
                         <td><span>--/--/----</span></td>
@@ -88,13 +88,15 @@
 
               <!-- Create Orders -->
               <div class="row">
+
+                <!-- Menu Options -->
                 <div class="col-md-4 mb-5">
                   <div class="card shadow-none bg-transparent border border-secondary ms-5 mt-12 mb-12">
                     <div class="card-body">
                       <h5 class="card-title">Agent / Farmer Orders</h5>
                       <p class="card-text">Create orders for <b>AGENTS</b> or <b>FARMERS</b> & record collection dates & order specifics</p>
                       <div class="text-end">
-                        <a href="javascript:void(0)" class="btn btn-secondary mt-5">Create Order</a>
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(ZIMAKU_CLIENT)">Create Order</a>
                       </div>
                     </div>
                   </div>
@@ -104,7 +106,7 @@
                       <h5 class="card-title">Walk-in Clients Orders</h5>
                       <p class="card-text">Capture orders made by regular & occasional <b>Walk-in</b> clients</p>
                       <div class="text-end">
-                        <a href="javascript:void(0)" class="btn btn-secondary mt-5">Create Order</a>
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(WALKIN_CLIENT)">Create Walk-in Order</a>
                       </div>
                     </div>
                   </div>
@@ -117,28 +119,97 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 mt-12">
-                    <!-- HTML5 Inputs -->
+                @if (orderType == ZIMAKU_CLIENT) {
+                  <!-- Agent/Farmer Orders Form-->
+                  <div class="col-xl-6 mt-12">
                     <div class="mb-6">
-                      <h5 class="">Agent / Farmer Order</h5>
+                      <h5 class="">Agent / Farmer Sales Order</h5>
                       <div>
+                        <div class="input-group mb-4">
+                          <button class="btn btn-outline-primary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#zimakuClientListModal">Agent/Farmer</button>
+                          <input type="text" class="form-control" placeholder="" disabled="true" value="John Doe" aria-describedby="button-addon1">
+                        </div>
                         <div class="mb-4 row">
-                          <label for="html5-text-input" class="col-md-3 col-form-label">Name</label>
+                          <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
                           <div class="col-md-9">
-                            <input class="form-control" type="text" value="sneat" id="html5-text-input" />
+                            <input class="form-control" type="tel" disabled="true" value="0777 432 655" id="html5-tel-input" />
                           </div>
                         </div>
                         <div class="mb-4 row">
-                          <label for="html5-search-input" class="col-md-3 col-form-label">Address</label>
+                          <label for="html5-password-input" class="col-md-3 col-form-label">Total Chicks</label>
                           <div class="col-md-9">
-                            <input class="form-control" type="search" value="Search ..." id="html5-search-input" />
+                            <input class="form-control" type="password" value="password" id="html5-password-input" />
                           </div>
                         </div>
                         <div class="mb-4 row">
-                          <label for="html5-email-input" class="col-md-3 col-form-label">Email</label>
+                          <label for="html5-date-input" class="col-md-3 col-form-label">Collection Date</label>
                           <div class="col-md-9">
-                            <input class="form-control" type="email" value="john@example.com" id="html5-email-input" />
+                            <input class="form-control" type="date" value="2021-06-18" id="html5-date-input" />
                           </div>
+                        </div>
+                        <div class="mb-4 row">
+                          <label for="html5-time-input" class="col-md-3 col-form-label">Payment Made ?</label>
+                          <div class="col-md-9">
+                            <div class="form-check form-check-inline mt-3">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  id="inlineRadio1"
+                                  value="option1" />
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  id="inlineRadio2"
+                                  value="option2" />
+                                <label class="form-check-label" for="inlineRadio2">No</label>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="mb-4 row">
+                          <label for="html5-time-input" class="col-md-3 col-form-label">Order Collected ?</label>
+                          <div class="col-md-9">
+                            <div class="form-check form-check-inline mt-3">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  id="inlineRadio1"
+                                  value="option1" />
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  id="inlineRadio2"
+                                  value="option2" />
+                                <label class="form-check-label" for="inlineRadio2">No</label>
+                              </div>
+                          </div>
+                        </div>
+                        <div class="text-end">
+                            <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Order</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+                @else if (orderType == WALKIN_CLIENT) {
+                  <!-- Walk-in Client Orders Form -->
+                  <div class="col-xl-6 mt-12">
+                    <div class="mb-6">
+                      <h5 class="">Walk-in Client Sales Order</h5>
+                      <div>
+                        <div class="input-group mb-4">
+                          <span class="input-group-text">First and last name</span>
+                          <input type="text" aria-label="First name" class="form-control">
+                          <input type="text" aria-label="Last name" class="form-control">
                         </div>
                         <div class="mb-4 row">
                           <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
@@ -181,20 +252,137 @@
                               </div>
                           </div>
                         </div>
+                        <div class="mb-4 row">
+                          <label for="html5-time-input" class="col-md-3 col-form-label">Order Collected ?</label>
+                          <div class="col-md-9">
+                            <div class="form-check form-check-inline mt-3">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  id="inlineRadio1"
+                                  value="option1" />
+                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                              </div>
+                              <div class="form-check form-check-inline">
+                                <input
+                                  class="form-check-input"
+                                  type="radio"
+                                  name="inlineRadioOptions"
+                                  id="inlineRadio2"
+                                  value="option2" />
+                                <label class="form-check-label" for="inlineRadio2">No</label>
+                              </div>
+                          </div>
+                        </div>
                         <div class="text-end">
                             <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Order</a>
-                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-              </div>
-              
+                }
+                @else{
+                  <div class="col-xl-6 mt-12">
+                    <div class="text-center">
+                      <img
+                        src="../assets/img/illustrations/receipt.png"
+                        height="300"
+                        alt="View Badge User"/>
+                        <h5 class="mt-4">Select Order Type</h5>
+                        <p><span class="mb-4">To get started select an order type to capture</span></p>
+                      <p></p>
+                    </div>
+                  </div>
+                }
 
-            
+                </div>
+              </div>
           </div>
         </div>
       </div>
     </div>
     <div class="content-backdrop fade"></div>
+</div>
+
+<!-- Select Agent/Farmer Modal -->
+<div class="modal fade" id="zimakuClientListModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="zimakuClientModalLabel">Chick Average Weights</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-5">
+        <input class="form-control mb-5" type="search" id="html5-search-input" />
+        <span class="mt-5">* Click on a name to select the Agent/Farmer</span>
+        <div class="list-group mt-5">
+          <a href="#" class="list-group-item list-group-item-action">
+            <span>John Doe</span>
+            <span class="badge rounded-pill bg-label-primary ms-5">FARMER</span>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span>John Doe</span>
+            <span class="badge rounded-pill bg-label-info ms-5">FARMER</span>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span>John Doe</span>
+            <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span>John Doe</span>
+            <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
+          </a>
+          <a href="#" class="list-group-item list-group-item-action">
+            <span>John Doe</span>
+            <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
+          </a>
+        </div>
+        <div class="mt-auto mt-3 d-flex justify-content-end">
+          <button type="button" class="btn btn-secondary btn-sm">Create New Agent/Farmer</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Update Order Collected Status Modal -->
+<div class="modal fade" id="orderCollectionStatusModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderCollectionStatusModalLabel">Order Collected</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-5">
+        <div class="mb-5 row">
+          <label for="html5-time-input" class="col-md-4 col-form-label">Was order collected ?</label>
+          <div class="col-md-8">
+            <div class="form-check form-check-inline mt-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineRadio1"
+                  value="option1" />
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineRadio2"
+                  value="option2" />
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+          </div>
+        </div>
+        <div class="mt-auto mt-5 d-flex justify-content-center">
+          <button type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>

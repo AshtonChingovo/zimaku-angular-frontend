@@ -42,23 +42,35 @@
                         <th>Customer</th>
                         <th>Quantity</th>
                         <th>Price</th>
+                        <th>Collection</th>
                         <th>Collected</th>
-                        <th>Date of Collection</th>
+                        <th>Paid</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
                       <tr>
                         <td><span>--/--/----</span></td>
-                        <td><span>John Doe</span></td>
+                        <td>
+                            <span>John Doe</span>
+                            <button type="button" class="btn btn-icon me-2 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                              <span class="icon-base bx bx-info-circle"></span>
+                            </button>
+                        </td>
                         <td><span>23</span></td>
                         <td><span>$0.50 USD</span></td>
+                        <td><span>--/--/----</span></td>
                         <td>
                           <span class="badge rounded-pill bg-label-primary me-2">NO</span>
-                          <button type="button" class="btn btn-icon ms-3 btn-secondary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
-                            <span class="icon-base bx bx-edit-alt"></span>
+                          <button type="button" class="btn btn-icon ms-3 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                            <span class="icon-base bx bxs-pencil"></span>
                           </button>
                         </td>
-                        <td><span>--/--/----</span></td>
+                        <td>
+                          <span class="badge rounded-pill bg-label-primary me-2">NO</span>
+                          <button type="button" class="btn btn-icon ms-3 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                            <span class="icon-base bx bxs-pencil"></span>
+                          </button>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -107,7 +119,7 @@
                       <h5 class="card-title">Walk-in Clients Orders</h5>
                       <p class="card-text">Capture orders made by regular & occasional <b>Walk-in</b> clients</p>
                       <div class="text-end">
-                        <a href="javascript:void(0)" class="btn btn-secondary mt-5"  (click)="orderTypeSelected(WALKIN_CLIENT)">Create Walkin Client Order</a>
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(WALKIN_CLIENT)">Create Walkin Client Order</a>
                       </div>
                     </div>
                   </div>
@@ -296,6 +308,7 @@
                     </div>
                   </div>
                 }
+
               </div>
 
             </div>

@@ -37,11 +37,11 @@
                   <table class="table">
                     <thead>
                       <tr>
-                        <th>Date Order Created</th>
+                        <th>Date Created</th>
                         <th>Customer</th>
+                        <th>Phone Number</th>
                         <th>Type</th>
-                        <th>Quantity</th>
-                        <th>Date of Collection</th>
+                        <th>Sales Orders</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -81,23 +81,24 @@
 
               <!-- Create Orders -->
               <div class="row">
+                <!-- Menu Options -->
                 <div class="col-md-4 mb-5">
                   <div class="card shadow-none bg-transparent border border-secondary ms-5 mt-12 mb-12">
                     <div class="card-body">
-                      <h5 class="card-title">Agent / Farmer Orders</h5>
-                      <p class="card-text">Create orders for <b>AGENTS</b> or <b>FARMERS</b> & record collection dates & order specifics</p>
+                      <h5 class="card-title">Agent / Farmer Clients</h5>
+                      <p class="card-text">Create new <b>AGENTS</b> or <b>FARMERS</b> that are part of ZIMAKU's clients</p>
                       <div class="text-end">
-                        <a href="javascript:void(0)" class="btn btn-secondary mt-5">Create Order</a>
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(ZIMAKU_CLIENT)">Create Client</a>
                       </div>
                     </div>
                   </div>
                   
                   <div class="card shadow-none bg-transparent border border-secondary ms-5 mt-12 mb-5">
                     <div class="card-body">
-                      <h5 class="card-title">Walk-in Clients Orders</h5>
-                      <p class="card-text">Capture orders made by regular & occasional <b>Walk-in</b> clients</p>
+                      <h5 class="card-title">Walk-in Clients</h5>
+                      <p class="card-text">Create a list of <b>Walk-in</b> that are regular customers of the business </p>
                       <div class="text-end">
-                        <a href="javascript:void(0)" class="btn btn-secondary mt-5">Create Order</a>
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(WALKIN_CLIENT)">Create Walk-in Client</a>
                       </div>
                     </div>
                   </div>
@@ -110,49 +111,38 @@
                     </div>
                 </div>
 
-                <div class="col-xl-6 mt-12">
-                    <!-- HTML5 Inputs -->
+                @if (orderType == ZIMAKU_CLIENT) {
+                  <!-- Agent/Farmer Orders Form-->
+                  <div class="col-xl-6 mt-12">
                     <div class="mb-6">
                       <h5 class="">Agent / Farmer Order</h5>
                       <div>
                         <div class="mb-4 row">
-                          <label for="html5-text-input" class="col-md-3 col-form-label">Name</label>
+                          <label for="html5-tel-input" class="col-md-3 col-form-label">First Name</label>
                           <div class="col-md-9">
-                            <input class="form-control" type="text" value="sneat" id="html5-text-input" />
+                            <input class="form-control" type="tel" placeholder="John" id="html5-tel-input" />
                           </div>
                         </div>
                         <div class="mb-4 row">
-                          <label for="html5-search-input" class="col-md-3 col-form-label">Address</label>
+                          <label for="html5-tel-input" class="col-md-3 col-form-label">Surname</label>
                           <div class="col-md-9">
-                            <input class="form-control" type="search" value="Search ..." id="html5-search-input" />
+                            <input class="form-control" type="tel" placeholder="Doe" id="html5-tel-input" />
                           </div>
                         </div>
                         <div class="mb-4 row">
-                          <label for="html5-email-input" class="col-md-3 col-form-label">Email</label>
+                          <label for="html5-tel-input" class="col-md-3 col-form-label">Address</label>
                           <div class="col-md-9">
-                            <input class="form-control" type="email" value="john@example.com" id="html5-email-input" />
+                            <input class="form-control" type="tel" placeholder="Client Address" id="html5-tel-input" />
                           </div>
                         </div>
                         <div class="mb-4 row">
                           <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
                           <div class="col-md-9">
-                            <input class="form-control" type="tel" value="90-(164)-188-556" id="html5-tel-input" />
+                            <input class="form-control" type="tel" placeholder="0777 432 655" id="html5-tel-input" />
                           </div>
                         </div>
                         <div class="mb-4 row">
-                          <label for="html5-password-input" class="col-md-3 col-form-label">Total Chicks</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="password" value="password" id="html5-password-input" />
-                          </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-date-input" class="col-md-3 col-form-label">Collection Date</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="date" value="2021-06-18" id="html5-date-input" />
-                          </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-time-input" class="col-md-3 col-form-label">Payment Made ?</label>
+                          <label for="html5-time-input" class="col-md-3 col-form-label">Client Type ?</label>
                           <div class="col-md-9">
                             <div class="form-check form-check-inline mt-3">
                                 <input
@@ -161,7 +151,7 @@
                                   name="inlineRadioOptions"
                                   id="inlineRadio1"
                                   value="option1" />
-                                <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                <label class="form-check-label" for="inlineRadio1">Agent</label>
                               </div>
                               <div class="form-check form-check-inline">
                                 <input
@@ -170,21 +160,65 @@
                                   name="inlineRadioOptions"
                                   id="inlineRadio2"
                                   value="option2" />
-                                <label class="form-check-label" for="inlineRadio2">No</label>
+                                <label class="form-check-label" for="inlineRadio2">Farmer</label>
                               </div>
                           </div>
                         </div>
                         <div class="text-end">
-                            <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Order</a>
-                          </div>
+                            <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Client</a>
                         </div>
                       </div>
                     </div>
                   </div>
+                }
+                @else if (orderType == WALKIN_CLIENT) {
+                  <!-- Walk-in Client Orders Form -->
+                  <div class="col-xl-6 mt-12">
+                    <div class="mb-6">
+                      <h5 class="">Walk-in Client Order</h5>
+                      <div>
+                        <div class="mb-4 row">
+                          <label for="html5-tel-input" class="col-md-3 col-form-label">First Name</label>
+                          <div class="col-md-9">
+                            <input class="form-control" type="tel" placeholder="John" id="html5-tel-input" />
+                          </div>
+                        </div>
+                        <div class="mb-4 row">
+                          <label for="html5-tel-input" class="col-md-3 col-form-label">Surname</label>
+                          <div class="col-md-9">
+                            <input class="form-control" type="tel" placeholder="Doe" id="html5-tel-input" />
+                          </div>
+                        </div>
+                        <div class="mb-4 row">
+                          <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
+                          <div class="col-md-9">
+                            <input class="form-control" type="tel" value="90-(164)-188-556" id="html5-tel-input" />
+                          </div>
+                        </div>
+                        <div class="text-end">
+                            <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Client</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                }
+                @else{
+                  <div class="col-xl-6 mt-12">
+                    <div class="text-center">
+                      <img
+                        src="../assets/img/illustrations/clients.png"
+                        height="300"
+                        alt="View Badge User"/>
+                        <h5 class="mt-4">Select Client Type</h5>
+                        <p><span class="mb-4">To get started select an client type to capture</span></p>
+                      <p></p>
+                    </div>
+                  </div>
+                }
+
+                </div>
               </div>
               
-
-            
           </div>
         </div>
       </div>

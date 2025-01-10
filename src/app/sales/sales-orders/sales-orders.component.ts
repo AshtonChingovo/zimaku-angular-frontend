@@ -9,4 +9,16 @@ import { Component } from '@angular/core';
 })
 export class SalesOrdersComponent {
 
+    // order types
+    ZIMAKU_CLIENT = "ZIMAKU_CLIENT";
+    WALKIN_CLIENT = "WALKIN_CLIENT";
+  
+    orderType = '';
+  
+    constructor() {}
+  
+    orderTypeSelected(orderType: string) {
+      this.orderType = orderType;
+    }  
+
 }
