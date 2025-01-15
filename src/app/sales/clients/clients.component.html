@@ -45,12 +45,7 @@
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
-                      <tr *ngFor="let dispatch of dispatchRecords">
-                        <td><span>{{ dispatch.date }}</span></td>
-                        <td><span class="ms-5">{{ dispatch.quantity }}</span></td>
-                        <td><span>{{ dispatch.batchNumber }}</span></td>
-                        <td><span class="badge rounded-pill bg-label-primary ms-5">{{ dispatch.ageOnDispatch }}</span></td>
-                        <td><button type="button" class="btn btn-sm btn-secondary" (click)="onAciiveDispatch(dispatch)" [disabled]="isFetchingData" data-bs-toggle="modal" data-bs-target="#receiveStockModal">Receive Stock</button></td>
+                      <tr>
                       </tr>
                     </tbody>
                   </table>
@@ -88,7 +83,7 @@
                       <h5 class="card-title">Agent / Farmer Clients</h5>
                       <p class="card-text">Create new <b>AGENTS</b> or <b>FARMERS</b> that are part of ZIMAKU's clients</p>
                       <div class="text-end">
-                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(ZIMAKU_CLIENT)">Create Client</a>
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="clientTypeSelected(ZIMAKU_CLIENT)">Create Client</a>
                       </div>
                     </div>
                   </div>
@@ -96,9 +91,9 @@
                   <div class="card shadow-none bg-transparent border border-secondary ms-5 mt-12 mb-5">
                     <div class="card-body">
                       <h5 class="card-title">Walk-in Clients</h5>
-                      <p class="card-text">Create a list of <b>Walk-in</b> that are regular customers of the business </p>
+                      <p class="card-text">Create a list of <b>Walk-in</b> clients that are regular customers of the business </p>
                       <div class="text-end">
-                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(WALKIN_CLIENT)">Create Walk-in Client</a>
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="clientTypeSelected(WALKIN_CLIENT)">Create Walk-in Client</a>
                       </div>
                     </div>
                   </div>
@@ -111,95 +106,151 @@
                     </div>
                 </div>
 
-                @if (orderType == ZIMAKU_CLIENT) {
+                @if (clientType == ZIMAKU_CLIENT) {
                   <!-- Agent/Farmer Orders Form-->
                   <div class="col-xl-6 mt-12">
-                    <div class="mb-6">
-                      <h5 class="">Agent / Farmer Order</h5>
-                      <div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">First Name</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" placeholder="John" id="html5-tel-input" />
+                    <form #saveZimakuClient="ngForm" (onSubmit)="onSubmitZimakuClient(saveZimakuClient)">
+                      <div class="mb-6">
+                        <h5 class="">New Agent / Farmer Client</h5>
+                        <div>
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">First Name</label>
+                            <div class="col-md-9">
+                              <input 
+                              class="form-control" 
+                              type="tel" 
+                              placeholder="John" 
+                              id="html5-tel-input"
+                              ngModel
+                              #firstName="ngModel"
+                              required />
+                              <span class="form-validation-message" *ngIf="firstName.invalid && firstName.touched">Please provide a valid firstName</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">Surname</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" placeholder="Doe" id="html5-tel-input" />
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Surname</label>
+                            <div class="col-md-9">
+                              <input class="form-control" type="tel" placeholder="Doe" id="html5-tel-input" />
+                            </div>
                           </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">Address</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" placeholder="Client Address" id="html5-tel-input" />
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
+                            <div class="col-md-9">
+                              <input 
+                              class="form-control" 
+                              type="tel" 
+                              placeholder="0777 432 655" 
+                              id="html5-tel-input"
+                              ngModel
+                              #phoneNumber="ngModel"
+                              required />
+                              <span class="form-validation-message" *ngIf="phoneNumber.invalid && phoneNumber.touched">Please provide a valid address</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" placeholder="0777 432 655" id="html5-tel-input" />
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Address</label>
+                            <div class="col-md-9">
+                              <input 
+                              class="form-control" 
+                              type="tel" 
+                              placeholder="Client Address" 
+                              id="html5-tel-input"
+                              ngModel
+                              #address="ngModel"
+                              required/>
+                              <span class="form-validation-message" *ngIf="address.invalid && address.touched">Please provide a valid address</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-time-input" class="col-md-3 col-form-label">Client Type ?</label>
-                          <div class="col-md-9">
-                            <div class="form-check form-check-inline mt-3">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="inlineRadioOptions"
-                                  id="inlineRadio1"
-                                  value="option1" />
-                                <label class="form-check-label" for="inlineRadio1">Agent</label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="inlineRadioOptions"
-                                  id="inlineRadio2"
-                                  value="option2" />
-                                <label class="form-check-label" for="inlineRadio2">Farmer</label>
-                              </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Client Type ?</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline mt-3" *ngFor="let clientType of clientTypesList">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="clientType"
+                                    id="agentOption"
+                                    ngModel
+                                    #clientType="ngModel"
+                                    required
+                                    [value]="clientType"/>
+                                  <label class="form-check-label" for="inlineRadio1">{{ clientType }}</label>
+                                </div>
+                            </div>
                           </div>
+                          <div class="text-end">
+                            <button
+                            class="btn btn-primary mt-5" 
+                            type="submit"
+                            [disabled]="!saveZimakuClient.valid">Save Client</button>
+                            <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
                         </div>
-                        <div class="text-end">
-                            <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Client</a>
                         </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 }
-                @else if (orderType == WALKIN_CLIENT) {
+                @else if (clientType == WALKIN_CLIENT) {
                   <!-- Walk-in Client Orders Form -->
                   <div class="col-xl-6 mt-12">
-                    <div class="mb-6">
-                      <h5 class="">Walk-in Client Order</h5>
-                      <div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">First Name</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" placeholder="John" id="html5-tel-input" />
+                    <form #saveWalkInClient = "ngForm" (ngSubmit)="onSubmitWalkInClient(saveWalkInClient)">
+                      <div class="mb-6">
+                        <h5 class="">New Walk-in Client</h5>
+                        <div>
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">First Name</label>
+                            <div class="col-md-9">
+                              <input 
+                              class="form-control" 
+                              placeholder="John"
+                              id="html5-tel-input"
+                              ngModel
+                              name="firstName"
+                              #firstName="ngModel"
+                              required />
+                              <span class="form-validation-message" *ngIf="firstName.invalid && firstName.touched">Please provide a Valid firstName</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">Surname</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" placeholder="Doe" id="html5-tel-input" />
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Surname</label>
+                            <div class="col-md-9">
+                              <input 
+                              class="form-control" 
+                              placeholder="Doe" 
+                              ngModel
+                              name="lastName"
+                              #lastName="ngModel"
+                              id="html5-tel-input" />
+                            </div>
                           </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" value="90-(164)-188-556" id="html5-tel-input" />
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
+                            <div class="col-md-9">
+                              <input 
+                              class="form-control" 
+                              placeholder="0000 000 000" 
+                              ngModel
+                              name="phoneNumber"
+                              #phoneNumber="ngModel"
+                              required
+                              id="html5-tel-input" />
+                              <span class="form-validation-message" *ngIf="phoneNumber.invalid && phoneNumber.touched">Please provide a Valid email</span>
+                            </div>
                           </div>
-                        </div>
-                        <div class="text-end">
-                            <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Client</a>
+                          <div class="text-end">
+                              <button
+                              class="btn btn-primary mt-5" 
+                              type="submit"
+                              [disabled]="!saveWalkInClient.valid" *ngIf="!isLoading">Save Client</button>
+                              <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </form>
                   </div>
                 }
                 @else{

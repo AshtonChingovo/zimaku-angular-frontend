@@ -15,6 +15,9 @@ export class PendingOrdersComponent {
 
   orderType = '';
 
+  // search feature code page 
+  // https://chatgpt.com/share/67867424-73f0-8003-af3f-f8847cf7b5c8
+
   constructor() {}
 
   orderTypeSelected(orderType: string) {

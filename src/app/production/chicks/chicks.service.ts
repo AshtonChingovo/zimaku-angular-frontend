@@ -113,9 +113,6 @@ export class ChicksService{
                 this.postResponseSubject.next(this.response)
             },
             error: (e) => {
-
-                console.log("ERROR sbj - ", e)
-
                 this.postResponseSubject.next(
                     this.response
                 )
@@ -152,9 +149,6 @@ export class ChicksService{
                 this.getResponseSubject.next(this.response)
             },
             error: (e) => {
-
-                console.log("ERROR sbj - ", e)
-
                 this.postResponseSubject.next(
                     this.response
                 )
