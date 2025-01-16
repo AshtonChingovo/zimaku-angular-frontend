@@ -64,14 +64,14 @@ export class EggsRecordsComponent implements OnInit {
         // new records returned from AddEggsComponent POST request should only reload page when on the first page
         if(this.eggsResponseModel.source == "POST" && this.currentPage < 2){
           this.eggsService.getEggs({
-            page: 0,
+            pageNumber: 0,
             pageSize: 10,
             sortBy: "id"
           })
         }   
         else if(this.eggsResponseModel.source == "PUT" || this.eggsResponseModel.source == "DELETE"){
           this.eggsService.getEggs({
-            page: this.eggsResponseModel.currentPage,
+            pageNumber: this.eggsResponseModel.currentPage,
             pageSize: 10,
             sortBy: "id"
           })
@@ -138,7 +138,7 @@ export class EggsRecordsComponent implements OnInit {
     this.isFetchingData = true
 
     this.eggsService.getEggs({
-      page: page,
+      pageNumber: page,
       pageSize: 10,
       sortBy: "id"
     })

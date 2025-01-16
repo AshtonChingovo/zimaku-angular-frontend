@@ -8,6 +8,7 @@ import { APIResponse } from "../../authentication/model/api-response.model";
 import { EggsPageRequestModel } from "./model/eggs-page-request.model";
 import { EggsStockModel } from "./model/eggs-stock.model";
 import { ErrorHandlingService } from "../../util/errror-handling.service";
+import { PageRequestModel } from "../../model/page-request.model";
 
 @Injectable({ providedIn: 'root'})
 export class EggsService{
@@ -18,9 +19,9 @@ export class EggsService{
 
     constructor(private httpClient: HttpClient,  private errorHandlingService: ErrorHandlingService){}
 
-    getEggs(eggsPageModel: EggsPageRequestModel){
+    getEggs(page: PageRequestModel){
         this.httpClient.get(
-            environment.baseUrl + "/eggs?pageNumber=" + eggsPageModel.page + "&pageSize=" + eggsPageModel.pageSize,
+            environment.baseUrl + "/eggs?pageNumber=" + page.pageNumber + "&pageSize=" + page.pageSize,
             { observe: 'response' }
         )
         .pipe(catchError((error) => {
@@ -42,8 +43,8 @@ export class EggsService{
                     // which then returns no content
                     if(eggs.length == 0 && totalElements > 0){
                         // direct pagination to the before that comes before the auto requested one
-                        eggsPageModel.page -= 1
-                        this.getEggs(eggsPageModel)
+                        page.pageNumber -= 1
+                        this.getEggs(page)
                     }
 
                     this.response.data = {

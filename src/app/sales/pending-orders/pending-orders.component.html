@@ -137,79 +137,81 @@
                   <div class="col-xl-6 mt-12">
                     <div class="mb-6">
                       <h5 class="">Agent / Farmer Order</h5>
-                      <div>
-                        <div class="input-group mb-4">
-                          <button class="btn btn-outline-primary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#zimakuClientListModal">Agent/Farmer</button>
-                          <input type="text" class="form-control" placeholder="" disabled="true" value="John Doe" aria-describedby="button-addon1">
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="tel" disabled="true" value="0777 432 655" id="html5-tel-input" />
+                      <form #clientOrder="ngForm" >
+                        <div>
+                          <div class="input-group mb-4">
+                            <button class="btn btn-outline-primary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#zimakuClientListModal">*Click to select Agent/Farmer</button>
+                            <input type="text" class="form-control" placeholder="" disabled="true" value="John Doe" aria-describedby="button-addon1">
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
+                            <div class="col-md-9">
+                              <input class="form-control" type="tel" disabled="true" value="0777 432 655" id="html5-tel-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-password-input" class="col-md-3 col-form-label">Total Chicks</label>
+                            <div class="col-md-9">
+                              <input class="form-control" type="password" value="password" id="html5-password-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-date-input" class="col-md-3 col-form-label">Collection Date</label>
+                            <div class="col-md-9">
+                              <input class="form-control" type="date" value="2021-06-18" id="html5-date-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Payment Made ?</label>
+                            <div class="col-md-9">
+                              <div class="form-check form-check-inline mt-3">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="inlineRadioOptions"
+                                    id="inlineRadio1"
+                                    value="option1" />
+                                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="inlineRadioOptions"
+                                    id="inlineRadio2"
+                                    value="option2" />
+                                  <label class="form-check-label" for="inlineRadio2">No</label>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Order Collected ?</label>
+                            <div class="col-md-9">
+                              <div class="form-check form-check-inline mt-3">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="inlineRadioOptions"
+                                    id="inlineRadio1"
+                                    value="option1" />
+                                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    name="inlineRadioOptions"
+                                    id="inlineRadio2"
+                                    value="option2" />
+                                  <label class="form-check-label" for="inlineRadio2">No</label>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="text-end">
+                              <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Order</a>
                           </div>
                         </div>
-                        <div class="mb-4 row">
-                          <label for="html5-password-input" class="col-md-3 col-form-label">Total Chicks</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="password" value="password" id="html5-password-input" />
-                          </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-date-input" class="col-md-3 col-form-label">Collection Date</label>
-                          <div class="col-md-9">
-                            <input class="form-control" type="date" value="2021-06-18" id="html5-date-input" />
-                          </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-time-input" class="col-md-3 col-form-label">Payment Made ?</label>
-                          <div class="col-md-9">
-                            <div class="form-check form-check-inline mt-3">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="inlineRadioOptions"
-                                  id="inlineRadio1"
-                                  value="option1" />
-                                <label class="form-check-label" for="inlineRadio1">Yes</label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="inlineRadioOptions"
-                                  id="inlineRadio2"
-                                  value="option2" />
-                                <label class="form-check-label" for="inlineRadio2">No</label>
-                              </div>
-                          </div>
-                        </div>
-                        <div class="mb-4 row">
-                          <label for="html5-time-input" class="col-md-3 col-form-label">Order Collected ?</label>
-                          <div class="col-md-9">
-                            <div class="form-check form-check-inline mt-3">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="inlineRadioOptions"
-                                  id="inlineRadio1"
-                                  value="option1" />
-                                <label class="form-check-label" for="inlineRadio1">Yes</label>
-                              </div>
-                              <div class="form-check form-check-inline">
-                                <input
-                                  class="form-check-input"
-                                  type="radio"
-                                  name="inlineRadioOptions"
-                                  id="inlineRadio2"
-                                  value="option2" />
-                                <label class="form-check-label" for="inlineRadio2">No</label>
-                              </div>
-                          </div>
-                        </div>
-                        <div class="text-end">
-                            <a href="javascript:void(0)" class="btn btn-primary mt-5">Save Order</a>
-                        </div>
-                      </div>
+                      </form>
                     </div>
                   </div>
                 }
@@ -217,7 +219,10 @@
                   <!-- Walk-in Client Orders Form -->
                   <div class="col-xl-6 mt-12">
                     <div class="mb-6">
-                      <h5 class="">Walk-in Client Order</h5>
+                      <div class="mb-4 row">
+                        <h5 class="col-md-7">Walk-in Client Order</h5>
+                        <button type="button" class="col-md-5 btn rounded-pill btn-text-secondary btn-sm">*Select existing client</button>
+                      </div>
                       <div>
                         <div class="input-group mb-4">
                           <span class="input-group-text">First and last name</span>
@@ -324,11 +329,11 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="zimakuClientModalLabel">Chick Average Weights</h5>
+        <h5 class="modal-title" id="zimakuClientModalLabel">Clients List</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body mb-5">
-        <input class="form-control mb-5" type="search" id="html5-search-input" />
+        <input class="form-control mb-5" type="search" id="html5-search-input" placeholder="Search client using firstname or lastname" />
         <span class="mt-5">* Click on a name to select the Agent/Farmer</span>
         <div class="list-group mt-5">
           <a href="#" class="list-group-item list-group-item-action">
@@ -352,8 +357,9 @@
             <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
           </a>
         </div>
-        <div class="mt-auto mt-3 d-flex justify-content-end">
-          <button type="button" class="btn btn-secondary btn-sm">Create New Agent/Farmer</button>
+        <hr>
+        <div class="mt-auto mt-3 d-flex justify-content-center">
+          <button type="button" class="btn rounded-pill btn-outline-secondary btn-sm">Create New Agent/Farmer</button>
         </div>
       </div>
     </div>
