@@ -140,13 +140,13 @@
                       <form #clientOrder="ngForm" >
                         <div>
                           <div class="input-group mb-4">
-                            <button class="btn btn-outline-primary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#zimakuClientListModal">*Click to select Agent/Farmer</button>
-                            <input type="text" class="form-control" placeholder="" disabled="true" value="John Doe" aria-describedby="button-addon1">
+                            <button class="btn btn-outline-primary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#zimakuClientListModal" (click)="onClientDialogOpen()">*Click to select Agent/Farmer</button>
+                            <input type="text" class="form-control" [value]=" dialogSelectedZimakuClient ? dialogSelectedZimakuClient.firstName + ' ' + dialogSelectedZimakuClient.lastName : 'John Doe'" disabled="true" placeholder="John Doe" aria-describedby="button-addon1">
                           </div>
                           <div class="mb-4 row">
                             <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
                             <div class="col-md-9">
-                              <input class="form-control" type="tel" disabled="true" value="0777 432 655" id="html5-tel-input" />
+                              <input class="form-control" type="tel" disabled="true" [value]="dialogSelectedZimakuClient ? dialogSelectedZimakuClient.phoneNumber : '0000 000 000'" id="html5-tel-input" />
                             </div>
                           </div>
                           <div class="mb-4 row">
@@ -335,37 +335,26 @@
       <div class="modal-body mb-5">
         <input class="form-control mb-5" type="search" id="html5-search-input" placeholder="Search client using firstname or lastname" />
         <span class="mt-5">* Click on a name to select the Agent/Farmer</span>
-        <div class="list-group mt-5">
+        <div class="list-group mt-5" *ngFor="let client of clientsListDialogModel" (click)="onClientSelected(client)" data-bs-dismiss="modal">
           <a href="#" class="list-group-item list-group-item-action">
-            <span>John Doe</span>
-            <span class="badge rounded-pill bg-label-primary ms-5">FARMER</span>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span>John Doe</span>
-            <span class="badge rounded-pill bg-label-info ms-5">FARMER</span>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span>John Doe</span>
-            <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span>John Doe</span>
-            <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
-          </a>
-          <a href="#" class="list-group-item list-group-item-action">
-            <span>John Doe</span>
-            <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
+            <span>{{ client.firstName }} {{ client.lastName }}</span>
+            @if (client.clientType == ZIMAKU_CLIENT) {
+              <span class="badge rounded-pill bg-label-primary ms-5">FARMER</span>
+            }
+            @else {
+              <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
+            }
           </a>
         </div>
         <hr>
         <div class="mt-auto mt-3 d-flex justify-content-center">
-          <button type="button" class="btn rounded-pill btn-outline-secondary btn-sm">Create New Agent/Farmer</button>
+            <button type="button" class="btn rounded-pill btn-outline-secondary btn-sm">Create New Agent/Farmer</button>
         </div>
+
       </div>
     </div>
   </div>
 </div>
-
 
 <!-- Update Order Collected Status Modal -->
 <div class="modal fade" id="orderCollectionStatusModal" tabindex="-1" aria-hidden="true">

@@ -50,7 +50,7 @@ export class ClientsComponent implements OnInit {
       // get the first page of results
       this.onGetPage(0)
 
-      this.clientService.getResponseSubject.subscribe((response) => {
+      this.clientService.clientsResponseSubject.subscribe((response) => {
         this.apiResponse = response
         this.isLoading = false
 
@@ -142,7 +142,7 @@ export class ClientsComponent implements OnInit {
 
       this.isFetchingData = true
   
-      this.clientService.getClient({
+      this.clientService.getClients({
         pageNumber: page,
         pageSize: 10,
         sortBy: "id"

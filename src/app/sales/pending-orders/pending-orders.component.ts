@@ -9,11 +9,12 @@ import { OrderAPIResponseModel as OrdersAPIResponseModel } from './model/orders-
 import { ClientModel } from '../clients/model/client.model';
 import { ClientsService } from '../clients/clients.service';
 import { ClientAPIResponseModel } from '../clients/model/client-response.model';
+import { ClientsSearchDialogComponent } from './clients-search-dialog/clients-search-dialog.component';
 
 @Component({
   selector: 'app-pending-orders',
   standalone: true,
-  imports: [ FormsModule, CommonModule ],
+  imports: [ ClientsSearchDialogComponent, FormsModule, CommonModule ],
   templateUrl: './pending-orders.component.html',
   styleUrl: './pending-orders.component.css'
 })
@@ -22,10 +23,14 @@ export class PendingOrdersComponent implements OnInit {
   apiResponse: APIResponse
   ordersResponseModel: OrdersAPIResponseModel
   clientsResponseModel: ClientAPIResponseModel
+  // clients list on dialog
+  clientsListDialogModel: ClientModel[]
 
   // order types
   ZIMAKU_CLIENT = "ZIMAKU_CLIENT";
   WALKIN_CLIENT = "WALKIN";
+  ZIMAKU_AGENT = "AGENT";
+  ZIMAKU_FARMER = "FARMER";
   paymentOptions = ["Yes", "No"];
   orderCollectedOptions = ["Yes", "No"];
 
@@ -33,6 +38,7 @@ export class PendingOrdersComponent implements OnInit {
 
   isLoading = false
   isFetchingData = false;
+  isDialogFetchingData = false;
   isEmpty = true;
 
   // pagination
@@ -45,7 +51,8 @@ export class PendingOrdersComponent implements OnInit {
   isNextEnabled: boolean
   isEndEnabled: boolean
 
-  activeZimakuClient: ClientModel
+  activeZimakuClientOnOrdersList: ClientModel
+  dialogSelectedZimakuClient: ClientModel
 
   // search feature code page 
   // https://chatgpt.com/share/67867424-73f0-8003-af3f-f8847cf7b5c8
@@ -53,7 +60,32 @@ export class PendingOrdersComponent implements OnInit {
   constructor(private orderService: OrdersService, private clientsService: ClientsService, private paginationService: PaginationService) {}
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+
+    this.onGetPage(0)
+
+    this.clientsService.clientsResponseSubject.subscribe((response: APIResponse) => {
+
+      this.apiResponse = response.data
+
+      if(response.isSuccessful){
+
+        this.isDialogFetchingData = false
+
+        this.clientsResponseModel = response.data
+
+        // get the pagination == zero list of clients
+        if(this.clientsResponseModel.currentPage == 0){
+          this.clientsListDialogModel = this.clientsResponseModel.clients
+        }
+
+        this.isEmpty = this.clientsResponseModel.numberOfElements == 0
+        this.isFetchingData = false
+        this.setUpPagination()
+      }
+
+      this.isLoading = false
+
+    })
   }
 
   orderTypeSelected(orderType: string) {
@@ -73,7 +105,7 @@ export class PendingOrdersComponent implements OnInit {
       isPaid: form.value.isPaid,
       isOrderCollected: form.value.isOrderCollected,
       comments: form.value.comments,
-      client: this.activeZimakuClient
+      client: this.activeZimakuClientOnOrdersList
     })
   } 
 
@@ -97,6 +129,21 @@ export class PendingOrdersComponent implements OnInit {
         clientType: this.WALKIN_CLIENT
       }
     })
+  }
+
+  onClientDialogOpen(){
+
+    this.isDialogFetchingData = true
+
+    this.clientsService.getClients({
+      pageNumber: 0,
+      pageSize: 10,
+      sortBy: "id"
+    })
+  }
+
+  onClientSelected(client: ClientModel){
+    this.dialogSelectedZimakuClient = client
   }
 
   setUpPagination(){
