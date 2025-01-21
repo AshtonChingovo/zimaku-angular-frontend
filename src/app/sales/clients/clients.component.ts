@@ -50,7 +50,7 @@ export class ClientsComponent implements OnInit {
       // get the first page of results
       this.onGetPage(0)
 
-      this.clientService.clientsResponseSubject.subscribe((response) => {
+      this.clientService.ordersComponentClientsListSubject.subscribe((response) => {
         this.apiResponse = response
         this.isLoading = false
 

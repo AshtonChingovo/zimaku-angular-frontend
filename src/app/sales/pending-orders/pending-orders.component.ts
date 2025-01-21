@@ -14,7 +14,7 @@ import { ClientsSearchDialogComponent } from './clients-search-dialog/clients-se
 @Component({
   selector: 'app-pending-orders',
   standalone: true,
-  imports: [ ClientsSearchDialogComponent, FormsModule, CommonModule ],
+  imports: [ FormsModule, CommonModule ],
   templateUrl: './pending-orders.component.html',
   styleUrl: './pending-orders.component.css'
 })
@@ -22,7 +22,7 @@ export class PendingOrdersComponent implements OnInit {
 
   apiResponse: APIResponse
   ordersResponseModel: OrdersAPIResponseModel
-  clientsResponseModel: ClientAPIResponseModel
+  clientsListResponseModel: ClientAPIResponseModel
   // clients list on dialog
   clientsListDialogModel: ClientModel[]
 
@@ -52,7 +52,8 @@ export class PendingOrdersComponent implements OnInit {
   isEndEnabled: boolean
 
   activeZimakuClientOnOrdersList: ClientModel
-  dialogSelectedZimakuClient: ClientModel
+  // holds the selected client from the dialog
+  zimakuClientSelectedFromDialog: ClientModel
 
   // search feature code page 
   // https://chatgpt.com/share/67867424-73f0-8003-af3f-f8847cf7b5c8
@@ -61,30 +62,50 @@ export class PendingOrdersComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // get the first page of orders
     this.onGetPage(0)
 
-    this.clientsService.clientsResponseSubject.subscribe((response: APIResponse) => {
+    // orders list accessed by the component
+    this.orderService.ordersListSubject.subscribe((response: APIResponse) => { 
 
-      this.apiResponse = response.data
+      this.apiResponse = response
+      this.isLoading = false
+      this.isFetchingData = false
+
+      if(response.isSuccessful){
+
+        this.ordersResponseModel = response.data
+
+        this.isEmpty = this.ordersResponseModel.numberOfElements == 0
+
+        this.setUpPagination()
+
+      }
+
+    })
+
+    // clients list accessed by the dialog
+    this.clientsService.ordersComponentClientsListSubject.subscribe((response: APIResponse) => {
+
+      // this.apiResponse = response.data
 
       if(response.isSuccessful){
 
         this.isDialogFetchingData = false
 
-        this.clientsResponseModel = response.data
+        this.clientsListResponseModel = response.data
 
         // get the pagination == zero list of clients
-        if(this.clientsResponseModel.currentPage == 0){
-          this.clientsListDialogModel = this.clientsResponseModel.clients
+        if(this.clientsListResponseModel.currentPage == 0){
+          this.clientsListDialogModel = this.clientsListResponseModel.clients
         }
 
-        this.isEmpty = this.clientsResponseModel.numberOfElements == 0
-        this.isFetchingData = false
-        this.setUpPagination()
+        this.isEmpty = this.clientsListResponseModel.numberOfElements == 0
       }
+    })
 
+    this.orderService.postResponseSubject.subscribe((response: APIResponse) => {
       this.isLoading = false
-
     })
   }
 
@@ -102,10 +123,10 @@ export class PendingOrdersComponent implements OnInit {
     this.orderService.postOrder({ 
       quantity: form.value.quantity,
       collectionDate: form.value.collectionDate,
-      isPaid: form.value.isPaid,
-      isOrderCollected: form.value.isOrderCollected,
+      isPaid: form.value.isPaymentMade == "Yes" ? true : false,
+      isOrderCollected: form.value.isOrderCollected == "Yes" ? true : false,
       comments: form.value.comments,
-      client: this.activeZimakuClientOnOrdersList
+      client: this.zimakuClientSelectedFromDialog
     })
   } 
 
@@ -119,8 +140,8 @@ export class PendingOrdersComponent implements OnInit {
     this.orderService.postOrder({ 
       quantity: form.value.quantity,
       collectionDate: form.value.collectionDate,
-      isPaid: form.value.isPaid,
-      isOrderCollected: form.value.isOrderCollected,
+      isPaid: form.value.isPaymentMade == "Yes" ? true : false,
+      isOrderCollected: form.value.isOrderCollected == "Yes" ? true : false,
       comments: form.value.comments,
       client: {
         firstName: form.value.name,
@@ -131,7 +152,7 @@ export class PendingOrdersComponent implements OnInit {
     })
   }
 
-  onClientDialogOpen(){
+  onClientListDialogOpen(){
 
     this.isDialogFetchingData = true
 
@@ -139,11 +160,11 @@ export class PendingOrdersComponent implements OnInit {
       pageNumber: 0,
       pageSize: 10,
       sortBy: "id"
-    })
+    }, "ORDERS_COMPONENT")
   }
 
   onClientSelected(client: ClientModel){
-    this.dialogSelectedZimakuClient = client
+    this.zimakuClientSelectedFromDialog = client
   }
 
   setUpPagination(){
@@ -175,6 +196,7 @@ export class PendingOrdersComponent implements OnInit {
       pageSize: 10,
       sortBy: "id"
     })
+
   }
 
   onGetPreviousPage(){
