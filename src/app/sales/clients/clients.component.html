@@ -44,7 +44,7 @@
                         <th>Sales Orders</th>
                       </tr>
                     </thead>
-                    <tbody class="table-border-bottom-0" *ngIf="clientsResponseModel">
+                    <tbody class="table-border-bottom-0" *ngIf="!isEmpty ">
                       <tr *ngFor="let client of clientsResponseModel.clients">
                         <td><span>{{ client.date }}</span></td>
                         <td><span>{{ client.firstName  }} {{ client.lastName }}</span></td>
@@ -52,6 +52,7 @@
                         <td>
                           <span class="badge rounded-pill bg-label-primary" *ngIf="client.clientType == ZIMAKU_FARMER">{{ client.clientType }}</span>
                           <span class="badge rounded-pill bg-label-info" *ngIf="client.clientType == ZIMAKU_AGENT">{{ client.clientType }}</span>
+                          <span class="badge rounded-pill bg-label-warning" *ngIf="client.clientType == WALKIN_CLIENT">{{ client.clientType }}</span>
                         </td>
                         <td><span>54</span></td>
                       </tr>

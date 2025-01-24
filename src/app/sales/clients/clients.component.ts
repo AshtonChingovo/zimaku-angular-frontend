@@ -50,7 +50,8 @@ export class ClientsComponent implements OnInit {
       // get the first page of results
       this.onGetPage(0)
 
-      this.clientService.ordersComponentClientsListSubject.subscribe((response) => {
+      this.clientService.getResponseOrdersSubject.subscribe((response) => {
+
         this.apiResponse = response
         this.isLoading = false
 
@@ -113,6 +114,7 @@ export class ClientsComponent implements OnInit {
 
       this.clientService.postClient({ 
         firstName: form.value.firstName,
+        lastName: form.value.lastName,
         phoneNumber: form.value.phoneNumber,
         clientType: this.WALKIN_CLIENT  
       })
