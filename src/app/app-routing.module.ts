@@ -9,7 +9,7 @@ import { RegisterComponent } from "./authentication/register/register.component"
 import { AuthGuard } from "./authentication/auth.guard";
 import { DashboardComponent } from "./home/dashboard/dashboard.component";
 import { HatcheryComponent } from "./hatchery/hatchery.component";
-import { PendingOrdersComponent } from "./sales/pending-orders/pending-orders.component";
+import { PendingOrdersComponent as OrdersComponent } from "./sales/orders/orders.component";
 import { SalesOrdersComponent } from "./sales/sales-orders/sales-orders.component";
 import { ClientsComponent } from "./sales/clients/clients.component";
 
@@ -23,7 +23,7 @@ const routes: Routes = [
             { path: 'eggs', component: EggsComponent},
             { path: 'dispatch', component: DispatchComponent},
             { path: 'hatchery', component: HatcheryComponent},
-            { path: 'pending-orders', component: PendingOrdersComponent},
+            { path: 'orders', component: OrdersComponent},
             { path: 'sales-orders', component: SalesOrdersComponent},
             { path: 'clients', component: ClientsComponent},
 
