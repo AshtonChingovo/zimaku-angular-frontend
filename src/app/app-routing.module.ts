@@ -11,6 +11,7 @@ import { DashboardComponent } from "./home/dashboard/dashboard.component";
 import { HatcheryComponent } from "./hatchery/hatchery.component";
 import { PendingOrdersComponent as OrdersComponent } from "./sales/orders/orders.component";
 import { ClientsComponent } from "./sales/clients/clients.component";
+import { UsersComponent } from "./admin/users/users.component";
 
 const routes: Routes = [
     { 
@@ -24,7 +25,7 @@ const routes: Routes = [
             { path: 'hatchery', component: HatcheryComponent},
             { path: 'orders', component: OrdersComponent},
             { path: 'clients', component: ClientsComponent},
-
+            { path: 'users', component: UsersComponent},
         ]
         },
         { path: 'login', component: LoginComponent},
