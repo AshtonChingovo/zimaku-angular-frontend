@@ -11,7 +11,10 @@ import { DashboardComponent } from "./home/dashboard/dashboard.component";
 import { HatcheryComponent } from "./hatchery/hatchery.component";
 import { PendingOrdersComponent as OrdersComponent } from "./sales/orders/orders.component";
 import { ClientsComponent } from "./sales/clients/clients.component";
-import { UsersComponent } from "./admin/users/users.component";
+import { UsersComponent } from "./users/users.component";
+import { ListAndCreateUsersComponent } from "./users/list/list.component";
+import { UpdateAccountDetailsComponent } from "./users/update-account-details/update-account-details.component";
+import { MyAccountDetailsComponent } from "./users/my-account-details/my-account-details.component";
 
 const routes: Routes = [
     { 
@@ -25,9 +28,14 @@ const routes: Routes = [
             { path: 'hatchery', component: HatcheryComponent},
             { path: 'orders', component: OrdersComponent},
             { path: 'clients', component: ClientsComponent},
-            { path: 'users', component: UsersComponent},
-        ]
-        },
+            { path: 'users', component: ListAndCreateUsersComponent,
+              children: [
+                { path: 'update', component: UpdateAccountDetailsComponent},
+                
+              ]
+            },
+            { path: 'account', component: MyAccountDetailsComponent},
+        ] },
         { path: 'login', component: LoginComponent},
         { path: 'register', component: RegisterComponent},
 ]
