@@ -31,7 +31,6 @@ const routes: Routes = [
             { path: 'users', component: ListAndCreateUsersComponent,
               children: [
                 { path: 'update', component: UpdateAccountDetailsComponent},
-                
               ]
             },
             { path: 'account', component: MyAccountDetailsComponent},
