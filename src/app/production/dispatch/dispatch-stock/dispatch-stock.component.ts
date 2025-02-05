@@ -59,7 +59,6 @@ export class DispatchStockComponent implements OnInit {
         }
 
         this.isEmpty = this.eggsResponseModel.numberOfElements == 0
-        
         this.setUpPagination()
 
       }

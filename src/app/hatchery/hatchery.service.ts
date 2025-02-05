@@ -157,5 +157,4 @@ export class HatcheryService{
             }
         })
     }
-
 }

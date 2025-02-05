@@ -93,7 +93,7 @@ export class HatcheryComponent {
        })
   }
 
-  onAciiveDispatch(dispatchModel: DispatchModel){
+  onActiveDispatch(dispatchModel: DispatchModel){
     this.activeDispatchModel = dispatchModel
   }
 

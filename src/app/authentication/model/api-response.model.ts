@@ -3,4 +3,6 @@ export class APIResponse{
     errorMessage: string
     errorsList: string[] = []
     data: any
+    // POST, GET, PUT, DELETE
+    requestType?: string
 }
