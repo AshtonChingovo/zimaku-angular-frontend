@@ -1,0 +1,25 @@
+<h5>Users List</h5>
+<div class="table-responsive text-nowrap">
+    <table class="table table-hover">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Username</th>
+            <th>Contact</th>
+            <th>Department</th>
+            <th>Status</th>
+            <th>User Type</th>
+        </tr>
+    </thead>
+    <tbody class="table-border-bottom-0">
+        <tr (click)="onUpdateUser(user.id)" *ngFor="let user of usersList">
+            <td><span>{{ user.firstName }} {{ user.lastName}}</span></td>
+            <td><span>{{ user.email }}</span></td>
+            <td><span>{{ user.phoneNumber }}</span></td>
+            <td>{{ user.department }}</td>
+            <td><span class="badge bg-label-primary me-1"><strong>{{ user.active }}</strong></span></td>
+            <td>{{ getRoles(user) }}</td>
+        </tr>
+    </tbody>
+    </table>
+</div>

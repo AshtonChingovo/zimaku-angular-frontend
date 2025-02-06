@@ -1,0 +1,46 @@
+<!-- <div class="content-wrapper">
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <div class="row">
+        <div class="col-xxl-8 mb-6 order-0">
+          
+        </div>
+        <div class="col-lg-4 col-md-4 order-1">
+          
+        </div>
+      </div>
+    </div>
+    <div class="content-backdrop fade"></div>
+</div> -->
+
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <div class="row">
+        <h6 class="text-muted">Admin / Users List</h6>
+        <div class="nav-align-top mt-5">
+          <ul class="nav nav-pills mb-4" role="tablist">
+            <li class="nav-item">
+              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-users" aria-controls="navs-pills-top-pending-orders" aria-selected="true">Users</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-create-user" aria-controls="navs-pills-top-sales-orders" aria-selected="false">Create User</button>
+            </li>
+          </ul>
+          <div class="tab-content">
+            
+            <!-- Users List Tab -->
+            <div class="tab-pane fade show active" id="navs-pills-top-users" role="tabpanel">
+                <app-users-list></app-users-list>
+            </div>
+
+            <!-- Create User Tab -->
+            <div class="tab-pane fade" id="navs-pills-top-create-user" role="tabpanel">
+                <app-create-user></app-create-user>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content-backdrop fade"></div>
+</div>

@@ -1,0 +1,93 @@
+<h5 class="mb-0">New User</h5>
+<div class="card-body pt-4">
+    <form id="formAccountSettings" #createUser="ngForm" (ngSubmit)="onSubmit(createUser)">
+      <div class="row g-6">
+        <div class="col-md-6">
+          <label for="firstName" class="form-label">First Name</label>
+          <input
+            class="form-control"
+            ngModel
+            type="text"
+            id="firstName"
+            name="firstName"
+            placeholder="John"
+            autofocus />
+        </div>
+        <div class="col-md-6">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input 
+            class="form-control" 
+            type="text" 
+            ngModel
+            name="lastName"
+            id="lastName" 
+            placeholder="Doe" />
+        </div>
+        <div class="col-md-6">
+          <label for="email" class="form-label">E-mail</label>
+          <input
+            class="form-control"
+            type="text"
+            ngModel
+            id="email"
+            name="email"
+            placeholder="john.doe@example.com" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="phoneNumber">Phone Number</label>
+          <div class="input-group input-group-merge">
+            <span class="input-group-text">ZW (+263)</span>
+            <input
+              type="text"
+              id="phoneNumber"
+              ngModel
+              name="phoneNumber"
+              class="form-control"
+              placeholder="0000 000 000" />
+          </div>
+        </div>
+        <div class="col-md-6">
+          <label for="address" class="form-label">Address</label>
+          <input 
+            type="text" 
+            class="form-control" 
+            id="address" 
+            ngModel
+            name="address" 
+            placeholder="Address" />
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="country">User Type</label>
+          <select 
+              id="country" 
+              class="select2 form-select"
+              ngModel
+              name="userType"
+              required>
+            <option value="USER">User</option>
+            <option value="ADMIN">Admin</option>
+          </select>
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="country">Department</label>
+          <select 
+              id="country" 
+              class="select2 form-select"
+              ngModel
+              name="department"
+              required>
+            <option value="Production">Production</option>
+            <option value="Hatchery">Hatchery</option>
+            <option value="Sales">Sales</option>
+            <option value="Management">Management</option>
+            <option value="Admin">Admin</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-6 text-end">
+        <button type="submit" class="btn btn-primary me-3">Save changes</button>
+      </div>
+    </form>
+</div>
+
+

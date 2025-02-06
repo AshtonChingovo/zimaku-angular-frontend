@@ -1,0 +1,571 @@
+<div class="content-wrapper">
+    <!-- Content -->
+    <div class="container-xxl flex-grow-1 container-p-y">
+      <div class="row">
+        <h6 class="text-muted">Sales / Pending Orders</h6>
+        <div class="nav-align-top mt-5">
+          <ul class="nav nav-pills mb-4" role="tablist">
+            <li class="nav-item">
+              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-pending-orders" aria-controls="navs-pills-top-pending-orders" aria-selected="true">Pending Orders</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" (click)="onSalesOrdersTabSelected()" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-sales-orders" aria-controls="navs-pills-top-sales-orders" aria-selected="false">Sales Orders</button>
+            </li>
+            <li class="nav-item">
+              <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-create-orders" aria-controls="navs-pills-create-orders" aria-selected="false">Create Orders</button>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <!-- Pending Orders Tab -->
+            <div class="tab-pane fade show active" id="navs-pills-top-pending-orders" role="tabpanel">
+              <div>
+                <h5>Pending Orders</h5>
+                <div class="alert alert-danger" style="max-width: 400px; margin-left: 24px;" role="alert" *ngIf="pendingOrdersAPIResponse && !pendingOrdersAPIResponse.isSuccessful">
+                  <span>{{ apiResponse.errorMessage }}</span>
+                  <span *ngFor="let errorMessage of apiResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+                </div>
+                <div class="d-flex justify-content-center align-items-center" *ngIf="pendingOrdersAPIResponse && pendingOrdersAPIResponse.isSuccessful && isEmpty">
+                  <div class="text-center">
+                    <img
+                      src="../assets/img/illustrations/empty.png"
+                      height="300"
+                      alt="View Badge User"/>
+                    <h5>No Content Found</h5>
+                    <p><span class="mb-4">We could not find any information to show on this page</span></p>
+                    <p></p>
+                  </div>
+                </div>
+
+                <!-- <div class="table-responsive text-nowrap" *ngIf="!isFetchingData && !isEmpty"> -->
+                <div class="table-responsive text-nowrap" *ngIf="!isEmpty">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Order Date</th>
+                        <th>Customer</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Collection</th>
+                        <th>Collected</th>
+                        <th>Paid</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-border-bottom-0" *ngIf="pendingOrdersResponseModel">
+                      <tr *ngFor="let order of pendingOrdersResponseModel.orders">
+                        <td><span>{{ order.date }}</span></td>
+                        <td>
+                            <span>{{ order.client.firstName }} {{ order.client.lastName }}</span>
+                            <button type="button" class="btn btn-icon me-2 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                              <span class="icon-base bx bx-info-circle"></span>
+                            </button>
+                        </td>
+                        <td><span>{{ order.quantity }}</span></td>
+                        <td><span>{{ order.price.unitPrice}} <strong class="text-warning">{{ order.price.currency }}</strong></span></td>
+                        <td><span>{{ order.collectionDate }}</span></td>
+                        <td>
+                          <span class="badge rounded-pill bg-label-primary me-2">NO</span>
+                          <button type="button" class="btn btn-icon ms-3 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                            <span class="icon-base bx bxs-pencil"></span>
+                          </button>
+                        </td>
+                        <td>
+                          <span class="badge rounded-pill bg-label-primary me-2">{{ order.isPaid }}</span>
+                          <button type="button" class="btn btn-icon ms-3 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                            <span class="icon-base bx bxs-pencil"></span>
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isFetchingData && !isEmpty">
+                    <ul class="pagination justify-content-end">
+                      <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
+                        <a class="page-link"><i class="bx bx-chevrons-left bx-sm"></i></a>
+                      </li>
+                      <li class="page-item prev" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
+                        <a class="page-link"><i class="bx bx-chevron-left bx-sm"></i></a>
+                      </li>
+                      <!-- API indexing starts at zero -->
+                      <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+                        <a class="page-link"> {{ page }} </a>
+                      </li>
+                      <li class="page-item next" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
+                        <a class="page-link"><i class="bx bx-chevron-right bx-sm"></i></a>
+                      </li>
+                      <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
+                        <a class="page-link"><i class="bx bx-chevrons-right bx-sm"></i></a>
+                      </li>
+                    </ul>
+                  </nav>
+                </div>
+              </div>
+            </div>
+
+
+            <!-- Sales Orders Tab -->
+            <div class="tab-pane fade" id="navs-pills-top-sales-orders" role="tabpanel">
+              <div>
+               <h5 class="card-header">Sales</h5>
+               <div class="alert alert-danger" style="max-width: 400px; margin-left: 24px;" role="alert" *ngIf="salesOrdersAPIResponse && !salesOrdersAPIResponse.isSuccessful">
+                 <span>{{ apiResponse.errorMessage }}</span>
+                 <span *ngFor="let errorMessage of apiResponse.errorsList"><br> {{ "• " + errorMessage }}<br></span>
+               </div>
+               <div class="d-flex justify-content-center align-items-center" *ngIf="salesOrdersAPIResponse && salesOrdersAPIResponse.isSuccessful && isEmpty">
+                 <div class="text-center">
+                   <img
+                     src="../assets/img/illustrations/empty.png"
+                     height="300"
+                     alt="View Badge User"/>
+                   <h5>No Content Found</h5>
+                   <p><span class="mb-4">We could not find any information to show on this page</span></p>
+                   <p></p>
+                 </div>
+               </div>
+               <div class="table-responsive text-nowrap" *ngIf="!isEmpty">
+                 <table class="table" *ngIf="salesOrdersResponseModel">
+                   <thead>
+                     <tr>
+                       <th>Order Date</th>
+                       <th>Customer</th>
+                       <th>Quantity</th>
+                       <th>Price</th>
+                       <th>Collection</th>
+                       <th>Collected</th>
+                       <th>Paid</th>
+                     </tr>
+                   </thead>
+                   <tbody class="table-border-bottom-0" >
+                     <tr *ngFor="let order of salesOrdersResponseModel.orders">
+                       <td><span>{{ order.date }}</span></td>
+                        <td>
+                            <span>{{ order.client.firstName }} {{ order.client.lastName }}</span>
+                            <button type="button" class="btn btn-icon me-2 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                              <span class="icon-base bx bx-info-circle"></span>
+                            </button>
+                        </td>
+                        <td><span>{{ order.quantity }}</span></td>
+                        <td><span>{{ order.price.unitPrice}} <strong class="text-warning">{{ order.price.currency }}</strong></span></td>
+                        <td><span>{{ order.collectionDate }}</span></td>
+                        <td>
+                          <span class="badge rounded-pill bg-label-primary me-2">NO</span>
+                          <button type="button" class="btn btn-icon ms-3 btn-secondary btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                            <span class="icon-base bx bxs-pencil"></span>
+                          </button>
+                        </td>
+                        <td>
+                          <span class="badge rounded-pill bg-label-primary me-2">{{ order.isPaid }}</span>
+                          <button type="button" class="btn btn-icon ms-3 btn-sm rounded-pill" data-bs-toggle="modal" data-bs-target="#orderCollectionStatusModal">
+                            <span class="icon-base bx bxs-pencil"></span>
+                          </button>
+                        </td>
+                     </tr>
+                   </tbody>
+                 </table>
+                 <nav aria-label="Page navigation" class="mt-5 me-5 p-4" *ngIf="!isFetchingData && !isEmpty">
+                   <ul class="pagination justify-content-end">
+                     <li class="page-item first" [ngClass]="{disabled: !isStartEnabled}" (click)="onGetStartPage()">
+                       <a class="page-link"><i class="bx bx-chevrons-left bx-sm"></i></a>
+                     </li>
+                     <li class="page-item prev" [ngClass]="{disabled: !isPrevEnabled}" (click)="onGetPreviousPage()">
+                       <a class="page-link"><i class="bx bx-chevron-left bx-sm"></i></a>
+                     </li>
+                     <!-- API indexing starts at zero -->
+                     <li class="page-item" [ngClass]="{active: page == currentPage }" *ngFor="let page of pages" (click)="onGetPage(page - 1)">
+                       <a class="page-link"> {{ page }} </a>
+                     </li>
+                     <li class="page-item next" [ngClass]="{disabled: !isNextEnabled}" (click)="onGetNextPage()">
+                       <a class="page-link"><i class="bx bx-chevron-right bx-sm"></i></a>
+                     </li>
+                     <li class="page-item last" [ngClass]="{disabled: !isEndEnabled}" (click)="onGetEndPage()">
+                       <a class="page-link"><i class="bx bx-chevrons-right bx-sm"></i></a>
+                     </li>
+                   </ul>
+                 </nav>
+               </div>
+              </div>
+            </div>
+            
+            <div class="tab-pane fade" id="navs-pills-create-orders" role="tabpanel">
+              <div class="row">
+
+                <!-- Cards Menu -->
+                <div class="col-md-4 mb-5">
+                  <div class="card shadow-none bg-transparent border border-secondary ms-5 mt-12 mb-12">
+                    <div class="card-body">
+                      <h5 class="card-title">Agent / Farmer Orders</h5>
+                      <p class="card-text">Create orders for <b>AGENTS</b> or <b>FARMERS</b> & record collection dates & order specifics</p>
+                      <div class="text-end">
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(ZIMAKU_CLIENT)">Create Agent/Farmer Order</a>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div class="card shadow-none bg-transparent border border-secondary ms-5 mt-12 mb-5">
+                    <div class="card-body">
+                      <h5 class="card-title">Walk-in Clients Orders</h5>
+                      <p class="card-text">Capture orders made by regular & occasional <b>Walk-in</b> clients</p>
+                      <div class="text-end">
+                        <a href="javascript:void(0)" class="btn btn-secondary mt-5" (click)="orderTypeSelected(WALKIN_CLIENT)">Create Walkin Client Order</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              
+                <!-- Vertical Line -->
+                <div class="col-md-1 mt-12 mb-12">
+                    <div class="d-flex align-items-start" style="height: 100%;">
+                    <span class="border-start border-2" style="height: calc(100% + 16px); margin-left: 20px;"></span>
+                    </div>
+                </div>
+
+                @if (orderType == ZIMAKU_CLIENT) {
+                  <!-- Agent/Farmer Orders Form-->
+                  <div class="col-xl-6 mt-12">
+                    <div class="mb-6">
+                      <h5 class="">Agent / Farmer Order</h5>
+                      <form #clientOrder="ngForm" (ngSubmit)="onSubmitZimakuClientOrder(clientOrder)">
+                        <div>
+                          <div class="input-group mb-4">
+                            <button class="btn btn-outline-primary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#zimakuClientListModal" (click)="onClientListDialogOpen()">*Click to select Agent/Farmer</button>
+                            <input type="text" class="form-control" [value]=" zimakuClientSelectedFromDialog ? zimakuClientSelectedFromDialog.firstName + ' ' + zimakuClientSelectedFromDialog.lastName : 'John Doe'" disabled="true" placeholder="John Doe" aria-describedby="button-addon1">
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
+                            <div class="col-md-9">
+                              <input class="form-control" type="tel" disabled="true" [value]="zimakuClientSelectedFromDialog ? zimakuClientSelectedFromDialog.phoneNumber : '0000 000 000'" id="html5-tel-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-number-input" class="col-md-3 col-form-label">Total Chicks</label>
+                            <div class="col-md-9">
+                              <input class="form-control" 
+                              ngModel
+                              required
+                              name="quantity"
+                              type="number" 
+                              placeholder="00" 
+                              id="html5-password-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-date-input" class="col-md-3 col-form-label">Collection Date</label>
+                            <div class="col-md-9">
+                              <input class="form-control" 
+                              ngModel
+                              required
+                              name="collectionDate"
+                              type="date" 
+                              placeholder="dd/mm/yyyy"
+                              id="html5-date-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Payment Made ?</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline mt-3">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isPaymentMade"
+                                    id="isPaymentMade"
+                                    value="Yes" />
+                                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isPaymentMade"
+                                    id="inlineRadio2"
+                                    value="No" />
+                                  <label class="form-check-label" for="inlineRadio2">No</label>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Order Collected ?</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline mt-3">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isOrderCollected"
+                                    id="isPaymentMade"
+                                    value="Yes" />
+                                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isOrderCollected"
+                                    id="inlineRadio2"
+                                    value="No" />
+                                  <label class="form-check-label" for="inlineRadio2">No</label>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Comments</label>
+                            <div class="col-md-9">
+                              <textarea class="form-control" 
+                              ngModel
+                              required
+                              name="comments"
+                              id="comments" 
+                              rows="3"></textarea>
+                            </div>
+                          </div>
+                          <div class="text-end">
+                            <button
+                            class="btn btn-primary mt-5" 
+                            type="submit"
+                            [disabled]="!clientOrder.valid" *ngIf="!isLoading">Save Client</button>
+                            <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                }
+                @else if (orderType == WALKIN_CLIENT) {
+                  <!-- Walk-in Client Orders Form -->
+                  <div class="col-xl-6 mt-12">
+                    <div class="mb-6">
+                      <div class="mb-4 row">
+                        <h5 class="col-md-7">Walk-in Client Order</h5>
+                        <button type="button" class="col-md-5 btn rounded-pill btn-text-secondary btn-sm">*Select existing client</button>
+                      </div>
+                      <form #walkInOrder="ngForm" (ngSubmit)="onSubmitWalkInClientOrder(walkInOrder)">
+                        <div>
+                          <div class="input-group mb-4">
+                            <span class="input-group-text">First and last name</span>
+                            <input 
+                              ngModel
+                              required
+                              name="firstName"
+                              type="text"
+                              placeholder="First name"
+                              aria-label="First name" 
+                              class="form-control">
+                            <input 
+                              ngModel
+                              required
+                              name="lastName"
+                              type="text" 
+                              placeholder="Last name"
+                              aria-label="Last name" 
+                              class="form-control">
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-tel-input" class="col-md-3 col-form-label">Phone</label>
+                            <div class="col-md-9">
+                              <input 
+                              ngModel
+                              required
+                              name="phoneNumber"
+                              class="form-control"
+                              type="tel" 
+                              placeholder="0000 000 000" 
+                              id="html5-tel-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-password-input" class="col-md-3 col-form-label">Total Chicks</label>
+                            <div class="col-md-9">
+                              <input 
+                              ngModel
+                              required
+                              name="quantity"
+                              class="form-control"
+                              type="number"
+                              placeholder="00"
+                              id="html5-password-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-date-input" class="col-md-3 col-form-label">Collection Date</label>
+                            <div class="col-md-9">
+                              <input
+                              ngModel
+                              required
+                              name="collectionDate"
+                              class="form-control" 
+                              type="date" value="2021-06-18" id="html5-date-input" />
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Payment Made ?</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline mt-3">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isPaymentMade"
+                                    id="isPaymentMade"
+                                    value="Yes" />
+                                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isPaymentMade"
+                                    id="inlineRadio2"
+                                    value="No" />
+                                  <label class="form-check-label" for="inlineRadio2">No</label>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="mb-4 row">
+                            <label for="html5-time-input" class="col-md-3 col-form-label">Order Collected ?</label>
+                            <div class="col-md-9">
+                                <div class="form-check form-check-inline mt-3">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isOrderCollected"
+                                    id="isPaymentMade"
+                                    value="Yes" />
+                                  <label class="form-check-label" for="inlineRadio1">Yes</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                  <input
+                                    class="form-check-input"
+                                    type="radio"
+                                    ngModel
+                                    required
+                                    name="isOrderCollected"
+                                    id="inlineRadio2"
+                                    value="No" />
+                                  <label class="form-check-label" for="inlineRadio2">No</label>
+                                </div>
+                            </div>
+                          </div>
+                          <div class="text-end">
+                            <button
+                            class="btn btn-primary mt-5" 
+                            type="submit"
+                            [disabled]="!walkInOrder.valid" *ngIf="!isLoading">Save Client</button>
+                            <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
+                              <span class="visually-hidden">Loading...</span>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                }
+                @else{
+                  <div class="col-xl-6 mt-12">
+                    <div class="text-center">
+                      <img
+                        src="../assets/img/illustrations/options.png"
+                        height="300"
+                        alt="View Badge User"/>
+                        <h5 class="mt-4">Select Order Type</h5>
+                        <p><span class="mb-4">To get started select an order type to capture</span></p>
+                      <p></p>
+                    </div>
+                  </div>
+                }
+
+              </div>
+
+            
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="content-backdrop fade"></div>
+</div>
+
+<!-- Select Agent/Farmer Modal -->
+<div class="modal fade" id="zimakuClientListModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="zimakuClientModalLabel">Clients List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-5">
+        <input class="form-control mb-5" type="search" id="html5-search-input" placeholder="Search client using firstname or lastname" />
+        <span class="mt-5">* Click on a name to select the Agent/Farmer</span>
+        <div class="list-group mt-5" *ngFor="let client of clientsListDialogModel" (click)="onClientSelected(client)" data-bs-dismiss="modal">
+          <a href="#" class="list-group-item list-group-item-action">
+            <span>{{ client.firstName }} {{ client.lastName }}</span>
+            @if (client.clientType == ZIMAKU_CLIENT) {
+              <span class="badge rounded-pill bg-label-primary ms-5">FARMER</span>
+            }
+            @else {
+              <span class="badge rounded-pill bg-label-info ms-5">AGENT</span>
+            }
+          </a>
+        </div>
+        <hr>
+        <div class="mt-auto mt-3 d-flex justify-content-center">
+            <button type="button" class="btn rounded-pill btn-outline-secondary btn-sm">Create New Agent/Farmer</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update Order Collected Status Modal -->
+<div class="modal fade" id="orderCollectionStatusModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderCollectionStatusModalLabel">Order Collected</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body mb-5">
+        <div class="mb-5 row">
+          <label for="html5-time-input" class="col-md-4 col-form-label">Was order collected ?</label>
+          <div class="col-md-8">
+            <div class="form-check form-check-inline mt-3">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineRadio1"
+                  value="option1" />
+                <label class="form-check-label" for="inlineRadio1">Yes</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="inlineRadioOptions"
+                  id="inlineRadio2"
+                  value="option2" />
+                <label class="form-check-label" for="inlineRadio2">No</label>
+              </div>
+          </div>
+        </div>
+        <div class="mt-auto mt-5 d-flex justify-content-center">
+          <button type="button" class="btn btn-primary">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
