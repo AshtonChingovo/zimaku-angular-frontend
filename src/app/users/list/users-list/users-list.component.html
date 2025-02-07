@@ -12,7 +12,7 @@
         </tr>
     </thead>
     <tbody class="table-border-bottom-0">
-        <tr (click)="onUpdateUser(user.id)" *ngFor="let user of usersList">
+        <tr (click)="onClickUser(user.id)" *ngFor="let user of usersList">
             <td><span>{{ user.firstName }} {{ user.lastName}}</span></td>
             <td><span>{{ user.email }}</span></td>
             <td><span>{{ user.phoneNumber }}</span></td>

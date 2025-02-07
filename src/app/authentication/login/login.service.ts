@@ -75,4 +75,8 @@ export class LoginService implements OnInit{
         return JSON.parse(localStorage.getItem("userToken"))
     }
 
+    getUserId(){
+        return JSON.parse(localStorage.getItem("userToken")).userId
+    }
+
 }

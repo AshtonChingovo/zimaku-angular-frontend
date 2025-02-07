@@ -9,16 +9,18 @@
                     <small class="text-muted float-end">Merged input group</small>
                   </div>
                   <div class="card-body">
-                    <form>
+                    <form #UpdateUserDetailsForm="ngForm" (ngSubmit)="onSubmit()">
                       <div class="mb-6">
                         <label class="form-label" for="basic-icon-default-fullname">First Name</label>
                         <div class="input-group input-group-merge">
                           <input
                             type="text"
                             class="form-control"
-                            id="basic-icon-default-fullname"
-                            placeholder="John Doe"
-                            aria-label="John Doe"
+                            id="firstName"
+                            ngModel
+                            name="firstName"
+                            placeholder="John"
+                            required
                             aria-describedby="basic-icon-default-fullname2" />
                         </div>
                       </div>
@@ -29,8 +31,10 @@
                             type="text"
                             id="basic-icon-default-company"
                             class="form-control"
-                            placeholder="ACME Inc."
-                            aria-label="ACME Inc."
+                            ngModel
+                            name="lastName"
+                            id="lastName" 
+                            required
                             aria-describedby="basic-icon-default-company2" />
                         </div>
                       </div>
@@ -41,8 +45,10 @@
                             type="text"
                             id="basic-icon-default-email"
                             class="form-control"
-                            placeholder="john.doe"
-                            aria-label="john.doe"
+                            ngModel
+                            id="email"
+                            name="email"
+                            required
                             aria-describedby="basic-icon-default-email2" />
                           <span id="basic-icon-default-email2" class="input-group-text"></span>
                         </div>
@@ -53,9 +59,11 @@
                           <input
                             type="text"
                             id="basic-icon-default-phone"
-                            class="form-control phone-mask"
-                            placeholder="658 799 8941"
-                            aria-label="658 799 8941"
+                            ngModel
+                            name="phoneNumber"
+                            required
+                            class="form-control"
+                            placeholder="0000 000 000"
                             aria-describedby="basic-icon-default-phone2" />
                         </div>
                       </div>
@@ -65,12 +73,13 @@
                           <textarea
                             id="basic-icon-default-message"
                             class="form-control"
-                            placeholder="Your Address"
-                            aria-label="Your address"
-                            aria-describedby="basic-icon-default-message2"></textarea>
+                            ngModel
+                            name="address" 
+                            required
+                            placeholder="Address" ></textarea>
                         </div>
                       </div>
-                      <button type="submit" class="btn btn-primary">Send</button>
+                      <button type="submit" class="btn btn-primary text-end">Send</button>
                     </form>
                   </div>
               </div>
@@ -82,7 +91,7 @@
                   <small class="text-muted float-end">Merged input group</small>
                 </div>
                 <div class="card-body">
-                  <form>
+                  <form #UpdatePasswordForm="ngForm" (ngSubmit)="onSubmitPassword">
                     
                     <div class="mb-6">
                         <div class="form-password-toggle">
@@ -115,20 +124,18 @@
                     </div>
 
                     <div class="mb-6">
-                        <div class="form-password-toggle">
-                            <label class="form-label" for="basic-default-password32">Re-Type New Password</label>
-                            <div class="input-group input-group-merge">
-                                <input
-                                type="password"
-                                class="form-control"
-                                id="basic-default-password32"
-                                placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                                aria-describedby="basic-default-password" />
-                                <span class="input-group-text cursor-pointer" id="basic-default-password"
-                                ><i class="bx bx-hide"></i
-                                ></span>
-                            </div>
-                        </div>
+                      <div class="form-password-toggle">
+                          <label class="form-label" for="basic-default-password32">Re-Type New Password</label>
+                          <div class="input-group input-group-merge">
+                              <input
+                              type="password"
+                              class="form-control"
+                              id="basic-default-password32"
+                              placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
+                              aria-describedby="basic-default-password" />
+                              <span class="input-group-text cursor-pointer" id="basic-default-password"><i class="bx bx-hide"></i></span>
+                          </div>
+                      </div>
                     </div>
 
                     <button type="submit" class="btn btn-primary">Send</button>

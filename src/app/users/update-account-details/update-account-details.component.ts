@@ -15,6 +15,7 @@ import { CommonModule } from '@angular/common';
 export class UpdateAccountDetailsComponent implements OnInit {
 
   @ViewChild('UpdateUserDetailsForm') updateUserDetailsForm: NgForm
+
   private userId = ""
 
   constructor(private userService: UsersService, private router: Router) {}
@@ -65,6 +66,8 @@ export class UpdateAccountDetailsComponent implements OnInit {
       lastName: this.updateUserDetailsForm.value.lastName,
       address: this.updateUserDetailsForm.value.address,
       phoneNumber: this.updateUserDetailsForm.value.phoneNumber,
+      department: this.updateUserDetailsForm.value.department,
+      roles: [{ title: this.updateUserDetailsForm.value.userType}]
     })
   }
 

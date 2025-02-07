@@ -8,6 +8,7 @@ import { ErrorHandlingService } from "../../util/errror-handling.service";
 import { PageRequestModel } from "../../model/page-request.model";
 import { environment } from "../../../environments/environment.development";
 import { UserModel } from "../model/user.model";
+import { PasswordModel } from "../model/password.model";
 
 @Injectable({providedIn: 'root'})
 export class UsersService{
@@ -16,6 +17,7 @@ export class UsersService{
 
     response = new APIResponse()
     userResponseSubject = new Subject<APIResponse>()
+    passwordUpdateSubject = new Subject<APIResponse>()
     updateUserResponseSubject = new Subject<APIResponse>()
     usersListResponseSubject = new Subject<APIResponse>()
     createUserResponseSubject = new Subject<APIResponse>()
@@ -193,8 +195,41 @@ export class UsersService{
         })
     }
 
-    updatePassword(user: UserModel){
+    updatePassword(password: PasswordModel){
+        this.httpClient.post(
+            environment.baseUrl + "/update/password",
+            password,
+            { observe: 'response'}  
+        )
+        .pipe(catchError((error) => {
+            this.response = this.errorHandlingService.handleError(error, this.response)
+            return throwError(() => this.response); 
+        }))
+        .subscribe({
+            next: (httpResponse) => {
+                if(httpResponse.status == HttpStatusCode.Created){
+                    this.response.isSuccessful = true
+                    this.response.requestType = "POST"
 
+                    // update the list of users
+                    this.usersListResponseSubject.next(this.response)
+                }
+                else{
+                    this.response.isSuccessful = false
+                    this.response.errorMessage = "Unknown error occured"
+                }
+
+                this.passwordUpdateSubject.next(this.response)
+            },
+            error: (e) => {
+                // undefined errorMessage can occur when API is unavailable
+                if(!this.response.errorMessage){
+                    this.response.errorMessage = "Unknown error occured"
+                }
+                
+                this.passwordUpdateSubject.next(this.response)
+            }
+        })
     }
 
 }

@@ -43,8 +43,6 @@ export class UsersListComponent implements OnInit {
 
     this.userService.usersListResponseSubject.subscribe((response) => {
 
-      console.log("User List Subject Active")
-
       this.isFetchingData = false
       this.apiResponse = response
 
@@ -65,7 +63,7 @@ export class UsersListComponent implements OnInit {
     })
   }
 
-  onUpdateUser(id: string){ 
+  onClickUser(id: string){ 
     // save selected id in service subject 
     this.userService.updateSelectedUserIdSubject(id)
 

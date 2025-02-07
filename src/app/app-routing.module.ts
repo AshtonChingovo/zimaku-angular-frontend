@@ -14,6 +14,7 @@ import { ClientsComponent } from "./sales/clients/clients.component";
 import { ListAndCreateUsersComponent } from "./users/list/list.component";
 import { UpdateAccountDetailsComponent } from "./users/update-account-details/update-account-details.component";
 import { MyAccountDetailsComponent } from "./users/my-account-details/my-account-details.component";
+import { PricesComponent } from "./sales/prices/prices.component";
 
 const routes: Routes = [
     { 
@@ -27,6 +28,7 @@ const routes: Routes = [
             { path: 'hatchery', component: HatcheryComponent},
             { path: 'orders', component: OrdersComponent},
             { path: 'clients', component: ClientsComponent},
+            { path: 'prices', component: PricesComponent},
             { path: 'users', component: ListAndCreateUsersComponent},
             { path: 'update', component: UpdateAccountDetailsComponent},
             { path: 'account', component: MyAccountDetailsComponent},

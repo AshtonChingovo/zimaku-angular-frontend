@@ -38,12 +38,12 @@ export class RecordsComponent implements OnInit{
   // average weight week to record 
   averageChickWeightWeek = 0
   
-  activeChickModel = {
+  activeChickModel :ChicksStockModel = {
     id: 0,
     males: 0,
     females: 0,
     fatalities: 0,
-    batchNumber: ""
+    batchNumber: "",
   }
 
   constructor(private chicksService: ChicksService, private paginationService: PaginationService){}
