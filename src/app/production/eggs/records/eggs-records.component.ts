@@ -80,8 +80,10 @@ export class EggsRecordsComponent implements OnInit {
           this.isEmpty = this.eggsResponseModel.numberOfElements == 0
         }   
         
-        this.totalEggsNotDispatched = this.eggsResponseModel.eggs.filter(eggs => !eggs.isDispatched).length
-
+        if(this.eggsResponseModel.eggs && this.eggsResponseModel.eggs.length > 0){
+          this.totalEggsNotDispatched = this.eggsResponseModel.eggs.filter(eggs => !eggs.isDispatched).length
+        }
+        
         this.setUpPagination()
 
       }

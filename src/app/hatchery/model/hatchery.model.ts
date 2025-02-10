@@ -1,7 +1,7 @@
 export interface HatcheryModel{
     date?: string,
     batchNumber: string, 
-    quantity: number, 
+    totalDispatched: number, 
     breakages: number,
     dispatchId?: number,
     eggsStockId?: number

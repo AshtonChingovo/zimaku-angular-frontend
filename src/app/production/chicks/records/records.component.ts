@@ -38,12 +38,13 @@ export class RecordsComponent implements OnInit{
   // average weight week to record 
   averageChickWeightWeek = 0
   
-  activeChickModel :ChicksStockModel = {
+  activeChickModel: ChicksStockModel = {
     id: 0,
     males: 0,
     females: 0,
     fatalities: 0,
     batchNumber: "",
+    averageWeight: []
   }
 
   constructor(private chicksService: ChicksService, private paginationService: PaginationService){}
@@ -115,6 +116,7 @@ export class RecordsComponent implements OnInit{
   onSetUpAverageChickWeightWeek(chicksModel: ChicksStockModel){
     this.activeChickModel = chicksModel
 
+    // work out the week to record the average weight
     if(chicksModel.averageWeight && chicksModel.averageWeight.length < 23)
       this.averageChickWeightWeek = chicksModel.averageWeight.length + 1
     else if(chicksModel.averageWeight && chicksModel.averageWeight.length == 23)

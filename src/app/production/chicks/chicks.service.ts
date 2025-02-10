@@ -122,7 +122,7 @@ export class ChicksService{
 
     postChicksAverageWeight(chicksModel: ChicksStockModel){
         this.httpClient.post(
-            environment.baseUrl + "/average_weights",
+            environment.baseUrl + "/chicks/average_weights",
             chicksModel, 
             { observe: 'response'}
         )

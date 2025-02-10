@@ -37,13 +37,14 @@ export class HatcheryComponent {
   isEndEnabled: boolean
 
   activeDispatchModel: DispatchModel = {
+    id: 0,
     date: "",
     dateStockReceived: "",
     batchNumber: "", 
     quantity: 0, 
     totalStockReceived: 0,
     ageOnDispatch: "",
-    eggsId: 0
+    eggsStockId: 0
   }
 
   constructor(
@@ -100,8 +101,10 @@ export class HatcheryComponent {
   onSubmit(form: NgForm){ 
     this.hatcheryService.post({
       batchNumber: this.activeDispatchModel.batchNumber, 
-      quantity: this.activeDispatchModel.quantity, 
-      breakages: form.value.quantity
+      totalDispatched: this.activeDispatchModel.quantity, 
+      breakages: form.value.quantity,
+      dispatchId: this.activeDispatchModel.id,
+      eggsStockId: this.activeDispatchModel.eggsStockId
     })
   }
 

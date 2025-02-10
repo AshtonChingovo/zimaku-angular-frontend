@@ -40,7 +40,7 @@
                         <th>Quantity</th>
                         <th>Batch</th>
                         <th>Age on Dispatch</th>
-                        <th></th>
+                        <th>Receive Stock</th>
                       </tr>
                     </thead>
                     <tbody class="table-border-bottom-0">
@@ -49,7 +49,7 @@
                         <td><span class="ms-5">{{ dispatch.quantity }}</span></td>
                         <td><span>{{ dispatch.batchNumber }}</span></td>
                         <td><span class="badge rounded-pill bg-label-primary ms-5">{{ dispatch.ageOnDispatch }}</span></td>
-                        <td><button type="button" class="btn btn-sm btn-secondary" (click)="onAciiveDispatch(dispatch)" [disabled]="isFetchingData" data-bs-toggle="modal" data-bs-target="#receiveStockModal">Receive Stock</button></td>
+                        <td><button type="button" class="btn btn-sm btn-secondary" (click)="onActiveDispatch(dispatch)" [disabled]="isFetchingData" data-bs-toggle="modal" data-bs-target="#receiveStockModal">Receive Stock</button></td>
                       </tr>
                     </tbody>
                   </table>
@@ -86,7 +86,7 @@
     <div class="content-backdrop fade"></div>
 </div>
 
-<!-- Receive Stock -->
+<!-- Receive Stock Modal -->
 <div class="modal fade" id="receiveStockModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
@@ -117,8 +117,8 @@
           <div>
             <h6> Summary</h6>
             <ul class="list-group list-group-flush">
-              <li class="list-group-item">Quantity Dispathed {{ activeDispatchModel.quantity }}</li>
-              <li class="list-group-item">Batch {{ activeDispatchModel.batchNumber }}</li>
+              <li class="list-group-item">Quantity Dispathed: {{ activeDispatchModel.quantity }}</li>
+              <li class="list-group-item">Batch: {{ activeDispatchModel.batchNumber }}</li>
             </ul>
           </div>
           <div class="col text-center">

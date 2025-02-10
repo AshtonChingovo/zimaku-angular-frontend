@@ -199,8 +199,8 @@
                 id="basic-icon-default-phone"
                 class="form-control phone-mask"
                 ngModel
-                name="batch"
-                #chickWeight="ngModel"
+                name="averageWeight"
+                #averageWeight="ngModel"
                 required
                 placeholder="Average Chick Weight"
                 aria-describedby="basic-icon-default-phone2" />
@@ -229,9 +229,9 @@
         <h5 class="modal-title" id="chickWeightListModalLabel">Chick Average Weights</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body" *ngIf="activeChickModel">
-            <ul class="list-group list-group-flush" *ngFor="let averageWeight in activeChickModel.averageChickWeightWeek">
-              <li class="list-group-item">Week {{ averageWeight.week}}: {{ averageWeight.weight }}</li>
+      <div class="modal-body">
+            <ul class="list-group list-group-flush" *ngFor="let chickWeight of activeChickModel.averageWeight">
+              <li class="list-group-item">Week {{ chickWeight.week}}: <strong>{{ chickWeight.averageWeight }} grams</strong></li>
             </ul>
       </div>
     </div>
