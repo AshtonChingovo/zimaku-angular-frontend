@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { OrdersService } from './orders.service';
 import { Pagination as PaginationService } from '../../util/pagination.service';
@@ -26,6 +26,9 @@ export class PendingOrdersComponent implements OnInit {
   pendingOrdersResponseModel: OrdersAPIResponseModel
   salesOrdersResponseModel: OrdersAPIResponseModel
   clientsListResponseModel: ClientAPIResponseModel
+
+  @ViewChild('clientOrderForm') clientOrderForm: NgForm
+  @ViewChild('walkInClientOrderForm') walkInClientOrderForm: NgForm
 
   // clients list on dialog
   clientsListDialogModel: ClientModel[]
@@ -80,6 +83,7 @@ export class PendingOrdersComponent implements OnInit {
       this.setUpData(response, "SALES")
     })
 
+    // used by dialog to get clients list
     // clients list accessed by the dialog
     this.clientsService.ordersComponentClientsListSubject.subscribe((response: APIResponse) => {
 
@@ -103,6 +107,12 @@ export class PendingOrdersComponent implements OnInit {
     })
 
     this.orderService.postResponseSubject.subscribe((response: APIResponse) => {
+
+      if(response.isSuccessful){
+        this.clientOrderForm.reset()
+        this.walkInClientOrderForm.reset()
+      }
+      
       this.isLoading = false
     })
 
@@ -118,65 +128,62 @@ export class PendingOrdersComponent implements OnInit {
       if(orderType == "PENDING"){
         this.pendingOrdersAPIResponse = response
         this.pendingOrdersResponseModel = response.data
+        this.isEmpty = this.pendingOrdersResponseModel.numberOfElements == 0
       }
       else{
         this.salesOrdersAPIResponse = response
         this.salesOrdersResponseModel = response.data
+        this.isEmpty = this.salesOrdersResponseModel.numberOfElements == 0
       }
-        
 
-      this.isEmpty = this.pendingOrdersResponseModel.numberOfElements == 0
 
       this.setUpPagination()
     }
   }
 
   onSalesOrdersTabSelected(){
-    // get the first page of sales orders if it has not been fetched yet
-    if(this.salesOrdersAPIResponse == null){
-      this.onGetPage(0, "SALES")
-    } 
+    this.onGetPage(0, "SALES")
   }
 
   orderTypeSelected(orderType: string) {
     this.orderType = orderType;
   }
 
-  onSubmitZimakuClientOrder(form: NgForm) {
-    if(form.invalid){
+  onSubmitZimakuClientOrder() {
+    if(this.clientOrderForm.form.invalid){
       return
     } 
 
     this.isLoading = true
 
     this.orderService.postOrder({ 
-      quantity: form.value.quantity,
-      collectionDate: form.value.collectionDate,
-      isPaid: form.value.isPaymentMade == "Yes" ? true : false,
-      isOrderCollected: form.value.isOrderCollected == "Yes" ? true : false,
-      comments: form.value.comments,
+      quantity: this.clientOrderForm.value.quantity,
+      collectionDate: this.clientOrderForm.value.collectionDate,
+      isPaid: this.clientOrderForm.value.isPaymentMade == "Yes" ? true : false,
+      isOrderCollected: this.clientOrderForm.value.isOrderCollected == "Yes" ? true : false,
+      comments: this.clientOrderForm.value.comments,
       client: this.zimakuClientSelectedFromDialog
     })
   } 
 
-  onSubmitWalkInClientOrder(form: NgForm) {
-    if(form.invalid){
+  onSubmitWalkInClientOrder() {
+    if(this.walkInClientOrderForm.form.invalid){
       return
     } 
 
     this.isLoading = true
 
     this.orderService.postOrder({ 
-      quantity: form.value.quantity,
-      collectionDate: form.value.collectionDate,
-      isPaid: form.value.isPaymentMade == "Yes" ? true : false,
-      isOrderCollected: form.value.isOrderCollected == "Yes" ? true : false,
-      comments: form.value.comments,
+      quantity: this.walkInClientOrderForm.value.quantity,
+      collectionDate: this.walkInClientOrderForm.value.collectionDate,
+      isPaid: this.walkInClientOrderForm.value.isPaymentMade == "Yes" ? true : false,
+      isOrderCollected: this.walkInClientOrderForm.value.isOrderCollected == "Yes" ? true : false,
+      comments: this.walkInClientOrderForm.value.comments,
       client: {
         id: null,
-        firstName: form.value.firstName,
-        lastName: form.value.lastName,
-        phoneNumber: form.value.phoneNumber,
+        firstName: this.walkInClientOrderForm.value.firstName,
+        lastName: this.walkInClientOrderForm.value.lastName,
+        phoneNumber: this.walkInClientOrderForm.value.phoneNumber,
         clientType: this.WALKIN_CLIENT
       }
     })

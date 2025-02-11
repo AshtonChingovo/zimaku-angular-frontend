@@ -37,6 +37,7 @@ export class OrdersService {
 
                     this.response.isSuccessful = true
                     // this.response.data = httpResponse.body
+                    this.response.requestType = "GET"
 
                     this.response.data = {
                         orders: httpResponse.body["content"],

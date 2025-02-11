@@ -223,7 +223,7 @@
                   <div class="col-xl-6 mt-12">
                     <div class="mb-6">
                       <h5 class="">Agent / Farmer Order</h5>
-                      <form #clientOrder="ngForm" (ngSubmit)="onSubmitZimakuClientOrder(clientOrder)">
+                      <form #clientOrderForm="ngForm" (ngSubmit)="onSubmitZimakuClientOrder()">
                         <div>
                           <div class="input-group mb-4">
                             <button class="btn btn-outline-primary" type="button" id="button-addon1" data-bs-toggle="modal" data-bs-target="#zimakuClientListModal" (click)="onClientListDialogOpen()">*Click to select Agent/Farmer</button>
@@ -318,7 +318,6 @@
                             <div class="col-md-9">
                               <textarea class="form-control" 
                               ngModel
-                              required
                               name="comments"
                               id="comments" 
                               rows="3"></textarea>
@@ -346,7 +345,7 @@
                         <h5 class="col-md-7">Walk-in Client Order</h5>
                         <button type="button" class="col-md-5 btn rounded-pill btn-text-secondary btn-sm">*Select existing client</button>
                       </div>
-                      <form #walkInOrder="ngForm" (ngSubmit)="onSubmitWalkInClientOrder(walkInOrder)">
+                      <form #walkInClientOrderForm="ngForm" (ngSubmit)="onSubmitWalkInClientOrder()">
                         <div>
                           <div class="input-group mb-4">
                             <span class="input-group-text">First and last name</span>

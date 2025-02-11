@@ -45,7 +45,7 @@ export class HatcheryRecordsComponent implements OnInit {
 
       if(this.apiResponse.isSuccessful){
 
-        if(this.apiResponse.data.source == "POST" && this.currentPage == 1){
+        if(this.apiResponse.requestType == "POST" && this.currentPage == 1){
           // reload page if currently on page zero to fetch lastest list
           this.onGetPage(0)
           return

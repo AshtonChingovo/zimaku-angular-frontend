@@ -25,17 +25,15 @@
             <th>Quantity</th>
             <th>Breakages</th>
             <th>Difference</th>
-            <th>Age on Dispatch</th>
           </tr>
         </thead>
         <tbody class="table-border-bottom-0">
           <tr *ngFor="let record of hatcheryRecords">
             <td><span>{{ record.date }}</span></td>
-            <td><span class="ms-5">{{ record.batchNumber }}</span></td>
-            <td><span>{{ record.quantity }}</span></td>
-            <td><span>{{ record.difference }}</span></td>
-            <td><span class="badge rounded-pill bg-label-primary ms-5">{{ record.ageOnDispatch }}</span></td>
-            <td><span class="badge rounded-pill bg-label-primary ms-5">{{ record.ageOnDispatch }}</span></td>
+            <td><span>{{ record.batchNumber }}</span></td>
+            <td><span>{{ record.totalDispatched }}</span></td>
+            <td><span>{{ record.breakages }}</span></td>
+            <td><span class="badge rounded-pill bg-label-primary ms-5">{{ record.difference }}</span></td>
           </tr>
         </tbody>
       </table>

@@ -56,14 +56,14 @@ export class HatcheryComponent {
        // get first page of content
        this.onGetPage(0)
     
-       this.dispatchService.dispatchRecordsResponseSubject.subscribe((response) => {
+       this.hatcheryService.dispatchRecordsResponseSubject.subscribe((response) => {
    
          this.isFetchingData = false
          this.apiResponse = response
    
          if(this.apiResponse.isSuccessful){
-   
-           if(this.apiResponse.data.source == "POST" && this.currentPage == 1){
+
+           if(this.apiResponse.requestType == "POST" && this.currentPage == 1){
              // reload page if currently on page zero to fetch lastest list
              this.onGetPage(0)
              return
@@ -91,7 +91,7 @@ export class HatcheryComponent {
            this.isNextEnabled = paginationParams.isNextEnabled
            this.isEndEnabled = paginationParams.isEndEnabled
          }
-       })
+      })
   }
 
   onActiveDispatch(dispatchModel: DispatchModel){
@@ -113,9 +113,9 @@ export class HatcheryComponent {
     this.isFetchingData = true
 
     // get the first page of results
-    this.dispatchService.getDispatch({
+    this.hatcheryService.getDispatchNotInHatchery({
       pageNumber: page,
-      pageSize: 5,
+      pageSize: 10,
       sortBy: "id"
     })
   }

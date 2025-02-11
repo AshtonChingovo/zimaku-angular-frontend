@@ -18,9 +18,9 @@ export class HatcheryService{
 
     constructor(private httpClient: HttpClient, private errorHandlingService: ErrorHandlingService){}
  
-    getDispatch(pageRequestModel: PageRequestModel){
+    getDispatchNotInHatchery(pageRequestModel: PageRequestModel){
         this.httpClient.get(
-            environment.baseUrl + "/dispatches?pageNumber=" + pageRequestModel.pageNumber + "&pageSize=" + pageRequestModel.pageSize, 
+            environment.baseUrl + "/dispatches/hatchery?pageNumber=" + pageRequestModel.pageNumber + "&pageSize=" + pageRequestModel.pageSize, 
             { observe: 'response'}
         )
         .pipe(catchError((error) => {
@@ -33,6 +33,7 @@ export class HatcheryService{
                 if(httpResponse.status == HttpStatusCode.Ok){
 
                     this.response.isSuccessful = true
+                    this.response.requestType = "GET"
 
                     var dispatch = httpResponse.body["content"]
                     var totalElements = httpResponse.body["totalElements"]
@@ -47,15 +48,14 @@ export class HatcheryService{
                         last: httpResponse.body["last"],
                         source: "GET"
                     }
+
                 }
                 else{
                     this.response.isSuccessful = false
                     this.response.errorMessage = "Unknown error occured"
                 }
 
-                this.dispatchRecordsResponseSubject.next(
-                    this.response
-                )
+                this.dispatchRecordsResponseSubject.next(this.response)
             },
             error: (e) => {
                 // undefined errorMessage can occur when API is unavailable
@@ -136,15 +136,18 @@ export class HatcheryService{
             next: (httpResponse) => {
                 if(httpResponse.status == HttpStatusCode.Created){
                     this.response.isSuccessful = true
-                    this.response.data.source = "POST"
+                    this.response.requestType = "POST"
 
                     // send notification to dispatch records component to reload page to fetch latest list
-                    this.dispatchRecordsResponseSubject.next(this.response)
+                    // this.hatcheryRecordsResponseSubject.next(this.response)
+                    
                 }
                 else{
                     this.response.isSuccessful = false
                     this.response.errorMessage = "Unknown error occured"
                 }
+
+                this.dispatchRecordsResponseSubject.next(this.response)
 
             },
             error: (e) => {
