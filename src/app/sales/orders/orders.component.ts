@@ -9,7 +9,6 @@ import { OrderAPIResponseModel as OrdersAPIResponseModel } from './model/orders-
 import { ClientModel } from '../clients/model/client.model';
 import { ClientsService } from '../clients/clients.service';
 import { ClientAPIResponseModel } from '../clients/model/client-response.model';
-import { ClientsSearchDialogComponent } from './clients-search-dialog/clients-search-dialog.component';
 
 @Component({
   selector: 'app-orders',
@@ -22,7 +21,6 @@ export class PendingOrdersComponent implements OnInit {
 
   pendingOrdersAPIResponse: APIResponse
   salesOrdersAPIResponse: APIResponse
-
   pendingOrdersResponseModel: OrdersAPIResponseModel
   salesOrdersResponseModel: OrdersAPIResponseModel
   clientsListResponseModel: ClientAPIResponseModel
@@ -109,8 +107,11 @@ export class PendingOrdersComponent implements OnInit {
     this.orderService.postResponseSubject.subscribe((response: APIResponse) => {
 
       if(response.isSuccessful){
-        this.clientOrderForm.reset()
-        this.walkInClientOrderForm.reset()
+        if(this.clientOrderForm)
+          this.clientOrderForm.reset()
+
+        if(this.walkInClientOrderForm)
+          this.walkInClientOrderForm.reset()
       }
       
       this.isLoading = false
@@ -129,15 +130,18 @@ export class PendingOrdersComponent implements OnInit {
         this.pendingOrdersAPIResponse = response
         this.pendingOrdersResponseModel = response.data
         this.isEmpty = this.pendingOrdersResponseModel.numberOfElements == 0
+
+        this.setUpPagination(this.pendingOrdersAPIResponse)
       }
       else{
         this.salesOrdersAPIResponse = response
         this.salesOrdersResponseModel = response.data
         this.isEmpty = this.salesOrdersResponseModel.numberOfElements == 0
+
+        this.setUpPagination(this.salesOrdersAPIResponse)
+
       }
 
-
-      this.setUpPagination()
     }
   }
 
@@ -204,14 +208,14 @@ export class PendingOrdersComponent implements OnInit {
     this.zimakuClientSelectedFromDialog = client
   }
 
-  setUpPagination(){
+  setUpPagination(apiResponse: APIResponse){
 
     // setup pagination 
     var paginationParams = this.paginationService.paginationConfig(
-      this.pendingOrdersAPIResponse.data.currentPage, 
-      this.pendingOrdersAPIResponse.data.first, 
-      this.pendingOrdersAPIResponse.data.last, 
-      this.pendingOrdersAPIResponse.data.totalPages
+      apiResponse.data.currentPage, 
+      apiResponse.data.first, 
+      apiResponse.data.last, 
+      apiResponse.data.totalPages
     )
 
     this.pages = paginationParams.pages
@@ -231,34 +235,52 @@ export class PendingOrdersComponent implements OnInit {
 
     this.orderService.getOrders({
       pageNumber: page,
-      pageSize: 10,
+      pageSize: 5,
       sortBy: "id"
     }, orderType)
 
   }
 
-  onGetPreviousPage(orderType: string){
+  onGetPreviousPage(){
     // using clientsResponseModel instead of this.currentPage to not complicate API zero indexing
-    if(this.isPrevEnabled)
-      this.onGetPage(this.pendingOrdersResponseModel.currentPage - 1, orderType)
+    if(this.isPrevEnabled){
+      if(this.orderType == "PENDING"){
+        this.onGetPage(this.pendingOrdersResponseModel.currentPage - 1, this.orderType)
+      }
+      else{
+        this.onGetPage(this.salesOrdersResponseModel.currentPage - 1, this.orderType)
+      }
+    }
   }
 
-  onGetStartPage(orderType: string){
+  onGetStartPage(){
     // page indexing starts at zero 
-    if(this.isStartEnabled)
-      this.onGetPage(0, orderType)
+    if(this.isStartEnabled){}
+      this.onGetPage(0, this.orderType)
   }
 
-  onGetNextPage(orderType: string){
+  onGetNextPage(){
     // using clientsResponseModel instead of this.currentPage to not complicate API zero indexing
-    if(this.isNextEnabled)
-      this.onGetPage(this.pendingOrdersResponseModel.currentPage + 1, orderType)
+    if(this.isNextEnabled){
+      if(this.orderType == "PENDING"){
+        this.onGetPage(this.pendingOrdersResponseModel.currentPage + 1, this.orderType)
+      }
+      else{
+        this.onGetPage(this.salesOrdersResponseModel.currentPage + 1, this.orderType)
+      }
+    }
   }
 
   onGetEndPage(source: string){
     // page indexing starts at zero 
-    if(this.isEndEnabled)
-      this.onGetPage(this.pendingOrdersResponseModel.totalPages - 1, source)
+    if(this.isEndEnabled){
+      if(this.orderType == "PENDING"){
+        this.onGetPage(this.pendingOrdersResponseModel.totalPages - 1, source)
+      }
+      else{
+        this.onGetPage(this.salesOrdersResponseModel.totalPages - 1, this.orderType)
+      }
+    }
   }
 
 }

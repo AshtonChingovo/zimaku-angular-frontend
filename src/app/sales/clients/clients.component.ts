@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ClientsService } from './clients.service';
 import { Pagination as PaginationService } from '../../util/pagination.service';
@@ -19,6 +19,9 @@ export class ClientsComponent implements OnInit {
 
     apiResponse: APIResponse
     clientsResponseModel: ClientAPIResponseModel
+
+    @ViewChild('zimakuClientForm') zimakuClientForm: NgForm
+    @ViewChild('walkInClientForm') walkInClientForm: NgForm
 
     // order types
     ZIMAKU_CLIENT = "ZIMAKU_CLIENT";
@@ -54,6 +57,7 @@ export class ClientsComponent implements OnInit {
 
         this.apiResponse = response
         this.isLoading = false
+        this.isFetchingData = false
 
         if(this.apiResponse.isSuccessful){
 
@@ -61,13 +65,14 @@ export class ClientsComponent implements OnInit {
 
           if(this.clientsResponseModel.source == "POST" && this.currentPage < 2){
             this.onGetPage(0)
+            return
           }   
           else if(this.clientsResponseModel.source == "PUT" || this.clientsResponseModel.source == "DELETE"){
             this.onGetPage(this.clientsResponseModel.currentPage)
+            return 
           }
-          else{
-            this.isEmpty = this.clientsResponseModel.numberOfElements == 0
-          }   
+          
+          this.isEmpty = this.clientsResponseModel.numberOfElements == 0
           
           this.setUpPagination()
 
@@ -76,8 +81,19 @@ export class ClientsComponent implements OnInit {
       })
 
       this.clientService.postResponseSubject.subscribe((response) => {
+
         this.apiResponse = response
         this.isLoading = false
+
+        if(response.isSuccessful){
+          if(this.zimakuClientForm){
+            this.zimakuClientForm.reset()
+          } 
+
+          if(this.walkInClientForm){
+            this.walkInClientForm.reset()
+          }
+        }
 
         this.clientsResponseModel = this.apiResponse.data
 
@@ -89,33 +105,33 @@ export class ClientsComponent implements OnInit {
       this.clientType = orderType;
     }
 
-    onSubmitZimakuClient(form: NgForm) {
-      if(form.invalid){
+    onSubmitZimakuClient() {
+      if(this.zimakuClientForm.form.invalid){
         return
       } 
 
       this.isLoading = true
 
       this.clientService.postClient({ 
-        firstName: form.value.firstName,
-        lastName: form.value.lastName,
-        phoneNumber: form.value.phoneNumber,
-        address: form.value.address,
-        clientType: form.value.clientType
+        firstName: this.zimakuClientForm.value.firstName,
+        lastName: this.zimakuClientForm.value.lastName,
+        phoneNumber: this.zimakuClientForm.value.phoneNumber,
+        address: this.zimakuClientForm.value.address,
+        clientType: this.zimakuClientForm.value.clientType
       })
     } 
 
-    onSubmitWalkInClient(form: NgForm) {
-      if(form.invalid){
+    onSubmitWalkInClient() {
+      if(this.walkInClientForm.form.invalid){
         return
       } 
 
       this.isLoading = true
 
       this.clientService.postClient({ 
-        firstName: form.value.firstName,
-        lastName: form.value.lastName,
-        phoneNumber: form.value.phoneNumber,
+        firstName: this.walkInClientForm.value.firstName,
+        lastName: this.walkInClientForm.value.lastName,
+        phoneNumber: this.walkInClientForm.value.phoneNumber,
         clientType: this.WALKIN_CLIENT  
       })
     }

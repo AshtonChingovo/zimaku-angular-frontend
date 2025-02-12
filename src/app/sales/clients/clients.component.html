@@ -119,7 +119,7 @@
                 <!-- Agent/Farmer Orders Form-->
                 <div class="col-xl-6 mt-12">
                     <div class="mb-6">
-                      <form #saveZimakuClient="ngForm" (ngSubmit)="onSubmitZimakuClient(saveZimakuClient)">
+                      <form #zimakuClientForm="ngForm" (ngSubmit)="onSubmitZimakuClient()">
                         <h5 class="">New Agent / Farmer Client</h5>
                         <div>
                           <div class="mb-4 row">
@@ -202,7 +202,7 @@
                             <button
                             class="btn btn-primary mt-5" 
                             type="submit"
-                            [disabled]="!saveZimakuClient.valid" *ngIf="!isLoading">Save Client</button>
+                            [disabled]="!zimakuClientForm.valid" *ngIf="!isLoading">Save Client</button>
                             <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
                               <span class="visually-hidden">Loading...</span>
                             </div>
@@ -217,7 +217,7 @@
                 <div class="col-xl-6 mt-12">
                     <div class="mb-6">
                       <h5 class="">New Walk-in Client</h5>
-                      <form #saveWalkInClient="ngForm" (ngSubmit)="onSubmitWalkInClient(saveWalkInClient)">
+                      <form #walkInClientForm="ngForm" (ngSubmit)="onSubmitWalkInClient()">
                         <div>
                           <div class="mb-4 row">
                             <label for="html5-tel-input" class="col-md-3 col-form-label">First Name</label>
@@ -263,7 +263,7 @@
                               <button
                               class="btn btn-primary mt-5" 
                               type="submit"
-                              [disabled]="!saveWalkInClient.valid" *ngIf="!isLoading">Save Client</button>
+                              [disabled]="!walkInClientForm.valid" *ngIf="!isLoading">Save Client</button>
                               <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
                                 <span class="visually-hidden">Loading...</span>
                               </div>

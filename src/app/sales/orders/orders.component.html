@@ -269,7 +269,6 @@
                                     ngModel
                                     required
                                     name="isPaymentMade"
-                                    id="isPaymentMade"
                                     value="Yes" />
                                   <label class="form-check-label" for="inlineRadio1">Yes</label>
                                 </div>
@@ -280,7 +279,6 @@
                                     ngModel
                                     required
                                     name="isPaymentMade"
-                                    id="inlineRadio2"
                                     value="No" />
                                   <label class="form-check-label" for="inlineRadio2">No</label>
                                 </div>
@@ -296,7 +294,6 @@
                                     ngModel
                                     required
                                     name="isOrderCollected"
-                                    id="isPaymentMade"
                                     value="Yes" />
                                   <label class="form-check-label" for="inlineRadio1">Yes</label>
                                 </div>
@@ -307,7 +304,6 @@
                                     ngModel
                                     required
                                     name="isOrderCollected"
-                                    id="inlineRadio2"
                                     value="No" />
                                   <label class="form-check-label" for="inlineRadio2">No</label>
                                 </div>
@@ -327,7 +323,7 @@
                             <button
                             class="btn btn-primary mt-5" 
                             type="submit"
-                            [disabled]="!clientOrder.valid" *ngIf="!isLoading">Save Client</button>
+                            [disabled]="!clientOrderForm.valid" *ngIf="!isLoading">Save Client</button>
                             <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
                               <span class="visually-hidden">Loading...</span>
                             </div>
@@ -413,7 +409,6 @@
                                     ngModel
                                     required
                                     name="isPaymentMade"
-                                    id="isPaymentMade"
                                     value="Yes" />
                                   <label class="form-check-label" for="inlineRadio1">Yes</label>
                                 </div>
@@ -424,7 +419,6 @@
                                     ngModel
                                     required
                                     name="isPaymentMade"
-                                    id="inlineRadio2"
                                     value="No" />
                                   <label class="form-check-label" for="inlineRadio2">No</label>
                                 </div>
@@ -440,7 +434,6 @@
                                     ngModel
                                     required
                                     name="isOrderCollected"
-                                    id="isPaymentMade"
                                     value="Yes" />
                                   <label class="form-check-label" for="inlineRadio1">Yes</label>
                                 </div>
@@ -461,7 +454,7 @@
                             <button
                             class="btn btn-primary mt-5" 
                             type="submit"
-                            [disabled]="!walkInOrder.valid" *ngIf="!isLoading">Save Client</button>
+                            [disabled]="!walkInClientOrderForm.valid" *ngIf="!isLoading">Save Client</button>
                             <div class="spinner-border text-primary mt-5" *ngIf="isLoading" role="status">
                               <span class="visually-hidden">Loading...</span>
                             </div>

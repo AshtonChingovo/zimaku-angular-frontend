@@ -34,6 +34,10 @@ export class ChicksService{
 
                 if(httpResponse.status == HttpStatusCode.Ok){
 
+                    if(!this.response){
+                        this.response = new APIResponse()
+                    }
+                    
                     this.response.isSuccessful = true
 
                     var chicks = httpResponse.body["content"]

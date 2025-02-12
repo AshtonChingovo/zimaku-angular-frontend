@@ -94,9 +94,7 @@ export class ClientsService {
                 if(httpResponse.status == HttpStatusCode.Created){
                     this.response.isSuccessful = true
                 
-                    this.response.data = {
-                        source: "POST"
-                    }
+                    this.response.requestType = "POST"
                     
                     // for notifying that a new record has been added so it can fetch latest data
                     this.getResponseOrdersSubject.next(this.response)
