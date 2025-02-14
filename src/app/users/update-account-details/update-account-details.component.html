@@ -97,5 +97,33 @@
           </form>
       </div>
     </div>
+
+    <div class="card mt-5">
+      <h5 class="card-header">Deactivate Account</h5>
+      <div class="card-body">
+        <div class="mb-6 col-12 mb-0">
+          <div class="alert alert-warning">
+            <h5 class="alert-heading mb-1">Are you sure you want to deactivate this account?</h5>
+            <p class="mb-0">Once you deactive this account, it can no longer perform system operations</p>
+          </div>
+        </div>
+        <form id="formAccountDeactivation" #formAccountDeactivation="ngForm" onsubmit="return false">
+          <div class="form-check my-8 ms-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              ngModel
+              name="accountActivation"
+              required
+              id="accountActivation" />
+            <label class="form-check-label" for="accountActivation">I confirm this account deactivation</label>
+          </div>
+          <button type="submit" [disabled]="formAccountDeactivation.invalid" class="btn btn-danger deactivate-account">
+            Deactivate Account
+          </button>
+        </form>
+      </div>
+    </div>
+
   </div>
 </div>

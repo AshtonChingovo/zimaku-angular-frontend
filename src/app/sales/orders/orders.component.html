@@ -6,10 +6,10 @@
         <div class="nav-align-top mt-5">
           <ul class="nav nav-pills mb-4" role="tablist">
             <li class="nav-item">
-              <button type="button" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-pending-orders" aria-controls="navs-pills-top-pending-orders" aria-selected="true">Pending Orders</button>
+              <button type="button" (click)="onTabSelected('PENDING')" class="nav-link active" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-pending-orders" aria-controls="navs-pills-top-pending-orders" aria-selected="true">Pending Orders</button>
             </li>
             <li class="nav-item">
-              <button type="button" (click)="onSalesOrdersTabSelected()" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-sales-orders" aria-controls="navs-pills-top-sales-orders" aria-selected="false">Sales Orders</button>
+              <button type="button" (click)="onTabSelected('SALES')" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-top-sales-orders" aria-controls="navs-pills-top-sales-orders" aria-selected="false">Sales Orders</button>
             </li>
             <li class="nav-item">
               <button type="button" class="nav-link" role="tab" data-bs-toggle="tab" data-bs-target="#navs-pills-create-orders" aria-controls="navs-pills-create-orders" aria-selected="false">Create Orders</button>

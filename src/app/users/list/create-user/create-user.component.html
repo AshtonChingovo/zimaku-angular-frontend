@@ -1,6 +1,6 @@
 <h5 class="mb-0">New User</h5>
 <div class="card-body pt-4">
-    <form id="formAccountSettings" #createUser="ngForm" (ngSubmit)="onSubmit(createUser)">
+    <form #createUserForm="ngForm" (ngSubmit)="onSubmit()">
       <div class="row g-6">
         <div class="col-md-6">
           <label for="firstName" class="form-label">First Name</label>

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { UsersService } from '../users.service';
 
@@ -11,28 +11,32 @@ import { UsersService } from '../users.service';
 })
 export class CreateUserComponent implements OnInit {
 
+  @ViewChild('createUserForm') createUserForm: NgForm
+
   constructor(private userService: UsersService,) { }
 
   ngOnInit(): void {
     this.userService.createUserResponseSubject.subscribe((response) => {
-
+      if(response.isSuccessful){
+        this.createUserForm.reset()
+      }
     });
   }
 
-  onSubmit(form: NgForm) {
-    if (form.invalid) {
+  onSubmit() {
+    if (this.createUserForm.form.invalid) {
       return;
     }
 
     this.userService.postUser({
-      email: form.value.email,
-      firstName: form.value.firstName,
-      lastName: form.value.lastName,
-      address: form.value.address,
-      department: form.value.department,
-      phoneNumber: form.value.phoneNumber,
+      email: this.createUserForm.value.email,
+      firstName: this.createUserForm.value.firstName,
+      lastName: this.createUserForm.value.lastName,
+      address: this.createUserForm.value.address,
+      department: this.createUserForm.value.department,
+      phoneNumber: this.createUserForm.value.phoneNumber,
       active: true,
-      roles: [{title: form.value.userType}]
+      roles: [{title: this.createUserForm.value.userType}]
     });
   }
 

@@ -67,9 +67,11 @@ export class PendingOrdersComponent implements OnInit {
 
   ngOnInit(): void {
 
+    // default type
+    this.orderType = "PENDING"
+
     // get the first page of orders
-    this.onGetPage(0,  "PENDING")
-    // this.onGetPage(0,  "SALES")
+    this.onGetPage(0)
 
     // pending orders list data
     this.orderService.pendingOrdersListSubject.subscribe((response: APIResponse) => { 
@@ -139,14 +141,13 @@ export class PendingOrdersComponent implements OnInit {
         this.isEmpty = this.salesOrdersResponseModel.numberOfElements == 0
 
         this.setUpPagination(this.salesOrdersAPIResponse)
-
       }
-
     }
   }
 
-  onSalesOrdersTabSelected(){
-    this.onGetPage(0, "SALES")
+  onTabSelected(orderType: string){
+    this.orderType = orderType
+    this.onGetPage(0)
   }
 
   orderTypeSelected(orderType: string) {
@@ -229,7 +230,7 @@ export class PendingOrdersComponent implements OnInit {
 
   }
 
-  onGetPage(page: number, orderType: string){
+  onGetPage(page: number){
 
     this.isFetchingData = true
 
@@ -237,7 +238,7 @@ export class PendingOrdersComponent implements OnInit {
       pageNumber: page,
       pageSize: 5,
       sortBy: "id"
-    }, orderType)
+    }, this.orderType)
 
   }
 
@@ -245,10 +246,10 @@ export class PendingOrdersComponent implements OnInit {
     // using clientsResponseModel instead of this.currentPage to not complicate API zero indexing
     if(this.isPrevEnabled){
       if(this.orderType == "PENDING"){
-        this.onGetPage(this.pendingOrdersResponseModel.currentPage - 1, this.orderType)
+        this.onGetPage(this.pendingOrdersResponseModel.currentPage - 1)
       }
       else{
-        this.onGetPage(this.salesOrdersResponseModel.currentPage - 1, this.orderType)
+        this.onGetPage(this.salesOrdersResponseModel.currentPage - 1)
       }
     }
   }
@@ -256,17 +257,18 @@ export class PendingOrdersComponent implements OnInit {
   onGetStartPage(){
     // page indexing starts at zero 
     if(this.isStartEnabled){}
-      this.onGetPage(0, this.orderType)
+      this.onGetPage(0)
   }
 
   onGetNextPage(){
+
     // using clientsResponseModel instead of this.currentPage to not complicate API zero indexing
     if(this.isNextEnabled){
       if(this.orderType == "PENDING"){
-        this.onGetPage(this.pendingOrdersResponseModel.currentPage + 1, this.orderType)
+        this.onGetPage(this.pendingOrdersResponseModel.currentPage + 1)
       }
       else{
-        this.onGetPage(this.salesOrdersResponseModel.currentPage + 1, this.orderType)
+        this.onGetPage(this.salesOrdersResponseModel.currentPage + 1)
       }
     }
   }
@@ -275,10 +277,10 @@ export class PendingOrdersComponent implements OnInit {
     // page indexing starts at zero 
     if(this.isEndEnabled){
       if(this.orderType == "PENDING"){
-        this.onGetPage(this.pendingOrdersResponseModel.totalPages - 1, source)
+        this.onGetPage(this.pendingOrdersResponseModel.totalPages - 1)
       }
       else{
-        this.onGetPage(this.salesOrdersResponseModel.totalPages - 1, this.orderType)
+        this.onGetPage(this.salesOrdersResponseModel.totalPages - 1)
       }
     }
   }
